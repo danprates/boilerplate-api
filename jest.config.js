@@ -7,5 +7,6 @@ module.exports = {
   testEnvironment: 'node',
   transform: {
     '.+\\.ts$': 'ts-jest'
-  }
+  },
+  testMatch: ['**/*.unit.ts', '**/*.integration.ts']
 }

@@ -7,8 +7,11 @@
     "prepare": "husky install",
     "start": "ts-node src/main/server.ts",
     "lint": "ts-standard . --fix",
+    "test": "jest --passWithNoTests",
     "test:staged": "npm run test",
-    "test": "jest --passWithNoTests"
+    "test:unit": "npm test -- --watch -c jest-unit.config.js",
+    "test:integration": "npm test -- --watch -c jest-integration.config.js",
+    "test:ci": "npm test -- --coverage"
   },
   "keywords": [],
   "author": "",
