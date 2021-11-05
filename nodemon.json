@@ -1,0 +1,14 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "verbose": true,
+  "ignore": [
+    "**/*.unit.ts",
+    "**/*.integration.ts",
+    "**/*.fixture.ts"
+  ],
+  "events": {
+    "restart": "echo 'App restarted modified file:\n'$FILENAME'\" '"
+  },
+  "exec": "ts-node ./src/main/server.ts"
+}
