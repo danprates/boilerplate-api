@@ -1,5 +1,5 @@
 import { Result } from '@/domain/models'
-import { HardDeleteRepository } from '../protocols'
+import { HardDeleteRepository } from '../../protocols'
 import { DbHardDeleteBase } from './db-hard-delete-base.usecase'
 
 interface SutTypes {

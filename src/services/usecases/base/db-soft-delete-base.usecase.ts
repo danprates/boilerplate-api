@@ -1,6 +1,6 @@
 import { Result } from '@/domain/models'
 import { Delete } from '@/domain/usecases'
-import { SoftDeleteRepository } from '../protocols'
+import { SoftDeleteRepository } from '../../protocols'
 
 export class DbSoftDeleteBase implements Delete {
   constructor (private readonly deleteRepository: SoftDeleteRepository) {}

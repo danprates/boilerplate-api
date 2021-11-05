@@ -1,6 +1,6 @@
 import { BaseModel, Result } from '@/domain/models'
 import { Create } from '@/domain/usecases'
-import { CreateRepository } from '../protocols'
+import { CreateRepository } from '../../protocols'
 
 export class DbCreateBase implements Create {
   constructor (private readonly createRepository: CreateRepository) {}

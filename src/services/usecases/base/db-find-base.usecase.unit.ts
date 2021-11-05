@@ -1,5 +1,5 @@
 import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
-import { FindRepository } from '../protocols'
+import { FindRepository } from '../../protocols'
 import { DbFindBase } from './db-find-base.usecase'
 
 interface SutTypes {

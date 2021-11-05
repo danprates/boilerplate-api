@@ -1,6 +1,6 @@
 import { BaseModel, Result } from '@/domain/models'
 import { Find } from '@/domain/usecases'
-import { FindRepository } from '../protocols'
+import { FindRepository } from '../../protocols'
 
 export class DbFindBase implements Find {
   constructor (private readonly findRepository: FindRepository) {}

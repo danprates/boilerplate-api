@@ -1,6 +1,6 @@
 import { BaseModel, Result } from '@/domain/models'
 import { Update } from '@/domain/usecases'
-import { UpdateRepository } from '../protocols'
+import { UpdateRepository } from '../../protocols'
 
 export class DbUpdateBase implements Update {
   constructor (private readonly updateRepository: UpdateRepository) {}

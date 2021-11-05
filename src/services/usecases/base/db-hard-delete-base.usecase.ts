@@ -1,6 +1,6 @@
 import { Result } from '@/domain/models'
 import { Delete } from '@/domain/usecases'
-import { HardDeleteRepository } from '../protocols'
+import { HardDeleteRepository } from '../../protocols'
 
 export class DbHardDeleteBase implements Delete {
   constructor (private readonly deleteRepository: HardDeleteRepository) {}

@@ -1,5 +1,5 @@
 import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
-import { UpdateRepository } from '../protocols'
+import { UpdateRepository } from '../../protocols'
 import { DbUpdateBase } from './db-update-base.usecase'
 
 interface SutTypes {

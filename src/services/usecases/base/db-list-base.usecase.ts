@@ -1,7 +1,7 @@
 import { BaseModel, Result } from '@/domain/models'
 import { ListOptions, Pagination } from '@/domain/protocols'
 import { List } from '@/domain/usecases'
-import { ListRepository } from '../protocols'
+import { ListRepository } from '../../protocols'
 
 export class DbListBase implements List {
   constructor (private readonly listRepository: ListRepository) {}
