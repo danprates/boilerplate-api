@@ -10,5 +10,5 @@
   "events": {
     "restart": "echo 'App restarted modified file:\n'$FILENAME'\" '"
   },
-  "exec": "ts-node ./src/main/server.ts"
+  "exec": "node --inspect=0.0.0.0:9222 -r ts-node/register ./src/main/server.ts"
 }

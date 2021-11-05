@@ -2,15 +2,17 @@
 
 ## Dependencies
 
-- Node > 12
-- NPM > 6
+- Node: ^14.15.3
+- NPM: ^6.14.15
+- Docker: ^20.10.8
+- docker-compose: ^1.27.4
 
 ## Rodando o projeto
 
 1. Duplique o arquivo `.env.exemple` na raíz do projeto e renomeie para `.env`
-1. Inicie o docker compose -> `npm run up`
-1. Em outro terminal execute -> `npm run build:watch`
+1. Inicie o docker compose -> `docker-compose up`
 1. Acesse http://localhost:3000/health e veja se está funcionando
+1. Para debugar com vscode basta abrir a raiz do projeto e apertar `F5`
 
 ## Testando a aplicação
 
@@ -57,7 +59,7 @@ $ npm run lint
 ## Todos
 
 - [] Configurar o docker-compose
-  - [] configurar o lauch do vscode para debug
+  - [x] configurar o lauch do vscode para debug
   - [x] colocar o postgres
   - [] colocar o mongo
 - [] configurar um logger
