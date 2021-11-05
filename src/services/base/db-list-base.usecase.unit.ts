@@ -1,4 +1,4 @@
-import { BaseModel } from '@/domain/models'
+import { BaseModel, BaseModelFixture } from '@/domain/models'
 import { ListOptions, Pagination } from '@/domain/protocols'
 import { ListRepository } from '../protocols'
 import { DbListBase } from './db-list-base.usecase'
@@ -12,7 +12,7 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-  const baseModel: BaseModel = { id: 'some_id', createdAt: new Date(), updatedAt: new Date() }
+  const baseModel: BaseModel = BaseModelFixture()
   const listOptions: ListOptions = { pagination: { skip: 0, take: 10 } }
   const pagination: Pagination<BaseModel> = {
     data: [baseModel],
@@ -38,7 +38,7 @@ describe('DbListBase Usecase', () => {
     expect(listRepository.list).toHaveBeenNthCalledWith(1, listOptions)
   })
 
-  it('Should thow error when ListRepository throws', async () => {
+  it('Should throw error when ListRepository throws', async () => {
     const { sut, listRepository } = makeSut()
     jest.spyOn(listRepository, 'list').mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.list(null as any)

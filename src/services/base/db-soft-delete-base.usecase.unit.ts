@@ -25,7 +25,7 @@ describe('DbSoftDeleteBase Usecase', () => {
     expect(softDeleteRepository.softDelete).toHaveBeenNthCalledWith(1, 'any_id')
   })
 
-  it('Should thow error when SoftDeleteRepository throws', async () => {
+  it('Should throw error when SoftDeleteRepository throws', async () => {
     const { sut, softDeleteRepository } = makeSut()
     jest
       .spyOn(softDeleteRepository, 'softDelete')

@@ -1,4 +1,4 @@
-import { BaseModel } from '@/domain/models'
+import { BaseModel, BaseModelFixture } from '@/domain/models'
 import { UpdateRepository } from '../protocols'
 import { DbUpdateBase } from './db-update-base.usecase'
 
@@ -9,7 +9,7 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-  const baseModel = { id: 'some_id', createdAt: new Date(), updatedAt: new Date() }
+  const baseModel = BaseModelFixture()
   const updateRepository: UpdateRepository = { update: jest.fn().mockResolvedValue(true) }
   const sut = new DbUpdateBase(updateRepository)
 
@@ -27,7 +27,7 @@ describe('DbUpdateBase Usecase', () => {
     expect(updateRepository.update).toHaveBeenNthCalledWith(1, 'any_id', baseModel)
   })
 
-  it('Should thow error when UpdateRepository throws', async () => {
+  it('Should throw error when UpdateRepository throws', async () => {
     const { sut, updateRepository } = makeSut()
     jest.spyOn(updateRepository, 'update').mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.update(null as any, null as any)

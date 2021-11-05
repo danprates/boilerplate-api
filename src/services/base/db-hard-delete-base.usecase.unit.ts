@@ -25,7 +25,7 @@ describe('DbHardDeleteBase Usecase', () => {
     expect(hardDeleteRepository.hardDelete).toHaveBeenNthCalledWith(1, 'any_id')
   })
 
-  it('Should thow error when HardDeleteRepository throws', async () => {
+  it('Should throw error when HardDeleteRepository throws', async () => {
     const { sut, hardDeleteRepository } = makeSut()
     jest.spyOn(hardDeleteRepository, 'hardDelete').mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.delete(null as any)

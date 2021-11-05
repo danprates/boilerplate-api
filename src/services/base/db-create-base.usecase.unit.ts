@@ -1,4 +1,4 @@
-import { BaseModel } from '@/domain/models/base.model'
+import { BaseModel, BaseModelFixture } from '@/domain/models'
 import { CreateRepository } from '../protocols'
 import { DbCreateBase } from './db-create-base.usecase'
 
@@ -9,7 +9,7 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-  const baseModel: BaseModel = { id: 'some_id', createdAt: new Date(), updatedAt: new Date() }
+  const baseModel: BaseModel = BaseModelFixture()
   const createRepository: CreateRepository = { create: jest.fn().mockResolvedValue(baseModel) }
   const sut = new DbCreateBase(createRepository)
 
@@ -27,7 +27,7 @@ describe('DbCreateBase Usecase', () => {
     expect(createRepository.create).toHaveBeenNthCalledWith(1, baseModel)
   })
 
-  it('Should thow error when CreateRepository throws', async () => {
+  it('Should throw error when CreateRepository throws', async () => {
     const { sut, createRepository } = makeSut()
     jest.spyOn(createRepository, 'create').mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.create(null as any)
