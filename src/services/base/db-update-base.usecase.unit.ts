@@ -1,4 +1,4 @@
-import { BaseModel, BaseModelFixture } from '@/domain/models'
+import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
 import { UpdateRepository } from '../protocols'
 import { DbUpdateBase } from './db-update-base.usecase'
 
@@ -10,7 +10,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
-  const updateRepository: UpdateRepository = { update: jest.fn().mockResolvedValue(true) }
+  const updateRepository: UpdateRepository = { update: jest.fn().mockResolvedValue(Result.ok(true)) }
   const sut = new DbUpdateBase(updateRepository)
 
   return {
@@ -34,16 +34,17 @@ describe('DbUpdateBase Usecase', () => {
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })
 
-  it('Should return false when data was not found', async () => {
-    const { sut, updateRepository } = makeSut()
-    jest.spyOn(updateRepository, 'update').mockResolvedValueOnce(null as any)
-    const result = await sut.update('wrong_id', null as any)
-    expect(result).toBeFalsy()
+  it('Should return fail result when UpdateRepository return fail', async () => {
+    const { sut, updateRepository, baseModel } = makeSut()
+    jest.spyOn(updateRepository, 'update').mockResolvedValueOnce(Result.fail('any_fail'))
+    const promise = await sut.update(baseModel.id, baseModel)
+    expect(promise.isFailure).toBeTruthy()
+    expect(promise.error).toEqual('any_fail')
   })
 
   it('Should return true when everything is ok', async () => {
-    const { sut } = makeSut()
-    const result = await sut.update('any_id', null as any)
-    expect(result).toBeTruthy()
+    const { sut, baseModel } = makeSut()
+    const result = await sut.update(baseModel.id, baseModel)
+    expect(result).toEqual(Result.ok(true))
   })
 })

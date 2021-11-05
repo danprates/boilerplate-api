@@ -1,3 +1,4 @@
+import { Result } from '@/domain/models'
 import { SoftDeleteRepository } from '../protocols'
 import { DbSoftDeleteBase } from './db-soft-delete-base.usecase'
 
@@ -8,7 +9,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const softDeleteRepository: SoftDeleteRepository = {
-    softDelete: jest.fn().mockResolvedValue(true)
+    softDelete: jest.fn().mockResolvedValue(Result.ok(true))
   }
   const sut = new DbSoftDeleteBase(softDeleteRepository)
 
@@ -34,16 +35,17 @@ describe('DbSoftDeleteBase Usecase', () => {
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })
 
-  it('Should return false when data was not found', async () => {
+  it('Should return fail result when SoftDeleteRepository return fail', async () => {
     const { sut, softDeleteRepository } = makeSut()
-    jest.spyOn(softDeleteRepository, 'softDelete').mockResolvedValueOnce(null as any)
-    const result = await sut.delete('wrong_id')
-    expect(result).toBeFalsy()
+    jest.spyOn(softDeleteRepository, 'softDelete').mockResolvedValueOnce(Result.fail('any_fail'))
+    const promise = await sut.delete('any_id')
+    expect(promise.isFailure).toBeTruthy()
+    expect(promise.error).toEqual('any_fail')
   })
 
   it('Should return true when everything is ok', async () => {
     const { sut } = makeSut()
     const result = await sut.delete('any_id')
-    expect(result).toBeTruthy()
+    expect(result).toEqual(Result.ok(true))
   })
 })

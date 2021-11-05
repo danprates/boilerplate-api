@@ -1,3 +1,4 @@
+import { Result } from '@/domain/models'
 import { HardDeleteRepository } from '../protocols'
 import { DbHardDeleteBase } from './db-hard-delete-base.usecase'
 
@@ -8,7 +9,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const hardDeleteRepository: HardDeleteRepository = {
-    hardDelete: jest.fn().mockResolvedValue(true)
+    hardDelete: jest.fn().mockResolvedValue(Result.ok(true))
   }
   const sut = new DbHardDeleteBase(hardDeleteRepository)
 
@@ -32,16 +33,17 @@ describe('DbHardDeleteBase Usecase', () => {
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })
 
-  it('Should return false when data was not found', async () => {
+  it('Should return fail result when HardDeleteRepository return fail', async () => {
     const { sut, hardDeleteRepository } = makeSut()
-    jest.spyOn(hardDeleteRepository, 'hardDelete').mockResolvedValueOnce(null as any)
-    const result = await sut.delete('wrong_id')
-    expect(result).toBeFalsy()
+    jest.spyOn(hardDeleteRepository, 'hardDelete').mockResolvedValueOnce(Result.fail('any_fail'))
+    const promise = await sut.delete('any_id')
+    expect(promise.isFailure).toBeTruthy()
+    expect(promise.error).toEqual('any_fail')
   })
 
   it('Should return true when everything is ok', async () => {
     const { sut } = makeSut()
     const result = await sut.delete('any_id')
-    expect(result).toBeTruthy()
+    expect(result).toEqual(Result.ok(true))
   })
 })
