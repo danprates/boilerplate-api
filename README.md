@@ -13,6 +13,13 @@
 1. Inicie o docker compose -> `docker-compose up`
 1. Acesse http://localhost:3000/health e veja se está funcionando
 1. Para debugar com vscode basta abrir a raiz do projeto e apertar `F5`
+1. Se tiver usando mongodb, acesse o painel: http://localhost:9000
+    1. username: docker
+    1. senha: docker
+1. Se tiver usando postgres, acesse o painel: http://localhost:8000
+    1. username: admin@docker.com
+    1. senha: docker
+
 
 ## Testando a aplicação
 
@@ -58,10 +65,10 @@ $ npm run lint
 
 ## Todos
 
-- [] Configurar o docker-compose
+- [x] Configurar o docker-compose
   - [x] configurar o lauch do vscode para debug
   - [x] colocar o postgres
-  - [] colocar o mongo
+  - [x] colocar o mongo
 - [] configurar um logger
   - [] ver se é possivel modificar o comportamento padrão do `console.log`
 - [] criar o crud basico de usuarios
