@@ -1,0 +1,40 @@
+export class Result<T = any> {
+  public isSuccess: boolean
+  public isFailure: boolean
+  public error?: string
+  private readonly _value?: T
+
+  private constructor (isSuccess: boolean, error?: string, value?: T) {
+    if (isSuccess && error !== undefined) {
+      throw new Error(`InvalidOperation: A result cannot be
+        successful and contain an error`)
+    }
+    if (!isSuccess && error === undefined) {
+      throw new Error(`InvalidOperation: A failing result
+        needs to contain an error message`)
+    }
+
+    this.isSuccess = isSuccess
+    this.isFailure = !isSuccess
+    this.error = error
+    this._value = value
+
+    Object.freeze(this)
+  }
+
+  public static ok<U = any> (value?: U): Result<U> {
+    return new Result<U>(true, undefined, value)
+  }
+
+  public static fail (error: string): Result {
+    return new Result(false, error)
+  }
+
+  public getValue (): T | undefined {
+    if (!this.isSuccess) {
+      throw new Error('Cant retrieve the value from a failed result.')
+    }
+
+    return this._value
+  }
+}
