@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "exclude": [
     "**/*.unit.ts",
-    "**/*.integration.ts"
+    "**/*.integration.ts",
+    "**/*.fixture.ts"
   ]
 }
