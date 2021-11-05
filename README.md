@@ -56,10 +56,12 @@ $ npm run lint
 
 ## Todos
 
-- [] Configurar o docker
+- [] Configurar o docker-compose
   - [] configurar o lauch do vscode para debug
+  - [x] colocar o postgres
+  - [] colocar o mongo
 - [] configurar um logger
   - [] ver se é possivel modificar o comportamento padrão do `console.log`
 - [] criar o crud basico de usuarios
   - [] colocar testes de integração
-- []
+- [] colocar o fastify
