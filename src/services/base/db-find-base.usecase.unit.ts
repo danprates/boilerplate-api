@@ -1,0 +1,49 @@
+import { BaseModel } from '@/domain/models/base.model'
+import { FindRepository } from '../protocols'
+import { DbFindBase } from './db-find-base.usecase'
+
+interface SutTypes {
+  sut: DbFindBase
+  baseModel: BaseModel
+  findRepository: FindRepository
+}
+
+const makeSut = (): SutTypes => {
+  const baseModel = { id: 'some_id', createdAt: new Date(), updatedAt: new Date() }
+  const findRepository: FindRepository = { find: jest.fn().mockResolvedValue(baseModel) }
+  const sut = new DbFindBase(findRepository)
+
+  return {
+    sut,
+    baseModel,
+    findRepository
+  }
+}
+
+describe('DbFindBase Usecase', () => {
+  it('Should call FindRepository with correct values', async () => {
+    const { sut, findRepository, baseModel } = makeSut()
+    await sut.find(baseModel.id)
+    expect(findRepository.find).toHaveBeenNthCalledWith(1, baseModel.id)
+  })
+
+  it('Should thow error when FindRepository throws', async () => {
+    const { sut, findRepository } = makeSut()
+    jest.spyOn(findRepository, 'find').mockRejectedValueOnce(new Error('any_error'))
+    const promise = sut.find(null as any)
+    await expect(promise).rejects.toThrow(new Error('any_error'))
+  })
+
+  it('Should return null when data was not found', async () => {
+    const { sut, findRepository } = makeSut()
+    jest.spyOn(findRepository, 'find').mockResolvedValueOnce(null as any)
+    const result = await sut.find(null as any)
+    expect(result).toBeNull()
+  })
+
+  it('Should return correct data when everything is ok', async () => {
+    const { sut, baseModel } = makeSut()
+    const result = await sut.find(baseModel.id)
+    expect(result).toEqual(baseModel)
+  })
+})
