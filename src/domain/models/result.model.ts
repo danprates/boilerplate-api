@@ -5,11 +5,11 @@ export class Result<T = any> {
   private readonly _value?: T
 
   private constructor (isSuccess: boolean, error?: string, value?: T) {
-    if (isSuccess && error !== undefined) {
+    if (isSuccess && error) {
       throw new Error(`InvalidOperation: A result cannot be
         successful and contain an error`)
     }
-    if (!isSuccess && error === undefined) {
+    if (!isSuccess && !error) {
       throw new Error(`InvalidOperation: A failing result
         needs to contain an error message`)
     }
@@ -22,12 +22,12 @@ export class Result<T = any> {
     Object.freeze(this)
   }
 
-  public static ok<U = any> (value?: U): Result<U> {
+  public static ok<U> (value?: U): Result<U> {
     return new Result<U>(true, undefined, value)
   }
 
-  public static fail (error: string): Result {
-    return new Result(false, error)
+  public static fail<U> (error: string): Result<U> {
+    return new Result<U>(false, error)
   }
 
   public getValue (): T | undefined {
