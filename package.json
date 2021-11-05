@@ -6,8 +6,9 @@
   "scripts": {
     "prepare": "husky install",
     "start": "ts-node src/main/server.ts",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
     "lint": "ts-standard . --fix",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --runInBand",
     "test:staged": "npm run test",
     "test:unit": "npm test -- --watch -c jest-unit.config.js",
     "test:integration": "npm test -- --watch -c jest-integration.config.js",
@@ -33,6 +34,10 @@
   },
   "dependencies": {
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "module-alias": "^2.2.2"
+  },
+  "_moduleAliases": {
+    "@": "dist"
   }
 }

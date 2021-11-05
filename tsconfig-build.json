@@ -1,0 +1,7 @@
+{
+  "include": ["./tsconfig.json"],
+  "exclude": [
+    "**/*.unit.ts",
+    "**/*.integration.ts"
+  ]
+}
