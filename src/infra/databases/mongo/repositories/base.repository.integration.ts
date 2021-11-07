@@ -1,4 +1,4 @@
-import { Collection } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 import { MongoHelper } from '../mongo.helper'
 import { BaseRepository } from './base.repository'
 
@@ -31,6 +31,23 @@ describe('BaseRepository Mongodb', () => {
       const result = await sut.create(data)
       expect(result.id).toBeTruthy()
       expect(result.createdAt).toEqual(data.createdAt)
+    })
+  })
+
+  describe('find()', () => {
+    const id = new ObjectId()
+
+    test('Should return an correct data on success', async () => {
+      const sut = makeSut()
+      await baseCollection.insertOne({ _id: id })
+      const result = await sut.find(id.toHexString())
+      expect(result?.id).toBeTruthy()
+    })
+
+    test('Should return null when id was not found', async () => {
+      const sut = makeSut()
+      const result = await sut.find(id.toHexString())
+      expect(result).toBeNull()
     })
   })
 })
