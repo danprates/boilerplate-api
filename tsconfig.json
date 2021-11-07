@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "outDir": "./dist",
     "module": "CommonJS",
-    "target": "ES2019",
+    "target": "ES2017",
+    "lib": ["ES6"],
+    "removeComments": true,
     "esModuleInterop": true,
     "allowJs": true,
     "strictNullChecks": true,
