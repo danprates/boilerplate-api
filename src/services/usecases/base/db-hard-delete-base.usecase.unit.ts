@@ -9,7 +9,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const hardDeleteRepository: HardDeleteRepository = {
-    hardDelete: jest.fn().mockResolvedValue(Result.ok(true))
+    hardDelete: jest.fn().mockResolvedValue(true)
   }
   const sut = new DbHardDeleteBase(hardDeleteRepository)
 
@@ -31,14 +31,6 @@ describe('DbHardDeleteBase Usecase', () => {
     jest.spyOn(hardDeleteRepository, 'hardDelete').mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.delete(null as any)
     await expect(promise).rejects.toThrow(new Error('any_error'))
-  })
-
-  it('Should return fail result when HardDeleteRepository return fail', async () => {
-    const { sut, hardDeleteRepository } = makeSut()
-    jest.spyOn(hardDeleteRepository, 'hardDelete').mockResolvedValueOnce(Result.fail('any_fail'))
-    const promise = await sut.delete('any_id')
-    expect(promise.isFailure).toBeTruthy()
-    expect(promise.error).toEqual('any_fail')
   })
 
   it('Should return true when everything is ok', async () => {

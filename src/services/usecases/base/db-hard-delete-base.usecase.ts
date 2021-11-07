@@ -6,6 +6,12 @@ export class DbHardDeleteBase implements Delete {
   constructor (private readonly deleteRepository: HardDeleteRepository) {}
 
   async delete (id: string): Promise<Result<boolean>> {
-    return await this.deleteRepository.hardDelete(id)
+    const deleted = await this.deleteRepository.hardDelete(id)
+
+    if (!deleted) {
+      return Result.fail('Not found')
+    }
+
+    return Result.ok(deleted)
   }
 }

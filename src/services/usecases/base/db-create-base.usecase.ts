@@ -7,6 +7,6 @@ export class DbCreateBase implements Create {
 
   async create (data: BaseModel): Promise<Result<BaseModel>> {
     const unitResult = await this.createRepository.create(data)
-    return unitResult
+    return Result.ok(unitResult)
   }
 }

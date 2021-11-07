@@ -10,7 +10,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
-  const findRepository: FindRepository = { find: jest.fn().mockResolvedValue(Result.ok(baseModel)) }
+  const findRepository: FindRepository = { find: jest.fn().mockResolvedValue(baseModel) }
   const sut = new DbFindBase(findRepository)
 
   return {
@@ -34,19 +34,11 @@ describe('DbFindBase Usecase', () => {
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })
 
-  it('Should return null when data was not found', async () => {
+  it('Should return undefined when data was not found', async () => {
     const { sut, findRepository } = makeSut()
-    jest.spyOn(findRepository, 'find').mockResolvedValueOnce(null as any)
+    jest.spyOn(findRepository, 'find').mockResolvedValueOnce(undefined)
     const result = await sut.find(null as any)
-    expect(result).toBeNull()
-  })
-
-  it('Should return fail result when FindRepository return fail', async () => {
-    const { sut, findRepository, baseModel } = makeSut()
-    jest.spyOn(findRepository, 'find').mockResolvedValueOnce(Result.fail('any_fail'))
-    const promise = await sut.find(baseModel.id)
-    expect(promise.isFailure).toBeTruthy()
-    expect(promise.error).toEqual('any_fail')
+    expect(result).toEqual(Result.fail('Not found'))
   })
 
   it('Should return correct data when everything is ok', async () => {

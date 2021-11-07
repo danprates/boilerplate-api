@@ -6,6 +6,12 @@ export class DbFindBase implements Find {
   constructor (private readonly findRepository: FindRepository) {}
 
   async find (id: string): Promise<Result<BaseModel>> {
-    return await this.findRepository.find(id)
+    const result = await this.findRepository.find(id)
+
+    if (!result) {
+      return Result.fail('Not found')
+    }
+
+    return Result.ok(result)
   }
 }

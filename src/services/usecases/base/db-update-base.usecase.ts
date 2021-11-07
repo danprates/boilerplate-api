@@ -6,6 +6,12 @@ export class DbUpdateBase implements Update {
   constructor (private readonly updateRepository: UpdateRepository) {}
 
   async update (id: string, data: Partial<BaseModel>): Promise<Result<boolean>> {
-    return await this.updateRepository.update(id, data)
+    const updated = await this.updateRepository.update(id, data)
+
+    if (!updated) {
+      return Result.fail('Not found')
+    }
+
+    return Result.ok(updated)
   }
 }

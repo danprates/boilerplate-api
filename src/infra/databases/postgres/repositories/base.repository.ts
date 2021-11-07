@@ -1,4 +1,4 @@
-import { BaseModel, Result } from '@/domain/models'
+import { BaseModel } from '@/domain/models'
 import { Pagination, PaginationOptions } from '@/domain/protocols'
 import {
   CreateRepository, FindRepository,
@@ -20,45 +20,43 @@ implements
   // TODO: ver uma forma de tipar a entity
   constructor (private readonly entity: any) {}
 
-  async create (data: Partial<BaseModel>): Promise<Result<BaseModel>> {
+  async create (data: Partial<BaseModel>): Promise<BaseModel> {
     const repo = await PostgresHelper.getRepository<BaseModel>(this.entity)
-    const entity = await repo.save(data)
-    return Result.ok(entity)
+    return await repo.save(data)
   }
 
-  async list (options: PaginationOptions): Promise<Result<Pagination<BaseModel>>> {
+  async list (options: PaginationOptions): Promise<Pagination<BaseModel>> {
     const repo = await PostgresHelper.getRepository<BaseModel>(this.entity)
     const [data, total] = await repo.findAndCount({
       ...options
     })
-    return Result.ok({
+    return {
       ...options,
       data,
       total
-    })
+    }
   }
 
-  async find (id: string): Promise<Result<BaseModel>> {
+  async find (id: string): Promise<BaseModel | undefined> {
     const repo = await PostgresHelper.getRepository<BaseModel>(this.entity)
-    const entity = await repo.findOne(id)
-    return Result.ok(entity)
+    return await repo.findOne(id)
   }
 
-  async update (id: string, service: Partial<BaseModel>): Promise<Result<boolean>> {
+  async update (id: string, service: Partial<BaseModel>): Promise<boolean> {
     const repo = await PostgresHelper.getRepository<BaseModel>(this.entity)
     const { affected = 0 } = await repo.update(id, service)
-    return Result.ok(affected > 0)
+    return affected > 0
   }
 
-  async softDelete (id: string): Promise<Result<boolean>> {
+  async softDelete (id: string): Promise<boolean> {
     const repo = await PostgresHelper.getRepository<BaseModel>(this.entity)
     const { affected = 0 } = await repo.update(id, { isActive: false } as any)
-    return Result.ok(affected > 0)
+    return affected > 0
   }
 
-  async hardDelete (id: string): Promise<Result<boolean>> {
+  async hardDelete (id: string): Promise<boolean> {
     const repo = await PostgresHelper.getRepository<BaseModel>(this.entity)
     const { affected = 0 } = await repo.delete(id)
-    return Result.ok(Number(affected) > 0)
+    return Number(affected) > 0
   }
 }

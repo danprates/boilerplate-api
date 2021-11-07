@@ -6,6 +6,12 @@ export class DbSoftDeleteBase implements Delete {
   constructor (private readonly deleteRepository: SoftDeleteRepository) {}
 
   async delete (id: string): Promise<Result<boolean>> {
-    return await this.deleteRepository.softDelete(id)
+    const deleted = await this.deleteRepository.softDelete(id)
+
+    if (!deleted) {
+      return Result.fail('Not found')
+    }
+
+    return Result.ok(deleted)
   }
 }
