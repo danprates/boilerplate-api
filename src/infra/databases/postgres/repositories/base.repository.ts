@@ -50,7 +50,7 @@ implements
 
   async softDelete (id: string): Promise<boolean> {
     const repo = await PostgresHelper.getRepository<BaseModel>(this.entity)
-    const { affected = 0 } = await repo.update(id, { isActive: false } as any)
+    const { affected = 0 } = await repo.update(id, { isActive: false, isDeleted: true })
     return affected > 0
   }
 
