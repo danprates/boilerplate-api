@@ -1,12 +1,12 @@
 import { BaseModel, Result } from '../models'
-import { ListOptions, Pagination } from '../protocols/'
+import { PaginationOptions, Pagination } from '../protocols/'
 
 export interface Create {
   create: (data: Partial<BaseModel>) => Promise<Result<BaseModel>>
 }
 
 export interface List {
-  list: (options: ListOptions) => Promise<Result<Pagination<BaseModel>>>
+  list: (options?: PaginationOptions) => Promise<Result<Pagination<BaseModel>>>
 }
 
 export interface Find {

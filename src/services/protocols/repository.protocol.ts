@@ -1,4 +1,4 @@
-import { ListOptions, Pagination } from '@/domain/protocols'
+import { PaginationOptions, Pagination } from '@/domain/protocols'
 import { BaseModel, Result } from '@/domain/models'
 
 export interface CreateRepository {
@@ -6,7 +6,7 @@ export interface CreateRepository {
 }
 
 export interface ListRepository {
-  list: (options: ListOptions) => Promise<Result<Pagination<BaseModel>>>
+  list: (options: PaginationOptions) => Promise<Result<Pagination<BaseModel>>>
 }
 
 export interface FindRepository {

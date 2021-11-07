@@ -1,0 +1,5 @@
+export * from './create-base.controller'
+export * from './list-base.controller'
+export * from './find-base.controller'
+export * from './update-base.controller'
+export * from './delete-base.controller'

@@ -1,14 +1,9 @@
-export interface Pagination<T = any> {
+export interface Pagination<T = any> extends PaginationOptions {
   data: T[]
   total: number
-  skip: number
-  take: number
 }
 
-export interface ListOptions<T = unknown> {
-  pagination: {
-    skip: number
-    take: number
-  }
-  query?: Partial<T>
+export interface PaginationOptions {
+  skip: number
+  take: number
 }
