@@ -51,11 +51,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "graphql": "^16.0.1",
-    "module-alias": "^2.2.2",
     "mongodb": "^4.1.4",
     "typeorm": "^0.2.38"
-  },
-  "_moduleAliases": {
-    "@": "dist"
   }
 }
