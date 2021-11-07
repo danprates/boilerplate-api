@@ -6,5 +6,5 @@ export const AuthModelFixture = (): AuthModel => ({
   ...BaseModelFixture(),
   email: faker.internet.email(),
   password: 'any_password',
-  passwordToken: faker.datatype.uuid()
+  passwordResetToken: faker.datatype.uuid()
 })
