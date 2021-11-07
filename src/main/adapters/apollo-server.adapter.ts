@@ -1,4 +1,4 @@
-import { Controller, HttpRequest } from '@/presentation/protocols.presentation'
+import { Controller, HttpRequest } from '@/presentation/protocols'
 import { ApolloError } from 'apollo-server-express'
 
 enum DEFAULT {
@@ -16,19 +16,14 @@ export const apolloServerAdapter =
 
       if (args.query) {
         httpRequest.query = {
-          pagination: {
-            take: Number(args?.pagination?.take) || DEFAULT.TAKE,
-            skip: Number(args?.pagination?.skip) || DEFAULT.SKIP
-          },
-          query: { ...args.query }
+          take: Number(args?.pagination?.take) || DEFAULT.TAKE,
+          skip: Number(args?.pagination?.skip) || DEFAULT.SKIP,
+          ...args.query
         }
       } else {
         httpRequest.query = {
-          pagination: {
-            take: DEFAULT.TAKE,
-            skip: DEFAULT.SKIP
-          },
-          query: {}
+          take: DEFAULT.TAKE,
+          skip: DEFAULT.SKIP
         }
       }
 
