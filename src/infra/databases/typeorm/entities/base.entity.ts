@@ -1,10 +1,11 @@
-import { BaseEntity, Column, CreateDateColumn, ObjectID, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { BaseEntity, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 export class Base extends BaseEntity {
   // uncomment when using mongodb
   // @ObjectIdColumn()
+  // id: ObjectID
   @PrimaryGeneratedColumn('uuid')
-  id: ObjectID
+  id: string
 
   @Column({ name: 'is_active', default: false, select: false })
   isActive: boolean
