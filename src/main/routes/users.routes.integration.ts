@@ -43,7 +43,7 @@ describe('/users routes', () => {
   })
 
   describe('POST /users', () => {
-    it('Should return a created users', async () => {
+    it('Should return a created user', async () => {
       const userData = UserModelFixture()
 
       const { statusCode, body } = await request(app)
@@ -58,7 +58,7 @@ describe('/users routes', () => {
   })
 
   describe('GET /users/:id', () => {
-    it('Should return a created users', async () => {
+    it('Should return an user', async () => {
       const user = await userRepository.save(UserModelFixture())
 
       const { statusCode, body } = await request(app)
@@ -68,7 +68,7 @@ describe('/users routes', () => {
       expect(body.id).toEqual(user.id)
     })
 
-    it('Should return a created users', async () => {
+    it('Should return not found when user does not exist', async () => {
       const { statusCode, body } = await request(app)
         .get(`/api/${API_VERSION}/users/wrong_id`)
 
