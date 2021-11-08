@@ -1,4 +1,4 @@
-import { PostgresHelper } from '@/infra/databases/postgres/postgres-helper'
+import { PostgresHelper } from '@/infra/databases/typeorm/postgres-helper'
 import app from './config/app'
 import { PORT } from './config/env.config'
 

@@ -1,5 +1,5 @@
-import { UserEntity } from '@/infra/databases/postgres/entities'
-import { BaseRepository } from '@/infra/databases/postgres/repositories'
+import { UserEntity } from '@/infra/databases/typeorm/entities'
+import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { ListBaseController } from '@/presentation/controllers/base'
 import { Controller } from '@/presentation/protocols'
 import { DbListBase } from '@/services/usecases/base'
