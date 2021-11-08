@@ -1,6 +1,7 @@
 import { UserModelFixture } from '@/domain/models/user.model.fixture'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'
+import { notFound } from '@/presentation/helpers'
 import request from 'supertest'
 import { Repository } from 'typeorm'
 import app from '../config/app'
@@ -53,6 +54,25 @@ describe('/users routes', () => {
 
       expect(statusCode).toEqual(201)
       expect(body.id).toEqual(user?.id)
+    })
+  })
+
+  describe('GET /users/:id', () => {
+    it('Should return a created users', async () => {
+      const user = await userRepository.save(UserModelFixture())
+
+      const { statusCode, body } = await request(app)
+        .get(`/api/${API_VERSION}/users/${user.id}`)
+
+      expect(statusCode).toEqual(200)
+      expect(body.id).toEqual(user.id)
+    })
+
+    it('Should return a created users', async () => {
+      const { statusCode, body } = await request(app)
+        .get(`/api/${API_VERSION}/users/wrong_id`)
+
+      expect({ statusCode, body }).toEqual(notFound())
     })
   })
 })
