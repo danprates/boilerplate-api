@@ -42,21 +42,21 @@ implements
     return await repo.findOne(id)
   }
 
-  async update (id: string, service: Partial<BaseModel>): Promise<boolean> {
+  async update (id: string, data: Partial<BaseModel>): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    const { affected = 0 } = await repo.update(id, service)
-    return affected > 0
+    const { affected } = await repo.update(id, data)
+    return Number(affected) > 0
   }
 
   async softDelete (id: string): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    const { affected = 0 } = await repo.update(id, { isActive: false, isDeleted: true })
-    return affected > 0
+    const { affected } = await repo.update(id, { isActive: false, isDeleted: true })
+    return Number(affected) > 0
   }
 
   async hardDelete (id: string): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    const { affected = 0 } = await repo.delete(id)
+    const { affected } = await repo.delete(id)
     return Number(affected) > 0
   }
 }
