@@ -75,4 +75,27 @@ describe('/users routes', () => {
       expect({ statusCode, body }).toEqual(notFound())
     })
   })
+
+  describe('PUT /users/:id', () => {
+    it('Should update a user', async () => {
+      const user = await userRepository.save(UserModelFixture())
+
+      const { statusCode } = await request(app)
+        .put(`/api/${API_VERSION}/users/${user.id}`)
+        .send({ name: 'new_name' })
+
+      const userResult = await userRepository.findOne({ id: user.id })
+
+      expect(statusCode).toEqual(204)
+      expect(userResult?.name).toEqual('new_name')
+    })
+
+    it('Should return not found when user does not exist', async () => {
+      const { statusCode, body } = await request(app)
+        .put(`/api/${API_VERSION}/users/wrong_id`)
+        .send({ name: 'new_name' })
+
+      expect({ statusCode, body }).toEqual(notFound())
+    })
+  })
 })
