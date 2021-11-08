@@ -12,10 +12,10 @@ export class FindBaseController implements Controller {
   async handler (request: HttpRequest): Promise<HttpResponse> {
     const result = await this.findUsecase.find(request.params.id)
 
-    if (!result) {
+    if (result.isFailure) {
       return notFound()
     }
 
-    return ok(result)
+    return ok(result.getValue())
   }
 }

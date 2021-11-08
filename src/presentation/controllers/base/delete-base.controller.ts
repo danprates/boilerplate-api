@@ -12,7 +12,7 @@ export class DeleteBaseController implements Controller {
   async handler (request: HttpRequest): Promise<HttpResponse> {
     const wasDeleted = await this.deleteUsecase.delete(request.params.id)
 
-    if (!wasDeleted) {
+    if (wasDeleted.isFailure) {
       return notFound()
     }
 

@@ -1,4 +1,4 @@
-import { BaseModelFixture } from '@/domain/models'
+import { BaseModelFixture, Result } from '@/domain/models'
 import { BaseModel } from '@/domain/models/base.model'
 import { List } from '@/domain/usecases'
 import { ListBaseController } from '@/presentation/controllers/base'
@@ -15,7 +15,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = {}
-  const usecase: List = { list: jest.fn().mockResolvedValue([baseModel]) }
+  const usecase: List = { list: jest.fn().mockResolvedValue(Result.ok([baseModel])) }
   const sut = new ListBaseController(usecase)
 
   return {

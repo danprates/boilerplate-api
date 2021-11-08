@@ -12,7 +12,7 @@ export class UpdateBaseController implements Controller {
   async handler (request: HttpRequest): Promise<HttpResponse> {
     const wasUpdated = await this.updateUsecase.update(request.params.id, request.body)
 
-    if (!wasUpdated) {
+    if (wasUpdated.isFailure) {
       return notFound()
     }
 

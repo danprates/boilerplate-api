@@ -1,4 +1,4 @@
-import { BaseModelFixture } from '@/domain/models'
+import { BaseModelFixture, Result } from '@/domain/models'
 import { BaseModel } from '@/domain/models/base.model'
 import { Find } from '@/domain/usecases'
 import { FindBaseController } from '@/presentation/controllers/base'
@@ -15,7 +15,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { params: { id: baseModel.id } }
-  const usecase: Find = { find: jest.fn().mockResolvedValue(baseModel) }
+  const usecase: Find = { find: jest.fn().mockResolvedValue(Result.ok(baseModel)) }
   const sut = new FindBaseController(usecase)
 
   return {
@@ -35,7 +35,7 @@ describe('FindBase Controller', () => {
 
   it('Should return status code 404 if data was not found', async () => {
     const { sut, usecase, httpRequest } = makeSut()
-    jest.spyOn(usecase, 'find').mockResolvedValueOnce(null as any)
+    jest.spyOn(usecase, 'find').mockResolvedValueOnce(Result.fail('Not found'))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(notFound())
   })

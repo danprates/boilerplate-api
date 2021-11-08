@@ -12,6 +12,6 @@ export class CreateBaseController implements Controller {
   async handler (request: HttpRequest): Promise<HttpResponse> {
     const result = await this.usecase.create(request.body)
 
-    return created(result)
+    return created(result.getValue())
   }
 }

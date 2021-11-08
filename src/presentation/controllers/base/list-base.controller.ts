@@ -12,6 +12,6 @@ export class ListBaseController implements Controller {
   async handler ({ query }: HttpRequest): Promise<HttpResponse> {
     const result = await this.listUsecase.list(query)
 
-    return ok(result)
+    return ok(result.getValue())
   }
 }

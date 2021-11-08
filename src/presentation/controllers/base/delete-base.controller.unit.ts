@@ -1,3 +1,4 @@
+import { Result } from '@/domain/models'
 import { Delete } from '@/domain/usecases'
 import { DeleteBaseController } from '@/presentation/controllers/base'
 import { noContent, notFound } from '@/presentation/helpers'
@@ -11,7 +12,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const httpRequest = { params: { id: 'any_name' } }
-  const usecase: Delete = { delete: jest.fn().mockResolvedValue(true) }
+  const usecase: Delete = { delete: jest.fn().mockResolvedValue(Result.ok(true)) }
   const sut = new DeleteBaseController(usecase)
 
   return {
@@ -30,7 +31,7 @@ describe('DeleteBase Controller', () => {
 
   it('Should return status code 404 if data was not found', async () => {
     const { sut, usecase, httpRequest } = makeSut()
-    jest.spyOn(usecase, 'delete').mockResolvedValueOnce(false as any)
+    jest.spyOn(usecase, 'delete').mockResolvedValueOnce(Result.fail('Not found'))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(notFound())
   })
