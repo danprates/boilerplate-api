@@ -40,4 +40,19 @@ describe('/users routes', () => {
       expect(body.data).toEqual([])
     })
   })
+
+  describe('POST /users', () => {
+    it('Should return a created users', async () => {
+      const userData = UserModelFixture()
+
+      const { statusCode, body } = await request(app)
+        .post(`/api/${API_VERSION}/users`)
+        .send(userData)
+
+      const user = await userRepository.findOne({ id: body.id })
+
+      expect(statusCode).toEqual(201)
+      expect(body.id).toEqual(user?.id)
+    })
+  })
 })
