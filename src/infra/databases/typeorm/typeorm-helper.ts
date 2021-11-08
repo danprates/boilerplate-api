@@ -23,7 +23,9 @@ export const TypeormHelper = {
   },
 
   async disconnect (): Promise<void> {
-    await this.client.close()
+    if (this.client?.isConnected) {
+      await this.client.close()
+    }
     this.client = null
   },
 
