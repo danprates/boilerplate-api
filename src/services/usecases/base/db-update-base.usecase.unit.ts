@@ -34,6 +34,15 @@ describe('DbUpdateBase Usecase', () => {
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })
 
+  it('Should return fail when not found', async () => {
+    const { sut, updateRepository } = makeSut()
+    jest
+      .spyOn(updateRepository, 'update')
+      .mockResolvedValueOnce(false)
+    const result = await sut.update(null as any, null as any)
+    expect(result).toEqual(Result.fail('Not found'))
+  })
+
   it('Should return true when everything is ok', async () => {
     const { sut, baseModel } = makeSut()
     const result = await sut.update(baseModel.id, baseModel)

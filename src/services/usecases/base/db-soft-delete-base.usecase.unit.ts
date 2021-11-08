@@ -35,6 +35,15 @@ describe('DbSoftDeleteBase Usecase', () => {
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })
 
+  it('Should return fail when not found', async () => {
+    const { sut, softDeleteRepository } = makeSut()
+    jest
+      .spyOn(softDeleteRepository, 'softDelete')
+      .mockResolvedValueOnce(false)
+    const result = await sut.delete(null as any)
+    expect(result).toEqual(Result.fail('Not found'))
+  })
+
   it('Should return true when everything is ok', async () => {
     const { sut } = makeSut()
     const result = await sut.delete('any_id')
