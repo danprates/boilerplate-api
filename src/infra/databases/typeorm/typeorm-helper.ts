@@ -1,6 +1,6 @@
 import { Connection, createConnection, EntityTarget, getConnectionManager, Repository } from 'typeorm'
 
-export const PostgresHelper = {
+export const TypeormHelper = {
   connectionManager: getConnectionManager(),
   client: null as unknown as Connection,
 
