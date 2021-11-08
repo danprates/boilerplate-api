@@ -1,4 +1,8 @@
+import { PostgresHelper } from '@/infra/databases/postgres/postgres-helper'
 import app from './config/app'
 import { PORT } from './config/env.config'
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`))
+void PostgresHelper.connect().then(() => {
+  console.log('Database is running')
+  app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`))
+})
