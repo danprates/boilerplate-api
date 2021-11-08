@@ -1,3 +1,4 @@
 import app from './config/app'
+import { PORT } from './config/env.config'
 
-app.listen(3000, () => console.log('Server running at http://localhost:3000'))
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`))
