@@ -98,4 +98,26 @@ describe('/users routes', () => {
       expect({ statusCode, body }).toEqual(notFound())
     })
   })
+
+  describe('DELETE /users/:id', () => {
+    it('Should soft delete an user', async () => {
+      const user = await userRepository.save(UserModelFixture())
+
+      const { statusCode } = await request(app)
+        .delete(`/api/${API_VERSION}/users/${user.id}`)
+
+      const userResult = await userRepository.findOne({ id: user.id }, { select: ['isDeleted', 'isActive'] })
+
+      expect(statusCode).toEqual(204)
+      expect(userResult?.isDeleted).toBeTruthy()
+      expect(userResult?.isActive).toBeFalsy()
+    })
+
+    it('Should return not found when user does not exist', async () => {
+      const { statusCode, body } = await request(app)
+        .get(`/api/${API_VERSION}/users/wrong_id`)
+
+      expect({ statusCode, body }).toEqual(notFound())
+    })
+  })
 })
