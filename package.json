@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "debug": "nodemon -L --nolazy",
     "start": "node dist/main/server.js",
-    "dev": "ts-node-dev -r tsconfig-paths/register --inspect=0.0.0.0:9222 --respawn --transpile-only --ignore-watch node_modules src/main/server.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect=0.0.0.0:9222 --respawn --transpile-only --ignore-watch node_modules src/main/server.ts | pino-pretty -c",
     "build": "rimraf dist && tsc -p tsconfig-build.json && tscpaths -p tsconfig-build.json -s ./src -o ./dist",
     "lint": "eslint --fix --ext .js,.ts .",
     "test": "jest --passWithNoTests --runInBand",
@@ -26,6 +26,7 @@
     "@types/jest": "^27.0.2",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^16.11.6",
+    "@types/pino": "^6.3.12",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "better-sqlite3": "^7.4.4",
@@ -54,6 +55,8 @@
     "graphql": "^16.0.1",
     "mongodb": "3.7.0",
     "pg": "^8.7.1",
+    "pino": "^7.1.0",
+    "pino-pretty": "^7.2.0",
     "typeorm": "^0.2.38"
   }
 }
