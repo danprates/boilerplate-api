@@ -16,7 +16,7 @@ const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { params: { id: baseModel.id } }
   const usecase: Find = { find: jest.fn().mockResolvedValue(Result.ok(baseModel)) }
-  const sut = new FindBaseController(usecase)
+  const sut = new FindBaseController({ usecase })
 
   return {
     sut,

@@ -6,11 +6,15 @@ import {
   HttpResponse
 } from '@/presentation/protocols'
 
+type Props = {
+  usecase: Delete
+}
+
 export class DeleteBaseController implements Controller {
-  constructor (private readonly deleteUsecase: Delete) {}
+  constructor (private readonly props: Props) {}
 
   async handler (request: HttpRequest): Promise<HttpResponse> {
-    const wasDeleted = await this.deleteUsecase.delete(request.params.id)
+    const wasDeleted = await this.props.usecase.delete(request.params.id)
 
     if (wasDeleted.isFailure) {
       return notFound()

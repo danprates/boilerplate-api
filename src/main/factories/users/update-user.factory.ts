@@ -7,5 +7,5 @@ import { DbUpdateBase } from '@/services/usecases/base'
 export const updateUserFactory = (): Controller => {
   const updateRepository = new BaseRepository(UserEntity)
   const usecase = new DbUpdateBase({ updateRepository })
-  return new UpdateBaseController(usecase)
+  return new UpdateBaseController({ usecase })
 }

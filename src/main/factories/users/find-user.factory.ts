@@ -7,5 +7,5 @@ import { DbFindBase } from '@/services/usecases/base'
 export const findUsersFactory = (): Controller => {
   const findRepository = new BaseRepository(UserEntity)
   const usecase = new DbFindBase({ findRepository })
-  return new FindBaseController(usecase)
+  return new FindBaseController({ usecase })
 }

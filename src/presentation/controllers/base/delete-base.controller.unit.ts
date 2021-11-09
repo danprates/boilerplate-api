@@ -13,7 +13,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const httpRequest = { params: { id: 'any_name' } }
   const usecase: Delete = { delete: jest.fn().mockResolvedValue(Result.ok(true)) }
-  const sut = new DeleteBaseController(usecase)
+  const sut = new DeleteBaseController({ usecase })
 
   return {
     sut,

@@ -6,11 +6,15 @@ import {
   HttpResponse
 } from '@/presentation/protocols'
 
+type Props = {
+  usecase: Update
+}
+
 export class UpdateBaseController implements Controller {
-  constructor (private readonly updateUsecase: Update) {}
+  constructor (private readonly props: Props) {}
 
   async handler (request: HttpRequest): Promise<HttpResponse> {
-    const wasUpdated = await this.updateUsecase.update(request.params.id, request.body)
+    const wasUpdated = await this.props.usecase.update(request.params.id, request.body)
 
     if (wasUpdated.isFailure) {
       return notFound()

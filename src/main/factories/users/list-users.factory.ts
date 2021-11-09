@@ -7,5 +7,5 @@ import { DbListBase } from '@/services/usecases/base'
 export const listUsersFactory = (): Controller => {
   const listRepository = new BaseRepository(UserEntity)
   const usecase = new DbListBase({ listRepository })
-  return new ListBaseController(usecase)
+  return new ListBaseController({ usecase })
 }

@@ -7,5 +7,5 @@ import { DbCreateBase } from '@/services/usecases/base'
 export const createUserFactory = (): Controller => {
   const createRepository = new BaseRepository(UserEntity)
   const usecase = new DbCreateBase({ createRepository })
-  return new CreateBaseController(usecase)
+  return new CreateBaseController({ usecase })
 }

@@ -7,5 +7,5 @@ import { DbSoftDeleteBase } from '@/services/usecases/base'
 export const deleteUserFactory = (): Controller => {
   const deleteRepository = new BaseRepository(UserEntity)
   const usecase = new DbSoftDeleteBase({ deleteRepository })
-  return new DeleteBaseController(usecase)
+  return new DeleteBaseController({ usecase })
 }

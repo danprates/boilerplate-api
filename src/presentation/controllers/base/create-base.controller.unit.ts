@@ -16,7 +16,7 @@ const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { body: { name: 'any_name' } }
   const usecase: Create = { create: jest.fn().mockResolvedValue(Result.ok(baseModel)) }
-  const sut = new CreateBaseController(usecase)
+  const sut = new CreateBaseController({ usecase })
 
   return {
     sut,
