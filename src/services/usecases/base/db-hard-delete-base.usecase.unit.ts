@@ -11,7 +11,7 @@ const makeSut = (): SutTypes => {
   const hardDeleteRepository: HardDeleteRepository = {
     hardDelete: jest.fn().mockResolvedValue(true)
   }
-  const sut = new DbHardDeleteBase(hardDeleteRepository)
+  const sut = new DbHardDeleteBase({ deleteRepository: hardDeleteRepository })
 
   return {
     sut,

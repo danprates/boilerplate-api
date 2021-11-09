@@ -5,7 +5,7 @@ import { Controller } from '@/presentation/protocols'
 import { DbFindBase } from '@/services/usecases/base'
 
 export const findUsersFactory = (): Controller => {
-  const repository = new BaseRepository(UserEntity)
-  const usecase = new DbFindBase(repository)
+  const findRepository = new BaseRepository(UserEntity)
+  const usecase = new DbFindBase({ findRepository })
   return new FindBaseController(usecase)
 }

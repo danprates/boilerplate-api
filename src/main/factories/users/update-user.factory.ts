@@ -5,7 +5,7 @@ import { Controller } from '@/presentation/protocols'
 import { DbUpdateBase } from '@/services/usecases/base'
 
 export const updateUserFactory = (): Controller => {
-  const repository = new BaseRepository(UserEntity)
-  const usecase = new DbUpdateBase(repository)
+  const updateRepository = new BaseRepository(UserEntity)
+  const usecase = new DbUpdateBase({ updateRepository })
   return new UpdateBaseController(usecase)
 }

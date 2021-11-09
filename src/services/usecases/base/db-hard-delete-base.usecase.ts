@@ -2,11 +2,15 @@ import { Result } from '@/domain/models'
 import { Delete } from '@/domain/usecases'
 import { HardDeleteRepository } from '../../protocols'
 
+type Props = {
+  deleteRepository: HardDeleteRepository
+}
+
 export class DbHardDeleteBase implements Delete {
-  constructor (private readonly deleteRepository: HardDeleteRepository) {}
+  constructor (private readonly props: Props) {}
 
   async delete (id: string): Promise<Result<boolean>> {
-    const deleted = await this.deleteRepository.hardDelete(id)
+    const deleted = await this.props.deleteRepository.hardDelete(id)
 
     if (!deleted) {
       return Result.fail('Not found')

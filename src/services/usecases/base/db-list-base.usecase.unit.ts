@@ -20,7 +20,7 @@ const makeSut = (): SutTypes => {
     ...paginationOptions
   }
   const listRepository: ListRepository = { list: jest.fn().mockResolvedValue(baseModel) }
-  const sut = new DbListBase(listRepository)
+  const sut = new DbListBase({ listRepository })
 
   return {
     sut,

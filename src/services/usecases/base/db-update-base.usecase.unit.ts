@@ -11,7 +11,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const updateRepository: UpdateRepository = { update: jest.fn().mockResolvedValue(true) }
-  const sut = new DbUpdateBase(updateRepository)
+  const sut = new DbUpdateBase({ updateRepository })
 
   return {
     sut,

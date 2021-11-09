@@ -5,7 +5,7 @@ import { Controller } from '@/presentation/protocols'
 import { DbListBase } from '@/services/usecases/base'
 
 export const listUsersFactory = (): Controller => {
-  const repository = new BaseRepository(UserEntity)
-  const usecase = new DbListBase(repository)
+  const listRepository = new BaseRepository(UserEntity)
+  const usecase = new DbListBase({ listRepository })
   return new ListBaseController(usecase)
 }
