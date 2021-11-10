@@ -2,7 +2,7 @@ import { BaseModelFixture, Result } from '@/domain/models'
 import { BaseModel } from '@/domain/models/base.model'
 import { Find } from '@/domain/usecases'
 import { FindBaseController } from '@/presentation/controllers/base'
-import { badRequest, notFound, ok } from '@/presentation/helpers'
+import { badRequest, notFound, ok, serverError } from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -54,5 +54,16 @@ describe('FindBase Controller', () => {
     const { sut, baseModel, httpRequest } = makeSut()
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(ok(baseModel))
+  })
+
+  it('Should return status code 500 if any dependency throws', async () => {
+    const { sut, validation, usecase, httpRequest } = makeSut()
+    const error = new Error('any_error')
+
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
+    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
+
+    jest.spyOn(usecase, 'find').mockRejectedValueOnce(error)
+    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
   })
 })

@@ -1,5 +1,5 @@
 import { Create } from '@/domain/usecases'
-import { badRequest, created } from '@/presentation/helpers'
+import { badRequest, created, serverError } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -16,15 +16,19 @@ export class CreateBaseController implements Controller {
   constructor (private readonly props: Props) {}
 
   async handler (request: HttpRequest): Promise<HttpResponse> {
-    const requestValidated = this.props.validation.validate(request)
+    try {
+      const requestValidated = this.props.validation.validate(request)
 
-    if (requestValidated.isFailure && requestValidated.error) {
-      return badRequest(requestValidated.error)
+      if (requestValidated.isFailure && requestValidated.error) {
+        return badRequest(requestValidated.error)
+      }
+      const { body } = requestValidated.getValue()
+
+      const result = await this.props.usecase.create(body)
+
+      return created(result.getValue())
+    } catch (error) {
+      return serverError(error)
     }
-    const { body } = requestValidated.getValue()
-
-    const result = await this.props.usecase.create(body)
-
-    return created(result.getValue())
   }
 }

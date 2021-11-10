@@ -1,7 +1,7 @@
 import { Result } from '@/domain/models'
 import { Delete } from '@/domain/usecases'
 import { DeleteBaseController } from '@/presentation/controllers/base'
-import { badRequest, noContent, notFound } from '@/presentation/helpers'
+import { badRequest, noContent, notFound, serverError } from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -50,5 +50,16 @@ describe('DeleteBase Controller', () => {
     const { sut, httpRequest } = makeSut()
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(noContent())
+  })
+
+  it('Should return status code 500 if any dependency throws', async () => {
+    const { sut, validation, usecase, httpRequest } = makeSut()
+    const error = new Error('any_error')
+
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
+    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
+
+    jest.spyOn(usecase, 'delete').mockRejectedValueOnce(error)
+    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
   })
 })

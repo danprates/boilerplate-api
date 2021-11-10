@@ -1,5 +1,5 @@
 import { Find } from '@/domain/usecases'
-import { badRequest, notFound, ok } from '@/presentation/helpers'
+import { badRequest, notFound, ok, serverError } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -16,20 +16,24 @@ export class FindBaseController implements Controller {
   constructor (private readonly props: Props) {}
 
   async handler (request: HttpRequest): Promise<HttpResponse> {
-    const validationResult = this.props.validation.validate(request)
+    try {
+      const validationResult = this.props.validation.validate(request)
 
-    if (validationResult.isFailure && validationResult.error) {
-      return badRequest(validationResult.error)
+      if (validationResult.isFailure && validationResult.error) {
+        return badRequest(validationResult.error)
+      }
+
+      const { params } = validationResult.getValue()
+
+      const result = await this.props.usecase.find(params.id)
+
+      if (result.isFailure) {
+        return notFound()
+      }
+
+      return ok(result.getValue())
+    } catch (error) {
+      return serverError(error)
     }
-
-    const { params } = validationResult.getValue()
-
-    const result = await this.props.usecase.find(params.id)
-
-    if (result.isFailure) {
-      return notFound()
-    }
-
-    return ok(result.getValue())
   }
 }

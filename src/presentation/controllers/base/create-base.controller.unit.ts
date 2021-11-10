@@ -2,7 +2,7 @@ import { BaseModelFixture, Result } from '@/domain/models'
 import { BaseModel } from '@/domain/models/base.model'
 import { Create } from '@/domain/usecases'
 import { CreateBaseController } from '@/presentation/controllers/base'
-import { badRequest, created } from '@/presentation/helpers'
+import { badRequest, created, serverError } from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -53,5 +53,16 @@ describe('CreateBase Controller', () => {
     const { sut, baseModel, httpRequest } = makeSut()
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(created(baseModel))
+  })
+
+  it('Should return status code 500 if any dependency throws', async () => {
+    const { sut, validation, usecase, httpRequest } = makeSut()
+    const error = new Error('any_error')
+
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
+    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
+
+    jest.spyOn(usecase, 'create').mockRejectedValueOnce(error)
+    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
   })
 })
