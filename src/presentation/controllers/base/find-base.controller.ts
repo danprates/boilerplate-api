@@ -1,20 +1,30 @@
 import { Find } from '@/domain/usecases'
-import { notFound, ok } from '@/presentation/helpers'
+import { badRequest, notFound, ok } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
+  Validation
 } from '@/presentation/protocols'
 
 type Props = {
   usecase: Find
+  validation: Validation
 }
 
 export class FindBaseController implements Controller {
   constructor (private readonly props: Props) {}
 
   async handler (request: HttpRequest): Promise<HttpResponse> {
-    const result = await this.props.usecase.find(request.params.id)
+    const validationResult = this.props.validation.validate(request)
+
+    if (validationResult.isFailure && validationResult.error) {
+      return badRequest(validationResult.error)
+    }
+
+    const { params } = validationResult.getValue()
+
+    const result = await this.props.usecase.find(params.id)
 
     if (result.isFailure) {
       return notFound()

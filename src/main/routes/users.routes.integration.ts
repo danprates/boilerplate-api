@@ -9,6 +9,7 @@ import { API_VERSION } from '../config/env.config'
 
 describe('/users routes', () => {
   let userRepository: Repository<UserEntity>
+  const wrongId = '962c798d-876d-4c99-a9cd-899253d8cd0d'
 
   beforeAll(async () => {
     userRepository = await TypeormHelper.getRepository(UserEntity)
@@ -71,7 +72,7 @@ describe('/users routes', () => {
 
     it('Should return not found when user does not exist', async () => {
       const { statusCode, body } = await request(app)
-        .get(`/api/${API_VERSION}/users/wrong_id`)
+        .get(`/api/${API_VERSION}/users/${wrongId}`)
 
       expect({ statusCode, body }).toEqual(notFound())
     })
@@ -116,7 +117,7 @@ describe('/users routes', () => {
 
     it('Should return not found when user does not exist', async () => {
       const { statusCode, body } = await request(app)
-        .get(`/api/${API_VERSION}/users/wrong_id`)
+        .get(`/api/${API_VERSION}/users/${wrongId}`)
 
       expect({ statusCode, body }).toEqual(notFound())
     })
