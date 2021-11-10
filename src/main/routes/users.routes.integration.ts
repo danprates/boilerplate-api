@@ -94,7 +94,7 @@ describe('/users routes', () => {
 
     it('Should return not found when user does not exist', async () => {
       const { statusCode, body } = await request(app)
-        .put(`/api/${API_VERSION}/users/wrong_id`)
+        .put(`/api/${API_VERSION}/users/${wrongId}`)
         .send({ name: 'new_name' })
 
       expect({ statusCode, body }).toEqual(notFound())
