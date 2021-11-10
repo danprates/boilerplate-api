@@ -44,15 +44,16 @@ describe('/users routes', () => {
 
   describe('POST /users', () => {
     it('Should return a created user', async () => {
-      const userData = UserModelFixture()
+      const { name, email, password } = UserModelFixture()
 
       const { statusCode, body } = await request(app)
         .post(`/api/${API_VERSION}/users`)
-        .send(userData)
+        .send({ name, email, password })
 
       const user = await userRepository.findOne({ id: body.id })
 
       expect(statusCode).toEqual(201)
+
       expect(body.id).toEqual(user?.id)
     })
   })
