@@ -42,9 +42,8 @@ describe('HTTPHelper', () => {
   })
 
   it('should return correct values when serverError is called', () => {
-    const error = new Error('any_error')
-    expect(serverError(error)).toEqual({
-      body: { message: 'Server error', stack: error.stack, type: 'SERVER_ERROR' },
+    expect(serverError()).toEqual({
+      body: { message: 'Server error', type: 'SERVER_ERROR' },
       statusCode: 500
     })
   })

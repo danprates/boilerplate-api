@@ -28,7 +28,7 @@ export class CreateBaseController implements Controller {
 
       return created(result.getValue())
     } catch (error) {
-      return serverError(error)
+      return serverError()
     }
   }
 }

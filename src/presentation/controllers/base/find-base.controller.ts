@@ -33,7 +33,7 @@ export class FindBaseController implements Controller {
 
       return ok(result.getValue())
     } catch (error) {
-      return serverError(error)
+      return serverError()
     }
   }
 }

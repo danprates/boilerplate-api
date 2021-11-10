@@ -30,7 +30,7 @@ export const notFound = (): HttpResponse => ({
   body: { message: 'Not found', type: 'NOT_FOUND' }
 })
 
-export const serverError = (error: Error): HttpResponse => ({
+export const serverError = (): HttpResponse => ({
   statusCode: 500,
-  body: { message: 'Server error', stack: error.stack, type: 'SERVER_ERROR' }
+  body: { message: 'Server error', type: 'SERVER_ERROR' }
 })

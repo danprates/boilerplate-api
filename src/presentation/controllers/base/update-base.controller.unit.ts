@@ -61,9 +61,9 @@ describe('FindBase Controller', () => {
     const error = new Error('any_error')
 
     jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
-    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
+    expect(await sut.handler(httpRequest)).toEqual(serverError())
 
     jest.spyOn(usecase, 'update').mockRejectedValueOnce(error)
-    expect(await sut.handler(httpRequest)).toEqual(serverError(error))
+    expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })
