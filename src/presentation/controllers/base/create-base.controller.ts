@@ -19,7 +19,7 @@ export class CreateBaseController implements Controller {
     try {
       const requestValidated = this.props.validation.validate(request)
 
-      if (requestValidated.isFailure && requestValidated.error) {
+      if (requestValidated.isFailure) {
         return badRequest(requestValidated.error)
       }
       const { body } = requestValidated.getValue()

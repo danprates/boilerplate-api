@@ -19,7 +19,7 @@ export class ListBaseController implements Controller {
     try {
       const validationResult = this.props.validation.validate(request)
 
-      if (validationResult.isFailure && validationResult.error) {
+      if (validationResult.isFailure) {
         return badRequest(validationResult.error)
       }
 

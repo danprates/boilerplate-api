@@ -16,6 +16,13 @@ describe('HTTPHelper', () => {
     })
   })
 
+  it('should return correct values when badRequest is called without a message', () => {
+    expect(badRequest()).toEqual({
+      body: { message: 'Bad Request', type: 'BAD_REQUEST' },
+      statusCode: 400
+    })
+  })
+
   it('should return correct values when noContent is called', () => {
     expect(noContent()).toEqual({ body: null, statusCode: 204 })
   })

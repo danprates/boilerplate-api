@@ -19,7 +19,7 @@ export class DeleteBaseController implements Controller {
     try {
       const validateResult = this.props.validation.validate(request)
 
-      if (validateResult.isFailure && validateResult.error) {
+      if (validateResult.isFailure) {
         return badRequest(validateResult.error)
       }
 
