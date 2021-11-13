@@ -62,15 +62,3 @@ $ npm run lint
 1. Faça o push da sua branch para o repositório online: `git push origin {NOME_BRANCH}`
 1. Vá até o repositório online e crie uma PR para a develop
 1. Atualize suas tasks e notifique o time sobre a PR
-
-## Todos
-
-- [x] Configurar o docker-compose
-  - [x] configurar o lauch do vscode para debug
-  - [x] colocar o postgres
-  - [x] colocar o mongo
-- [] configurar um logger
-  - [] ver se é possivel modificar o comportamento padrão do `console.log`
-- [] criar o crud basico de usuarios
-  - [] colocar testes de integração
-- [] colocar o fastify
