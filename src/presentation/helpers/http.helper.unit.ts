@@ -1,4 +1,5 @@
-import { badRequest, created, noContent, notFound, ok, serverError, unauthorized } from '.'
+import { ErrorModel } from '@/domain/models/error.model'
+import { badRequest, created, noContent, notFound, ok, resultErrorHandler, serverError, unauthorized } from '.'
 
 describe('HTTPHelper', () => {
   it('should return correct values when ok is called', () => {
@@ -44,6 +45,21 @@ describe('HTTPHelper', () => {
   it('should return correct values when serverError is called', () => {
     expect(serverError()).toEqual({
       body: { message: 'Server error', type: 'SERVER_ERROR' },
+      statusCode: 500
+    })
+  })
+
+  it('should return correct values when resultErrorHandler is called', () => {
+    const err = ErrorModel.notFound()
+    expect(resultErrorHandler(err)).toEqual({
+      body: { message: err.message },
+      statusCode: err.code
+    })
+  })
+
+  it('should return default values when resultErrorHandler is called without any error', () => {
+    expect(resultErrorHandler()).toEqual({
+      body: { message: 'Unexpected error' },
       statusCode: 500
     })
   })

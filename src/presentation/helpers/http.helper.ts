@@ -1,3 +1,4 @@
+import { ErrorModel } from '@/domain/models/error.model'
 import { HttpResponse } from '../protocols'
 
 export const ok = (data: any): HttpResponse => ({
@@ -33,4 +34,9 @@ export const notFound = (): HttpResponse => ({
 export const serverError = (): HttpResponse => ({
   statusCode: 500,
   body: { message: 'Server error', type: 'SERVER_ERROR' }
+})
+
+export const resultErrorHandler = (err?: ErrorModel): HttpResponse => ({
+  body: { message: err?.message ?? 'Unexpected error' },
+  statusCode: err?.code ?? 500
 })
