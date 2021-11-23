@@ -1,4 +1,4 @@
-import { ErrorModel } from '@/domain/models/error.model'
+import { ErrorModel } from '@/domain/models'
 import { UserModelFixture } from '@/domain/models/user.model.fixture'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'

@@ -1,5 +1,4 @@
-import { Result } from '@/domain/models'
-import { ErrorModel } from '@/domain/models/error.model'
+import { ErrorModel, Result } from '@/domain/models'
 import { Validation } from '@/presentation/protocols'
 import Joi from 'joi'
 

@@ -1,4 +1,4 @@
-import { ErrorModel } from '@/domain/models/error.model'
+import { ErrorModel } from '@/domain/models'
 import Joi from 'joi'
 import { JoiAdapter } from './joi.adapter'
 

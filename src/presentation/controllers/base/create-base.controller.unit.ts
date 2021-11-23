@@ -1,6 +1,4 @@
-import { BaseModelFixture, Result } from '@/domain/models'
-import { BaseModel } from '@/domain/models/base.model'
-import { ErrorModel } from '@/domain/models/error.model'
+import { BaseModel, BaseModelFixture, ErrorModel, Result } from '@/domain/models'
 import { Create } from '@/domain/usecases'
 import { CreateBaseController } from '@/presentation/controllers/base'
 import { created, resultErrorHandler, serverError } from '@/presentation/helpers'

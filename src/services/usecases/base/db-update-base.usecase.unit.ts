@@ -1,5 +1,4 @@
-import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
-import { ErrorModel } from '@/domain/models/error.model'
+import { BaseModel, BaseModelFixture, ErrorModel, Result } from '@/domain/models'
 import { UpdateRepository } from '../../protocols'
 import { DbUpdateBase } from './db-update-base.usecase'
 

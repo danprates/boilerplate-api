@@ -1,5 +1,4 @@
-import { BaseModel, Result } from '@/domain/models'
-import { ErrorModel } from '@/domain/models/error.model'
+import { BaseModel, ErrorModel, Result } from '@/domain/models'
 import { Update } from '@/domain/usecases'
 import { UpdateRepository } from '../../protocols'
 

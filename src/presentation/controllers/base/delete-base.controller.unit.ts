@@ -1,5 +1,4 @@
-import { Result } from '@/domain/models'
-import { ErrorModel } from '@/domain/models/error.model'
+import { ErrorModel, Result } from '@/domain/models'
 import { Delete } from '@/domain/usecases'
 import { DeleteBaseController } from '@/presentation/controllers/base'
 import { noContent, resultErrorHandler, serverError } from '@/presentation/helpers'
