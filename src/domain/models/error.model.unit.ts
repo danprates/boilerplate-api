@@ -12,4 +12,16 @@ describe('Error model', () => {
       messages: 'any_message'
     })
   })
+
+  it('should return invalidParams error', () => {
+    expect(ErrorModel.invalidParams()).toEqual({
+      code: ErrorCode.BAD_REQUEST,
+      messages: ErrorMessages.INVALID_PARAMS
+    })
+
+    expect(ErrorModel.invalidParams('any_message')).toEqual({
+      code: ErrorCode.BAD_REQUEST,
+      messages: 'any_message'
+    })
+  })
 })
