@@ -1,5 +1,5 @@
 import { Update } from '@/domain/usecases'
-import { badRequest, noContent, notFound, serverError } from '@/presentation/helpers'
+import { noContent, resultErrorHandler, serverError } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -20,7 +20,7 @@ export class UpdateBaseController implements Controller {
       const validationResult = this.props.validation.validate(request)
 
       if (validationResult.isFailure) {
-        return badRequest(validationResult.error?.message)
+        return resultErrorHandler(validationResult.error)
       }
 
       const { params, body } = validationResult.getValue()
@@ -28,7 +28,7 @@ export class UpdateBaseController implements Controller {
       const wasUpdated = await this.props.usecase.update(params.id, body)
 
       if (wasUpdated.isFailure) {
-        return notFound()
+        return resultErrorHandler(wasUpdated.error)
       }
 
       return noContent()

@@ -1,5 +1,5 @@
 import { Find } from '@/domain/usecases'
-import { badRequest, notFound, ok, serverError } from '@/presentation/helpers'
+import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -20,7 +20,7 @@ export class FindBaseController implements Controller {
       const validationResult = this.props.validation.validate(request)
 
       if (validationResult.isFailure) {
-        return badRequest(validationResult.error?.message)
+        return resultErrorHandler(validationResult.error)
       }
 
       const { params } = validationResult.getValue()
@@ -28,7 +28,7 @@ export class FindBaseController implements Controller {
       const result = await this.props.usecase.find(params.id)
 
       if (result.isFailure) {
-        return notFound()
+        return resultErrorHandler(result.error)
       }
 
       return ok(result.getValue())

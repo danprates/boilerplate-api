@@ -1,5 +1,5 @@
 import { Delete } from '@/domain/usecases'
-import { badRequest, noContent, notFound, serverError } from '@/presentation/helpers'
+import { noContent, resultErrorHandler, serverError } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -20,7 +20,7 @@ export class DeleteBaseController implements Controller {
       const validateResult = this.props.validation.validate(request)
 
       if (validateResult.isFailure) {
-        return badRequest(validateResult.error?.message)
+        return resultErrorHandler(validateResult.error)
       }
 
       const { params } = validateResult.getValue()
@@ -28,7 +28,7 @@ export class DeleteBaseController implements Controller {
       const wasDeleted = await this.props.usecase.delete(params.id)
 
       if (wasDeleted.isFailure) {
-        return notFound()
+        return resultErrorHandler(wasDeleted.error)
       }
 
       return noContent()

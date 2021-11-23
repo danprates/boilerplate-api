@@ -1,5 +1,5 @@
 import { Create } from '@/domain/usecases'
-import { badRequest, created, serverError } from '@/presentation/helpers'
+import { created, resultErrorHandler, serverError } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -20,7 +20,7 @@ export class CreateBaseController implements Controller {
       const requestValidated = this.props.validation.validate(request)
 
       if (requestValidated.isFailure) {
-        return badRequest(requestValidated.error?.message)
+        return resultErrorHandler(requestValidated.error)
       }
       const { body } = requestValidated.getValue()
 

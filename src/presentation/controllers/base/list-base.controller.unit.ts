@@ -3,7 +3,7 @@ import { BaseModel } from '@/domain/models/base.model'
 import { ErrorModel } from '@/domain/models/error.model'
 import { List } from '@/domain/usecases'
 import { ListBaseController } from '@/presentation/controllers/base'
-import { badRequest, ok, serverError } from '@/presentation/helpers'
+import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -39,9 +39,10 @@ describe('FindBase Controller', () => {
 
   it('Should return status code 400 if request is invalid', async () => {
     const { sut, httpRequest, validation } = makeSut()
-    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(ErrorModel.notFound('any_error')))
+    const err = ErrorModel.invalidParams('any_error')
+    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
-    expect(result).toEqual(badRequest('any_error'))
+    expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 200 when correct params are provided', async () => {

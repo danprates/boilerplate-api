@@ -1,5 +1,5 @@
 import { List } from '@/domain/usecases'
-import { badRequest, ok, serverError } from '@/presentation/helpers'
+import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -20,7 +20,7 @@ export class ListBaseController implements Controller {
       const validationResult = this.props.validation.validate(request)
 
       if (validationResult.isFailure) {
-        return badRequest(validationResult.error?.message)
+        return resultErrorHandler(validationResult.error)
       }
 
       const { query } = validationResult.getValue()

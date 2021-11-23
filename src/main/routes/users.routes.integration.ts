@@ -1,7 +1,8 @@
+import { ErrorModel } from '@/domain/models/error.model'
 import { UserModelFixture } from '@/domain/models/user.model.fixture'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'
-import { notFound } from '@/presentation/helpers'
+import { resultErrorHandler } from '@/presentation/helpers'
 import request from 'supertest'
 import { Repository } from 'typeorm'
 import app from '../config/app'
@@ -74,7 +75,7 @@ describe('/users routes', () => {
       const { statusCode, body } = await request(app)
         .get(`/api/${API_VERSION}/users/${wrongId}`)
 
-      expect({ statusCode, body }).toEqual(notFound())
+      expect({ statusCode, body }).toEqual(resultErrorHandler(ErrorModel.notFound()))
     })
   })
 
@@ -97,7 +98,7 @@ describe('/users routes', () => {
         .put(`/api/${API_VERSION}/users/${wrongId}`)
         .send({ name: 'new_name' })
 
-      expect({ statusCode, body }).toEqual(notFound())
+      expect({ statusCode, body }).toEqual(resultErrorHandler(ErrorModel.notFound()))
     })
   })
 
@@ -119,7 +120,7 @@ describe('/users routes', () => {
       const { statusCode, body } = await request(app)
         .get(`/api/${API_VERSION}/users/${wrongId}`)
 
-      expect({ statusCode, body }).toEqual(notFound())
+      expect({ statusCode, body }).toEqual(resultErrorHandler(ErrorModel.notFound()))
     })
   })
 })

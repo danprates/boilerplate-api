@@ -3,7 +3,7 @@ import { BaseModel } from '@/domain/models/base.model'
 import { ErrorModel } from '@/domain/models/error.model'
 import { Update } from '@/domain/usecases'
 import { UpdateBaseController } from '@/presentation/controllers/base'
-import { badRequest, noContent, notFound, serverError } from '@/presentation/helpers'
+import { noContent, resultErrorHandler, serverError } from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -39,16 +39,18 @@ describe('FindBase Controller', () => {
 
   it('Should return status code 400 if request is invalid', async () => {
     const { sut, validation, httpRequest } = makeSut()
-    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(ErrorModel.notFound('any_error')))
+    const err = ErrorModel.invalidParams('any_error')
+    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
-    expect(result).toEqual(badRequest('any_error'))
+    expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 404 if data was not found', async () => {
     const { sut, usecase, httpRequest } = makeSut()
-    jest.spyOn(usecase, 'update').mockResolvedValueOnce(Result.fail(ErrorModel.notFound()))
+    const err = ErrorModel.notFound()
+    jest.spyOn(usecase, 'update').mockResolvedValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
-    expect(result).toEqual(notFound())
+    expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 204 when correct params are provided', async () => {
