@@ -1,4 +1,5 @@
 import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { FindRepository } from '../../protocols'
 import { DbFindBase } from './db-find-base.usecase'
 
@@ -38,7 +39,7 @@ describe('DbFindBase Usecase', () => {
     const { sut, findRepository } = makeSut()
     jest.spyOn(findRepository, 'find').mockResolvedValueOnce(undefined)
     const result = await sut.find(null as any)
-    expect(result).toEqual(Result.fail('Not found'))
+    expect(result).toEqual(Result.fail(ErrorModel.notFound()))
   })
 
   it('Should return correct data when everything is ok', async () => {

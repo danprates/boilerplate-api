@@ -1,5 +1,6 @@
 import { BaseModelFixture, Result } from '@/domain/models'
 import { BaseModel } from '@/domain/models/base.model'
+import { ErrorModel } from '@/domain/models/error.model'
 import { Find } from '@/domain/usecases'
 import { FindBaseController } from '@/presentation/controllers/base'
 import { badRequest, notFound, ok, serverError } from '@/presentation/helpers'
@@ -38,14 +39,14 @@ describe('FindBase Controller', () => {
 
   it('Should return status code 400 if request is invalid', async () => {
     const { sut, validation, httpRequest } = makeSut()
-    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail('any_error'))
+    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(ErrorModel.notFound('any_error')))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(badRequest('any_error'))
   })
 
   it('Should return status code 404 if data was not found', async () => {
     const { sut, usecase, httpRequest } = makeSut()
-    jest.spyOn(usecase, 'find').mockResolvedValueOnce(Result.fail('Not found'))
+    jest.spyOn(usecase, 'find').mockResolvedValueOnce(Result.fail(ErrorModel.notFound()))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(notFound())
   })

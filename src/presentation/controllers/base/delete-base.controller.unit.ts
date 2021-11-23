@@ -1,4 +1,5 @@
 import { Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { Delete } from '@/domain/usecases'
 import { DeleteBaseController } from '@/presentation/controllers/base'
 import { badRequest, noContent, notFound, serverError } from '@/presentation/helpers'
@@ -34,14 +35,14 @@ describe('DeleteBase Controller', () => {
 
   it('Should return status code 400 if request is invalid', async () => {
     const { sut, validation, httpRequest } = makeSut()
-    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail('any_error'))
+    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(ErrorModel.notFound('any_error')))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(badRequest('any_error'))
   })
 
   it('Should return status code 404 if data was not found', async () => {
     const { sut, usecase, httpRequest } = makeSut()
-    jest.spyOn(usecase, 'delete').mockResolvedValueOnce(Result.fail('Not found'))
+    jest.spyOn(usecase, 'delete').mockResolvedValueOnce(Result.fail(ErrorModel.notFound()))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(notFound())
   })

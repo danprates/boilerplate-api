@@ -1,4 +1,5 @@
 import { Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { SoftDeleteRepository } from '../../protocols'
 import { DbSoftDeleteBase } from './db-soft-delete-base.usecase'
 
@@ -41,7 +42,7 @@ describe('DbSoftDeleteBase Usecase', () => {
       .spyOn(softDeleteRepository, 'softDelete')
       .mockResolvedValueOnce(false)
     const result = await sut.delete(null as any)
-    expect(result).toEqual(Result.fail('Not found'))
+    expect(result).toEqual(Result.fail(ErrorModel.notFound()))
   })
 
   it('Should return true when everything is ok', async () => {

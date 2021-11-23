@@ -1,4 +1,5 @@
 import { Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { Delete } from '@/domain/usecases'
 import { HardDeleteRepository } from '../../protocols'
 
@@ -13,7 +14,7 @@ export class DbHardDeleteBase implements Delete {
     const deleted = await this.props.deleteRepository.hardDelete(id)
 
     if (!deleted) {
-      return Result.fail('Not found')
+      return Result.fail(ErrorModel.notFound())
     }
 
     return Result.ok(deleted)

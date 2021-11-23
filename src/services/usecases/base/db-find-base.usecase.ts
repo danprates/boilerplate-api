@@ -1,4 +1,5 @@
 import { BaseModel, Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { Find } from '@/domain/usecases'
 import { FindRepository } from '../../protocols'
 
@@ -13,7 +14,7 @@ export class DbFindBase implements Find {
     const result = await this.props.findRepository.find(id)
 
     if (!result) {
-      return Result.fail('Not found')
+      return Result.fail(ErrorModel.notFound())
     }
 
     return Result.ok(result)

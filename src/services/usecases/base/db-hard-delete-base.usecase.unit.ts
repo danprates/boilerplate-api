@@ -1,4 +1,5 @@
 import { Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { HardDeleteRepository } from '../../protocols'
 import { DbHardDeleteBase } from './db-hard-delete-base.usecase'
 
@@ -39,7 +40,7 @@ describe('DbHardDeleteBase Usecase', () => {
       .spyOn(hardDeleteRepository, 'hardDelete')
       .mockResolvedValueOnce(false)
     const result = await sut.delete(null as any)
-    expect(result).toEqual(Result.fail('Not found'))
+    expect(result).toEqual(Result.fail(ErrorModel.notFound()))
   })
 
   it('Should return true when everything is ok', async () => {

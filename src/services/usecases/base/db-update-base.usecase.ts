@@ -1,4 +1,5 @@
 import { BaseModel, Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { Update } from '@/domain/usecases'
 import { UpdateRepository } from '../../protocols'
 
@@ -13,7 +14,7 @@ export class DbUpdateBase implements Update {
     const updated = await this.props.updateRepository.update(id, data)
 
     if (!updated) {
-      return Result.fail('Not found')
+      return Result.fail(ErrorModel.notFound())
     }
 
     return Result.ok(updated)

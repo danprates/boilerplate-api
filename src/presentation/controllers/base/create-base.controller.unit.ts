@@ -1,5 +1,6 @@
 import { BaseModelFixture, Result } from '@/domain/models'
 import { BaseModel } from '@/domain/models/base.model'
+import { ErrorModel } from '@/domain/models/error.model'
 import { Create } from '@/domain/usecases'
 import { CreateBaseController } from '@/presentation/controllers/base'
 import { badRequest, created, serverError } from '@/presentation/helpers'
@@ -44,7 +45,7 @@ describe('CreateBase Controller', () => {
 
   it('Should return 400 if validation returns fail result', async () => {
     const { sut, validation, httpRequest } = makeSut()
-    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail('any_error'))
+    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(ErrorModel.notFound('any_error')))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(badRequest('any_error'))
   })

@@ -1,10 +1,12 @@
+import { ErrorModel } from './error.model'
+
 export class Result<T = any> {
   public isSuccess: boolean
   public isFailure: boolean
-  public error?: string
+  public error?: ErrorModel
   private readonly _value?: T
 
-  private constructor (isSuccess: boolean, error?: string, value?: T) {
+  private constructor (isSuccess: boolean, error?: ErrorModel, value?: T) {
     if (isSuccess && error) {
       throw new Error('InvalidOperation: A result cannot be successful and contain an error')
     }
@@ -24,7 +26,7 @@ export class Result<T = any> {
     return new Result<U>(true, undefined, value)
   }
 
-  public static fail<U> (error: string): Result<U> {
+  public static fail<U> (error: ErrorModel): Result<U> {
     return new Result<U>(false, error)
   }
 

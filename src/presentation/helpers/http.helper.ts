@@ -10,7 +10,7 @@ export const created = (data: any): HttpResponse => ({
   body: data
 })
 
-export const badRequest = (message: string = 'Bad Request'): HttpResponse => ({
+export const badRequest = (message = 'Bad Request'): HttpResponse => ({
   statusCode: 400,
   body: { message, type: 'BAD_REQUEST' }
 })

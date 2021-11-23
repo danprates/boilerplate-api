@@ -1,3 +1,4 @@
+import { ErrorModel } from './error.model'
 import { Result } from './result.model'
 
 describe('Result model', () => {
@@ -9,14 +10,14 @@ describe('Result model', () => {
   })
 
   it('should return a failed return when fail is called', () => {
-    const result = Result.fail('failed')
+    const result = Result.fail(ErrorModel.invalidParams('failed'))
     expect(result.isFailure).toBeTruthy()
     expect(result.isSuccess).toBeFalsy()
-    expect(result.error).toEqual('failed')
+    expect(result.error).toEqual(ErrorModel.invalidParams('failed'))
   })
 
   it('should throw a error when call getValue from a failed result', () => {
-    const result = Result.fail('failed')
+    const result = Result.fail(ErrorModel.invalidParams('failed'))
     expect(result.isFailure).toBeTruthy()
     expect(() => result.getValue()).toThrow('Cant retrieve the value from a failed result.')
   })
@@ -26,7 +27,7 @@ describe('Result model', () => {
       // @ts-expect-error
       return new Result(true, error)
     })
-    expect(() => Result.fail('some error')).toThrow('InvalidOperation: A result cannot be successful and contain an error')
+    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow('InvalidOperation: A result cannot be successful and contain an error')
   })
 
   it('should throw error when result failed dont have a message', () => {
@@ -34,6 +35,6 @@ describe('Result model', () => {
       // @ts-expect-error
       return new Result(undefined, undefined)
     })
-    expect(() => Result.fail('some error')).toThrow('InvalidOperation: A failing result needs to contain an error message')
+    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow('InvalidOperation: A failing result needs to contain an error message')
   })
 })

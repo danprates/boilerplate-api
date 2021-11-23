@@ -1,4 +1,5 @@
 import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
+import { ErrorModel } from '@/domain/models/error.model'
 import { UpdateRepository } from '../../protocols'
 import { DbUpdateBase } from './db-update-base.usecase'
 
@@ -40,7 +41,7 @@ describe('DbUpdateBase Usecase', () => {
       .spyOn(updateRepository, 'update')
       .mockResolvedValueOnce(false)
     const result = await sut.update(null as any, null as any)
-    expect(result).toEqual(Result.fail('Not found'))
+    expect(result).toEqual(Result.fail(ErrorModel.notFound()))
   })
 
   it('Should return true when everything is ok', async () => {

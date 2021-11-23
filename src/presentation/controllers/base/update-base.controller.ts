@@ -20,7 +20,7 @@ export class UpdateBaseController implements Controller {
       const validationResult = this.props.validation.validate(request)
 
       if (validationResult.isFailure) {
-        return badRequest(validationResult.error)
+        return badRequest(validationResult.error?.message)
       }
 
       const { params, body } = validationResult.getValue()
