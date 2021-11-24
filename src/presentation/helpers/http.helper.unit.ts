@@ -1,5 +1,5 @@
 import { ErrorModel } from '@/domain/models'
-import { badRequest, created, noContent, notFound, ok, resultErrorHandler, serverError, unauthorized } from '.'
+import { created, noContent, ok, resultErrorHandler, serverError } from '.'
 
 describe('HTTPHelper', () => {
   it('should return correct values when ok is called', () => {
@@ -10,16 +10,17 @@ describe('HTTPHelper', () => {
     expect(created('any_data')).toEqual({ body: 'any_data', statusCode: 201 })
   })
 
-  it('should return correct values when badRequest is called', () => {
-    expect(badRequest('any_error')).toEqual({
-      body: { message: 'any_error', type: 'BAD_REQUEST' },
+  it('should return bad request when ErrorModel.invalidParams is called', () => {
+    let err = ErrorModel.invalidParams('any_error')
+
+    expect(resultErrorHandler(err)).toEqual({
+      body: { message: err.message },
       statusCode: 400
     })
-  })
 
-  it('should return correct values when badRequest is called without a message', () => {
-    expect(badRequest()).toEqual({
-      body: { message: 'Bad Request', type: 'BAD_REQUEST' },
+    err = ErrorModel.invalidParams()
+    expect(resultErrorHandler(err)).toEqual({
+      body: { message: err.message },
       statusCode: 400
     })
   })
@@ -29,31 +30,38 @@ describe('HTTPHelper', () => {
   })
 
   it('should return correct values when unauthorized is called', () => {
-    expect(unauthorized()).toEqual({
-      body: { message: 'Unauthorized', type: 'UNAUTHORIZED' },
+    let err = ErrorModel.unauthorized('any_error')
+
+    expect(resultErrorHandler(err)).toEqual({
+      body: { message: err.message },
+      statusCode: 401
+    })
+
+    err = ErrorModel.unauthorized()
+    expect(resultErrorHandler(err)).toEqual({
+      body: { message: err.message },
       statusCode: 401
     })
   })
 
   it('should return correct values when notFound is called', () => {
-    expect(notFound()).toEqual({
-      body: { message: 'Not found', type: 'NOT_FOUND' },
+    let err = ErrorModel.notFound('any_error')
+    expect(resultErrorHandler(err)).toEqual({
+      body: { message: err.message },
+      statusCode: 404
+    })
+
+    err = ErrorModel.notFound()
+    expect(resultErrorHandler(err)).toEqual({
+      body: { message: err.message },
       statusCode: 404
     })
   })
 
   it('should return correct values when serverError is called', () => {
     expect(serverError()).toEqual({
-      body: { message: 'Server error', type: 'SERVER_ERROR' },
+      body: { message: 'Server error' },
       statusCode: 500
-    })
-  })
-
-  it('should return correct values when resultErrorHandler is called', () => {
-    const err = ErrorModel.notFound()
-    expect(resultErrorHandler(err)).toEqual({
-      body: { message: err.message },
-      statusCode: err.code
     })
   })
 
