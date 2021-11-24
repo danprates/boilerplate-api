@@ -1,5 +1,9 @@
 import { Update } from '@/domain/usecases'
-import { noContent, resultErrorHandler, serverError } from '@/presentation/helpers'
+import {
+  noContent,
+  resultErrorHandler,
+  serverError
+} from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -13,9 +17,9 @@ type Props = {
 }
 
 export class UpdateBaseController implements Controller {
-  constructor (private readonly props: Props) {}
+  constructor(private readonly props: Props) {}
 
-  async handler (request: HttpRequest): Promise<HttpResponse> {
+  async handler(request: HttpRequest): Promise<HttpResponse> {
     try {
       const validationResult = this.props.validation.validate(request)
 

@@ -6,7 +6,7 @@ const logger = new PinoLoggerAdapter('SERVER')
 
 enum ExitStatus {
   Failure = 1,
-  Success = 0,
+  Success = 0
 }
 
 const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT']
@@ -24,7 +24,11 @@ process.on('uncaughtException', (error) => {
 
 const main = async (): Promise<void> => {
   try {
-    const server = app.listen(PORT, () => logger.info(`Server running in ${NODE_ENV} mode at http://localhost:${PORT}`))
+    const server = app.listen(PORT, () =>
+      logger.info(
+        `Server running in ${NODE_ENV} mode at http://localhost:${PORT}`
+      )
+    )
 
     for (const exitSignal of exitSignals) {
       process.on(exitSignal, async () => {

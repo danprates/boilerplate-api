@@ -1,5 +1,11 @@
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
-import { Connection, createConnection, EntityTarget, getConnectionManager, Repository } from 'typeorm'
+import {
+  Connection,
+  createConnection,
+  EntityTarget,
+  getConnectionManager,
+  Repository
+} from 'typeorm'
 
 const logger = new PinoLoggerAdapter('DATABASE')
 
@@ -7,7 +13,7 @@ export const TypeormHelper = {
   connectionManager: getConnectionManager(),
   client: null as unknown as Connection,
 
-  async connect (): Promise<void> {
+  async connect(): Promise<void> {
     const CONNECTION_NAME = 'default'
 
     let connection: Connection
@@ -22,11 +28,13 @@ export const TypeormHelper = {
       connection = await createConnection()
     }
 
-    logger.info('Connection opened', { connections: this.connectionManager.connections.map(conn => conn.name) })
+    logger.info('Connection opened', {
+      connections: this.connectionManager.connections.map((conn) => conn.name)
+    })
     this.client = connection
   },
 
-  async disconnect (): Promise<void> {
+  async disconnect(): Promise<void> {
     if (this.client?.isConnected) {
       await this.client.close()
     }
@@ -34,7 +42,9 @@ export const TypeormHelper = {
     this.client = null
   },
 
-  async getRepository<Entity>(entity: EntityTarget<Entity>): Promise<Repository<Entity>> {
+  async getRepository<Entity>(
+    entity: EntityTarget<Entity>
+  ): Promise<Repository<Entity>> {
     if (!this.client || !this.client.isConnected) {
       await this.connect()
     }

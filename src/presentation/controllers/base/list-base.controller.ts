@@ -13,9 +13,9 @@ type Props = {
 }
 
 export class ListBaseController implements Controller {
-  constructor (private readonly props: Props) {}
+  constructor(private readonly props: Props) {}
 
-  async handler (request: HttpRequest): Promise<HttpResponse> {
+  async handler(request: HttpRequest): Promise<HttpResponse> {
     try {
       const validationResult = this.props.validation.validate(request)
 

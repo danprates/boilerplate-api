@@ -19,7 +19,9 @@ const makeSut = (): SutTypes => {
     total: 1,
     ...paginationOptions
   }
-  const listRepository: ListRepository = { list: jest.fn().mockResolvedValue(baseModel) }
+  const listRepository: ListRepository = {
+    list: jest.fn().mockResolvedValue(baseModel)
+  }
   const sut = new DbListBase({ listRepository })
 
   return {
@@ -40,7 +42,9 @@ describe('DbListBase Usecase', () => {
 
   it('Should throw error when ListRepository throws', async () => {
     const { sut, listRepository } = makeSut()
-    jest.spyOn(listRepository, 'list').mockRejectedValueOnce(new Error('any_error'))
+    jest
+      .spyOn(listRepository, 'list')
+      .mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.list(null as any)
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })

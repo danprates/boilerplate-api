@@ -28,16 +28,16 @@ describe('DbHardDeleteBase Usecase', () => {
 
   it('Should throw error when HardDeleteRepository throws', async () => {
     const { sut, hardDeleteRepository } = makeSut()
-    jest.spyOn(hardDeleteRepository, 'hardDelete').mockRejectedValueOnce(new Error('any_error'))
+    jest
+      .spyOn(hardDeleteRepository, 'hardDelete')
+      .mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.delete(null as any)
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })
 
   it('Should return fail when not found', async () => {
     const { sut, hardDeleteRepository } = makeSut()
-    jest
-      .spyOn(hardDeleteRepository, 'hardDelete')
-      .mockResolvedValueOnce(false)
+    jest.spyOn(hardDeleteRepository, 'hardDelete').mockResolvedValueOnce(false)
     const result = await sut.delete(null as any)
     expect(result).toEqual(Result.fail(ErrorModel.notFound()))
   })

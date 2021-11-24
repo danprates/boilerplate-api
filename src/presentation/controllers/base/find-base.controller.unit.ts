@@ -1,4 +1,9 @@
-import { BaseModel, BaseModelFixture, ErrorModel, Result } from '@/domain/models'
+import {
+  BaseModel,
+  BaseModelFixture,
+  ErrorModel,
+  Result
+} from '@/domain/models'
 import { Find } from '@/domain/usecases'
 import { FindBaseController } from '@/presentation/controllers/base'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
@@ -15,8 +20,12 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { params: { id: baseModel.id } }
-  const validation: Validation = { validate: jest.fn().mockReturnValue(Result.ok(httpRequest)) }
-  const usecase: Find = { find: jest.fn().mockResolvedValue(Result.ok(baseModel)) }
+  const validation: Validation = {
+    validate: jest.fn().mockReturnValue(Result.ok(httpRequest))
+  }
+  const usecase: Find = {
+    find: jest.fn().mockResolvedValue(Result.ok(baseModel))
+  }
   const sut = new FindBaseController({ usecase, validation })
 
   return {
@@ -61,7 +70,9 @@ describe('FindBase Controller', () => {
     const { sut, validation, usecase, httpRequest } = makeSut()
     const error = new Error('any_error')
 
-    jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
+      throw error
+    })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
     jest.spyOn(usecase, 'find').mockRejectedValueOnce(error)

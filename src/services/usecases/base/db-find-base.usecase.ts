@@ -7,9 +7,9 @@ type Props = {
 }
 
 export class DbFindBase implements Find {
-  constructor (private readonly props: Props) {}
+  constructor(private readonly props: Props) {}
 
-  async find (id: string): Promise<Result<BaseModel>> {
+  async find(id: string): Promise<Result<BaseModel>> {
     const result = await this.props.findRepository.find(id)
 
     if (!result) {

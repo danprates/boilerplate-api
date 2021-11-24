@@ -8,9 +8,11 @@ type Props = {
 }
 
 export class DbListBase implements List {
-  constructor (private readonly props: Props) {}
+  constructor(private readonly props: Props) {}
 
-  async list (options: PaginationOptions): Promise<Result<Pagination<BaseModel>>> {
+  async list(
+    options: PaginationOptions
+  ): Promise<Result<Pagination<BaseModel>>> {
     const result = await this.props.listRepository.list(options)
     return Result.ok(result)
   }

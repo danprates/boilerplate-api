@@ -1,7 +1,8 @@
 import { BaseModel } from '@/domain/models'
 import { Pagination, PaginationOptions } from '@/domain/protocols'
 import {
-  CreateRepository, FindRepository,
+  CreateRepository,
+  FindRepository,
   HardDeleteRepository,
   ListRepository,
   SoftDeleteRepository,
@@ -10,22 +11,23 @@ import {
 import { TypeormHelper } from '../typeorm-helper'
 
 export class BaseRepository
-implements
+  implements
     CreateRepository,
     ListRepository,
     FindRepository,
     UpdateRepository,
     SoftDeleteRepository,
-    HardDeleteRepository {
+    HardDeleteRepository
+{
   // TODO: ver uma forma de tipar a entity
-  constructor (private readonly entity: any) {}
+  constructor(private readonly entity: any) {}
 
-  async create (data: Partial<BaseModel>): Promise<BaseModel> {
+  async create(data: Partial<BaseModel>): Promise<BaseModel> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     return await repo.save(data)
   }
 
-  async list (options: PaginationOptions): Promise<Pagination<BaseModel>> {
+  async list(options: PaginationOptions): Promise<Pagination<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const [data, total] = await repo.findAndCount({
       ...options
@@ -37,24 +39,27 @@ implements
     }
   }
 
-  async find (id: string): Promise<BaseModel | undefined> {
+  async find(id: string): Promise<BaseModel | undefined> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     return await repo.findOne(id)
   }
 
-  async update (id: string, data: Partial<BaseModel>): Promise<boolean> {
+  async update(id: string, data: Partial<BaseModel>): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const { affected } = await repo.update(id, data)
     return Number(affected) > 0
   }
 
-  async softDelete (id: string): Promise<boolean> {
+  async softDelete(id: string): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    const { affected } = await repo.update(id, { isActive: false, isDeleted: true })
+    const { affected } = await repo.update(id, {
+      isActive: false,
+      isDeleted: true
+    })
     return Number(affected) > 0
   }
 
-  async hardDelete (id: string): Promise<boolean> {
+  async hardDelete(id: string): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const { affected } = await repo.delete(id)
     return Number(affected) > 0

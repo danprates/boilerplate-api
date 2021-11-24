@@ -7,9 +7,7 @@ describe('Content Type middleware', () => {
       res.send()
     })
 
-    await request(app)
-      .get('/test_content_type')
-      .expect('content-type', /json/)
+    await request(app).get('/test_content_type').expect('content-type', /json/)
   })
 
   it('should return xml content type when forced', async () => {

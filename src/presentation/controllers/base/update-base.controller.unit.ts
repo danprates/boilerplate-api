@@ -1,7 +1,16 @@
-import { BaseModel, BaseModelFixture, ErrorModel, Result } from '@/domain/models'
+import {
+  BaseModel,
+  BaseModelFixture,
+  ErrorModel,
+  Result
+} from '@/domain/models'
 import { Update } from '@/domain/usecases'
 import { UpdateBaseController } from '@/presentation/controllers/base'
-import { noContent, resultErrorHandler, serverError } from '@/presentation/helpers'
+import {
+  noContent,
+  resultErrorHandler,
+  serverError
+} from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -15,8 +24,12 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { params: { id: baseModel.id }, body: baseModel }
-  const validation: Validation = { validate: jest.fn().mockReturnValue(Result.ok(httpRequest)) }
-  const usecase: Update = { update: jest.fn().mockResolvedValue(Result.ok(baseModel)) }
+  const validation: Validation = {
+    validate: jest.fn().mockReturnValue(Result.ok(httpRequest))
+  }
+  const usecase: Update = {
+    update: jest.fn().mockResolvedValue(Result.ok(baseModel))
+  }
   const sut = new UpdateBaseController({ usecase, validation })
 
   return {
@@ -32,7 +45,11 @@ describe('FindBase Controller', () => {
   it('Should call usecase with correct values', async () => {
     const { sut, usecase, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(usecase.update).toHaveBeenNthCalledWith(1, httpRequest.params.id, httpRequest.body)
+    expect(usecase.update).toHaveBeenNthCalledWith(
+      1,
+      httpRequest.params.id,
+      httpRequest.body
+    )
   })
 
   it('Should return status code 400 if request is invalid', async () => {
@@ -61,7 +78,9 @@ describe('FindBase Controller', () => {
     const { sut, validation, usecase, httpRequest } = makeSut()
     const error = new Error('any_error')
 
-    jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
+      throw error
+    })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
     jest.spyOn(usecase, 'update').mockRejectedValueOnce(error)

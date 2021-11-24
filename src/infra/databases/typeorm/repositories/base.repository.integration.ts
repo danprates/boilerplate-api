@@ -69,7 +69,10 @@ describe('BaseRepository', () => {
     it('should update the user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const updated = await sut.update(user.id, { isActive: !user.isActive })
-      const result = await userRepository.findOne({ id: user.id }, { select: ['isActive'] })
+      const result = await userRepository.findOne(
+        { id: user.id },
+        { select: ['isActive'] }
+      )
 
       expect(updated).toBeTruthy()
       expect(result?.isActive).toEqual(!user.isActive)
@@ -86,7 +89,10 @@ describe('BaseRepository', () => {
     it('should softDelete the user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const updated = await sut.softDelete(user.id)
-      const result = await userRepository.findOne({ id: user.id }, { select: ['isActive', 'isDeleted'] })
+      const result = await userRepository.findOne(
+        { id: user.id },
+        { select: ['isActive', 'isDeleted'] }
+      )
 
       expect(updated).toBeTruthy()
       expect(result?.isActive).toBeFalsy()

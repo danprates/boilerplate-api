@@ -10,7 +10,9 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const baseModel: BaseModel = BaseModelFixture()
-  const createRepository: CreateRepository = { create: jest.fn().mockResolvedValue(baseModel) }
+  const createRepository: CreateRepository = {
+    create: jest.fn().mockResolvedValue(baseModel)
+  }
   const sut = new DbCreateBase({ createRepository })
 
   return {
@@ -29,7 +31,9 @@ describe('DbCreateBase Usecase', () => {
 
   it('Should throw error when CreateRepository throws', async () => {
     const { sut, createRepository } = makeSut()
-    jest.spyOn(createRepository, 'create').mockRejectedValueOnce(new Error('any_error'))
+    jest
+      .spyOn(createRepository, 'create')
+      .mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.create(null as any)
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })

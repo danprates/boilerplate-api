@@ -18,4 +18,9 @@ export interface LogFatal {
   fatal: (message: string, object?: any) => void
 }
 
-export interface Logger extends LogDebug, LogInfo, LogWarn, LogError, LogFatal {}
+export interface Logger
+  extends LogDebug,
+    LogInfo,
+    LogWarn,
+    LogError,
+    LogFatal {}

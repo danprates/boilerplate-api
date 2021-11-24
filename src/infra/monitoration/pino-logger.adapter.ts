@@ -5,30 +5,30 @@ import { pino } from 'pino'
 export class PinoLoggerAdapter implements Logger {
   private readonly logger: pino.Logger
 
-  constructor (name?: string) {
+  constructor(name?: string) {
     this.logger = pino({
       name: name ?? APP_NAME,
       level: LOG_LEVEL
     })
   }
 
-  debug (message: string, object: any = {}): void {
+  debug(message: string, object: any = {}): void {
     this.logger.debug(object, message)
   }
 
-  info (message: string, object: any = {}): void {
+  info(message: string, object: any = {}): void {
     this.logger.info(object, message)
   }
 
-  warn (message: string, object: any = {}): void {
+  warn(message: string, object: any = {}): void {
     this.logger.warn(object, message)
   }
 
-  error (message: string, object: any = {}): void {
+  error(message: string, object: any = {}): void {
     this.logger.error(object, message)
   }
 
-  fatal (message: string, object: any = {}): void {
+  fatal(message: string, object: any = {}): void {
     this.logger.fatal(object, message)
   }
 }

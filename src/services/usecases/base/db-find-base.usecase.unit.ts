@@ -1,4 +1,9 @@
-import { BaseModel, BaseModelFixture, ErrorModel, Result } from '@/domain/models'
+import {
+  BaseModel,
+  BaseModelFixture,
+  ErrorModel,
+  Result
+} from '@/domain/models'
 import { FindRepository } from '../../protocols'
 import { DbFindBase } from './db-find-base.usecase'
 
@@ -10,7 +15,9 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
-  const findRepository: FindRepository = { find: jest.fn().mockResolvedValue(baseModel) }
+  const findRepository: FindRepository = {
+    find: jest.fn().mockResolvedValue(baseModel)
+  }
   const sut = new DbFindBase({ findRepository })
 
   return {
@@ -29,7 +36,9 @@ describe('DbFindBase Usecase', () => {
 
   it('Should throw error when FindRepository throws', async () => {
     const { sut, findRepository } = makeSut()
-    jest.spyOn(findRepository, 'find').mockRejectedValueOnce(new Error('any_error'))
+    jest
+      .spyOn(findRepository, 'find')
+      .mockRejectedValueOnce(new Error('any_error'))
     const promise = sut.find(null as any)
     await expect(promise).rejects.toThrow(new Error('any_error'))
   })

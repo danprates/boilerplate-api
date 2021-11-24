@@ -1,7 +1,16 @@
-import { BaseModel, BaseModelFixture, ErrorModel, Result } from '@/domain/models'
+import {
+  BaseModel,
+  BaseModelFixture,
+  ErrorModel,
+  Result
+} from '@/domain/models'
 import { Create } from '@/domain/usecases'
 import { CreateBaseController } from '@/presentation/controllers/base'
-import { created, resultErrorHandler, serverError } from '@/presentation/helpers'
+import {
+  created,
+  resultErrorHandler,
+  serverError
+} from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -15,8 +24,12 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { body: { name: 'any_name' } }
-  const usecase: Create = { create: jest.fn().mockResolvedValue(Result.ok(baseModel)) }
-  const validation: Validation = { validate: jest.fn().mockReturnValue(Result.ok(httpRequest)) }
+  const usecase: Create = {
+    create: jest.fn().mockResolvedValue(Result.ok(baseModel))
+  }
+  const validation: Validation = {
+    validate: jest.fn().mockReturnValue(Result.ok(httpRequest))
+  }
   const sut = new CreateBaseController({ usecase, validation })
 
   return {
@@ -59,7 +72,9 @@ describe('CreateBase Controller', () => {
     const { sut, validation, usecase, httpRequest } = makeSut()
     const error = new Error('any_error')
 
-    jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
+      throw error
+    })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
     jest.spyOn(usecase, 'create').mockRejectedValueOnce(error)

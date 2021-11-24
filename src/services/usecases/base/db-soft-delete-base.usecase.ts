@@ -7,9 +7,9 @@ type Props = {
 }
 
 export class DbSoftDeleteBase implements Delete {
-  constructor (private readonly props: Props) {}
+  constructor(private readonly props: Props) {}
 
-  async delete (id: string): Promise<Result<boolean>> {
+  async delete(id: string): Promise<Result<boolean>> {
     const deleted = await this.props.deleteRepository.softDelete(id)
 
     if (!deleted) {

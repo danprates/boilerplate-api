@@ -1,7 +1,11 @@
 import { ErrorModel, Result } from '@/domain/models'
 import { Delete } from '@/domain/usecases'
 import { DeleteBaseController } from '@/presentation/controllers/base'
-import { noContent, resultErrorHandler, serverError } from '@/presentation/helpers'
+import {
+  noContent,
+  resultErrorHandler,
+  serverError
+} from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 
 interface SutTypes {
@@ -13,8 +17,12 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const httpRequest = { params: { id: 'any_name' } }
-  const validation: Validation = { validate: jest.fn().mockReturnValue(Result.ok(httpRequest)) }
-  const usecase: Delete = { delete: jest.fn().mockResolvedValue(Result.ok(true)) }
+  const validation: Validation = {
+    validate: jest.fn().mockReturnValue(Result.ok(httpRequest))
+  }
+  const usecase: Delete = {
+    delete: jest.fn().mockResolvedValue(Result.ok(true))
+  }
   const sut = new DeleteBaseController({ usecase, validation })
 
   return {
@@ -58,7 +66,9 @@ describe('DeleteBase Controller', () => {
     const { sut, validation, usecase, httpRequest } = makeSut()
     const error = new Error('any_error')
 
-    jest.spyOn(validation, 'validate').mockImplementationOnce(() => { throw error })
+    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
+      throw error
+    })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
     jest.spyOn(usecase, 'delete').mockRejectedValueOnce(error)

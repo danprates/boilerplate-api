@@ -7,9 +7,9 @@ type Props = {
 }
 
 export class DbUpdateBase implements Update {
-  constructor (private readonly props: Props) {}
+  constructor(private readonly props: Props) {}
 
-  async update (id: string, data: Partial<BaseModel>): Promise<Result<boolean>> {
+  async update(id: string, data: Partial<BaseModel>): Promise<Result<boolean>> {
     const updated = await this.props.updateRepository.update(id, data)
 
     if (!updated) {

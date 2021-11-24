@@ -1,5 +1,9 @@
 import { Create } from '@/domain/usecases'
-import { created, resultErrorHandler, serverError } from '@/presentation/helpers'
+import {
+  created,
+  resultErrorHandler,
+  serverError
+} from '@/presentation/helpers'
 import {
   Controller,
   HttpRequest,
@@ -13,9 +17,9 @@ type Props = {
 }
 
 export class CreateBaseController implements Controller {
-  constructor (private readonly props: Props) {}
+  constructor(private readonly props: Props) {}
 
-  async handler (request: HttpRequest): Promise<HttpResponse> {
+  async handler(request: HttpRequest): Promise<HttpResponse> {
     try {
       const requestValidated = this.props.validation.validate(request)
 

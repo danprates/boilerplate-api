@@ -24,7 +24,9 @@ describe('/users routes', () => {
     it('Should return a list of users', async () => {
       const user = await userRepository.save(UserModelFixture())
 
-      const { statusCode, body } = await request(app).get(`/api/${API_VERSION}/users`)
+      const { statusCode, body } = await request(app).get(
+        `/api/${API_VERSION}/users`
+      )
 
       expect(statusCode).toEqual(200)
       expect(body.total).toEqual(1)
@@ -34,7 +36,9 @@ describe('/users routes', () => {
     })
 
     it('Should return a empty list when no exist users', async () => {
-      const { statusCode, body } = await request(app).get(`/api/${API_VERSION}/users`)
+      const { statusCode, body } = await request(app).get(
+        `/api/${API_VERSION}/users`
+      )
 
       expect(statusCode).toEqual(200)
       expect(body.total).toEqual(0)
@@ -64,18 +68,22 @@ describe('/users routes', () => {
     it('Should return an user', async () => {
       const user = await userRepository.save(UserModelFixture())
 
-      const { statusCode, body } = await request(app)
-        .get(`/api/${API_VERSION}/users/${user.id}`)
+      const { statusCode, body } = await request(app).get(
+        `/api/${API_VERSION}/users/${user.id}`
+      )
 
       expect(statusCode).toEqual(200)
       expect(body.id).toEqual(user.id)
     })
 
     it('Should return not found when user does not exist', async () => {
-      const { statusCode, body } = await request(app)
-        .get(`/api/${API_VERSION}/users/${wrongId}`)
+      const { statusCode, body } = await request(app).get(
+        `/api/${API_VERSION}/users/${wrongId}`
+      )
 
-      expect({ statusCode, body }).toEqual(resultErrorHandler(ErrorModel.notFound()))
+      expect({ statusCode, body }).toEqual(
+        resultErrorHandler(ErrorModel.notFound())
+      )
     })
   })
 
@@ -98,7 +106,9 @@ describe('/users routes', () => {
         .put(`/api/${API_VERSION}/users/${wrongId}`)
         .send({ name: 'new_name' })
 
-      expect({ statusCode, body }).toEqual(resultErrorHandler(ErrorModel.notFound()))
+      expect({ statusCode, body }).toEqual(
+        resultErrorHandler(ErrorModel.notFound())
+      )
     })
   })
 
@@ -106,10 +116,14 @@ describe('/users routes', () => {
     it('Should soft delete an user', async () => {
       const user = await userRepository.save(UserModelFixture())
 
-      const { statusCode } = await request(app)
-        .delete(`/api/${API_VERSION}/users/${user.id}`)
+      const { statusCode } = await request(app).delete(
+        `/api/${API_VERSION}/users/${user.id}`
+      )
 
-      const userResult = await userRepository.findOne({ id: user.id }, { select: ['isDeleted', 'isActive'] })
+      const userResult = await userRepository.findOne(
+        { id: user.id },
+        { select: ['isDeleted', 'isActive'] }
+      )
 
       expect(statusCode).toEqual(204)
       expect(userResult?.isDeleted).toBeTruthy()
@@ -117,10 +131,13 @@ describe('/users routes', () => {
     })
 
     it('Should return not found when user does not exist', async () => {
-      const { statusCode, body } = await request(app)
-        .get(`/api/${API_VERSION}/users/${wrongId}`)
+      const { statusCode, body } = await request(app).get(
+        `/api/${API_VERSION}/users/${wrongId}`
+      )
 
-      expect({ statusCode, body }).toEqual(resultErrorHandler(ErrorModel.notFound()))
+      expect({ statusCode, body }).toEqual(
+        resultErrorHandler(ErrorModel.notFound())
+      )
     })
   })
 })

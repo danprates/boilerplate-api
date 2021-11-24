@@ -19,7 +19,9 @@ describe('Result model', () => {
   it('should throw a error when call getValue from a failed result', () => {
     const result = Result.fail(ErrorModel.invalidParams('failed'))
     expect(result.isFailure).toBeTruthy()
-    expect(() => result.getValue()).toThrow('Cant retrieve the value from a failed result.')
+    expect(() => result.getValue()).toThrow(
+      'Cant retrieve the value from a failed result.'
+    )
   })
 
   it('should throw error when result isSuccess and have error', () => {
@@ -27,7 +29,9 @@ describe('Result model', () => {
       // @ts-expect-error
       return new Result(true, error)
     })
-    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow('InvalidOperation: A result cannot be successful and contain an error')
+    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow(
+      'InvalidOperation: A result cannot be successful and contain an error'
+    )
   })
 
   it('should throw error when result failed dont have a message', () => {
@@ -35,6 +39,8 @@ describe('Result model', () => {
       // @ts-expect-error
       return new Result(undefined, undefined)
     })
-    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow('InvalidOperation: A failing result needs to contain an error message')
+    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow(
+      'InvalidOperation: A failing result needs to contain an error message'
+    )
   })
 })
