@@ -24,4 +24,16 @@ describe('Error model', () => {
       message: 'any_message'
     })
   })
+
+  it('should return unauthorized error', () => {
+    expect(ErrorModel.unauthorized()).toEqual({
+      code: ErrorCode.UNAUTHORIZED,
+      message: ErrorMessages.UNAUTHORIZED
+    })
+
+    expect(ErrorModel.unauthorized('any_message')).toEqual({
+      code: ErrorCode.UNAUTHORIZED,
+      message: 'any_message'
+    })
+  })
 })
