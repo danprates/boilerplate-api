@@ -7,6 +7,7 @@ module.exports = {
     '!<rootDir>/src/**/*.fixture.ts'
   ],
   coverageDirectory: 'coverage',
+  testResultsProcessor: 'jest-sonar-reporter',
   roots: ['<rootDir>/src'],
   preset: 'ts-jest',
   testEnvironment: 'node',
