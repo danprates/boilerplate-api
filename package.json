@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "start": "node dist/main/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect=0.0.0.0:9222 --respawn --transpile-only --ignore-watch node_modules src/main/server.ts | pino-pretty -c",
-    "build": "rimraf dist && tsc -p tsconfig-build.json && tscpaths -p tsconfig-build.json -s ./src -o ./dist",
+    "build": "rimraf dist && tsc -p tsconfig-build.json && tsconfig-replace-paths -p tsconfig-build.json -s ./src -o ./dist",
     "lint": "eslint --fix --ext .js,.ts .",
     "test": "jest --passWithNoTests --runInBand --silent --no-cache",
     "test:staged": "npm run test",
@@ -48,7 +48,7 @@
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.12.0",
-    "tscpaths": "0.0.9",
+    "tsconfig-replace-paths": "0.0.11",
     "typescript": "^4.5.2"
   },
   "dependencies": {
