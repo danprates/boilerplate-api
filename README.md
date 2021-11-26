@@ -62,3 +62,20 @@ $ npm run lint
 1. Faça o push da sua branch para o repositório online: `git push origin {NOME_BRANCH}`
 1. Vá até o repositório online e crie uma PR para a develop
 1. Atualize suas tasks e notifique o time sobre a PR
+
+## Lembretes para o deploy
+
+1. Configurar as envs do typeorm, para buscar na pasta dist:
+    ```ini
+    TYPEORM_ENTITIES=dist/infra/databases/typeorm/entities/**/*
+    TYPEORM_ENTITIES_DIR=dist/infra/databases/typeorm/entities
+    TYPEORM_MIGRATIONS=dist/infra/databases/typeorm/migrations/**/*
+    TYPEORM_MIGRATIONS_DIR=dist/infra/databases/typeorm/migrations
+    ```
+## Como criar uma nova versão do projeto
+
+1. Mude a versão do `package.json`
+1. Atualize o CHANGELOG: `npm run version`
+1. Faça um commit das mudanças, ex: `chore: update project version`
+1. Crie a tag no git: `git tag -a v0.0.2 -m 'v0.0.2'`
+1. Faça o push da tag: `git push origin master --follow-tags`
