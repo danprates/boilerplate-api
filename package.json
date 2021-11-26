@@ -1,8 +1,25 @@
 {
   "name": "api",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A boilerplate API made with clean architecture",
-  "main": "index.js",
+  "main": "dist/main/server.js",
+  "keywords": [
+    "Boilerplate",
+    "API",
+    "Backend",
+    "NodeJS",
+    "ExpressJS",
+    "Clean Architecture"
+  ],
+  "author": "Daniel Prates",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:danprates/boilerplate-api.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "prepare": "husky install",
     "start": "node dist/main/server.js",
@@ -16,9 +33,6 @@
     "test:ci": "npm test -- --coverage",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
   },
-  "keywords": [],
-  "author": "Daniel Prates",
-  "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/faker": "^5.5.9",
