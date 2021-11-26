@@ -9,7 +9,7 @@ export const setupApolloServer = (app: Express): void => {
     typeDefs
   })
 
-  void server.start().then(() => {
+  server.start().then(() => {
     server.applyMiddleware({ app })
   })
 }
