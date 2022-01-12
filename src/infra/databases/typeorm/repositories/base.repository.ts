@@ -19,7 +19,6 @@ export class BaseRepository
     SoftDeleteRepository,
     HardDeleteRepository
 {
-  // TODO: ver uma forma de tipar a entity
   constructor(private readonly entity: any) {}
 
   async create(data: Partial<BaseModel>): Promise<BaseModel> {
