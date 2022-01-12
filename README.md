@@ -79,3 +79,18 @@ $ npm run lint
 1. Faça um commit das mudanças, ex: `chore: update project version`
 1. Crie a tag no git: `git tag -a v0.0.2 -m 'v0.0.2'`
 1. Faça o push da tag: `git push origin master --follow-tags`
+
+## Como executar o sonarqube localmente
+
+1. Inicie o docker compose -> `docker-compose up sonar`
+1. Instale o `sonar-scanner` [Tutorial](https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/)
+1. Execute o `sonar-scanner` com o comando:
+```bash
+sonar-scanner \
+  -Dsonar.projectKey=boilerplate-api \
+  -Dsonar.projectName=boilerplate-api \
+  -Dsonar.login=74368321996ef230fee92ae2821c599156285831
+```
+4. Acesso a página do sonar: http://localhost:9000/
+  - Login: admin
+  - Senha: 123456
