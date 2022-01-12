@@ -8,3 +8,4 @@ coverage
 .env.production
 .scannerwork
 test-report.xml
+.scannerwork

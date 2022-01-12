@@ -19,12 +19,11 @@ export class BaseRepository
     SoftDeleteRepository,
     HardDeleteRepository
 {
-  // TODO: ver uma forma de tipar a entity
   constructor(private readonly entity: any) {}
 
   async create(data: Partial<BaseModel>): Promise<BaseModel> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    return await repo.save(data)
+    return repo.save(data)
   }
 
   async list(options: PaginationOptions): Promise<Pagination<BaseModel>> {
@@ -41,7 +40,7 @@ export class BaseRepository
 
   async find(id: string): Promise<BaseModel | undefined> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    return await repo.findOne(id)
+    return repo.findOne(id)
   }
 
   async update(id: string, data: Partial<BaseModel>): Promise<boolean> {

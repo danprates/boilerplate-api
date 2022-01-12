@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A boilerplate API made with clean architecture",
   "main": "dist/main/server.js",
   "keywords": [
@@ -79,7 +79,7 @@
     "openapi-types": "^9.3.1",
     "pg": "^8.7.1",
     "pino": "^7.4.1",
-    "swagger-ui-express": "^4.1.6",
+    "swagger-ui-express": "^4.3.0",
     "typeorm": "^0.2.41"
   }
 }
