@@ -6,3 +6,4 @@ coverage
 .env.dev
 .env.staging
 .env.production
+test-report.xml
