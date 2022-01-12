@@ -14,7 +14,7 @@ const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT']
 process.on('unhandledRejection', (reason, promise) => {
   logger.error('App exiting due to an unhandled promise', { reason, promise })
   // lets throw the error and let the uncaughtException handle below handle it
-  throw reason as Error
+  throw reason
 })
 
 process.on('uncaughtException', (error) => {
