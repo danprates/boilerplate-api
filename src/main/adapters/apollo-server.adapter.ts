@@ -6,8 +6,6 @@ enum DEFAULT {
   SKIP = 0
 }
 
-// TODO: tipar os parametros do apollo
-// TODO: criar testes unitário pra esse adapter
 export const apolloServerAdapter =
   (controller: Controller) => async (parent, args, context, info) => {
     try {
