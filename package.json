@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A boilerplate API made with clean architecture",
   "main": "dist/main/server.js",
   "keywords": [
