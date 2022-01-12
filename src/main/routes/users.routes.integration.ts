@@ -131,7 +131,7 @@ describe('/users routes', () => {
     })
 
     it('Should return not found when user does not exist', async () => {
-      const { statusCode, body } = await request(app).get(
+      const { statusCode, body } = await request(app).delete(
         `/api/${API_VERSION}/users/${wrongId}`
       )
 
