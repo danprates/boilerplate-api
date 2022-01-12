@@ -5,6 +5,6 @@ import { AuthModel } from './auth.model'
 export const AuthModelFixture = (): AuthModel => ({
   ...BaseModelFixture(),
   email: faker.internet.email(),
-  password: 'secret',
+  password: faker.internet.password(),
   passwordResetToken: faker.datatype.uuid()
 })
