@@ -7,3 +7,4 @@ coverage
 .env.staging
 .env.production
 test-report.xml
+.scannerwork
