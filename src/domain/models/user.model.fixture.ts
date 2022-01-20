@@ -1,4 +1,4 @@
-import faker from 'faker'
+import faker from '@faker-js/faker'
 import { AuthModelFixture } from './auth.model.fixture'
 import { UserModel } from './user.model'
 

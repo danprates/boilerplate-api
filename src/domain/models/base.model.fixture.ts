@@ -1,4 +1,4 @@
-import faker from 'faker'
+import faker from '@faker-js/faker'
 import { BaseModel } from './base.model'
 
 export const BaseModelFixture = (): BaseModel => ({

@@ -1,6 +1,6 @@
-import faker from 'faker'
-import { BaseModelFixture } from '.'
+import faker from '@faker-js/faker'
 import { AuthModel } from './auth.model'
+import { BaseModelFixture } from './base.model.fixture'
 
 export const AuthModelFixture = (): AuthModel => ({
   ...BaseModelFixture(),
