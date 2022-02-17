@@ -4,7 +4,7 @@ import {
   ErrorModel,
   Result
 } from '@/application/models'
-import { Create, Validation } from '@/application/protocols'
+import { Create, Validator } from '@/application/protocols'
 import { CreateBaseController } from '@/presentation/controllers/base'
 import {
   created,
@@ -18,7 +18,7 @@ interface SutTypes {
   httpRequest: HttpRequest
   baseModel: BaseModel
   usecase: Create
-  validation: Validation
+  validation: Validator
 }
 
 const makeSut = (): SutTypes => {
@@ -27,8 +27,8 @@ const makeSut = (): SutTypes => {
   const usecase: Create = {
     create: jest.fn().mockResolvedValue(Result.ok(baseModel))
   }
-  const validation: Validation = {
-    validate: jest.fn().mockReturnValue(Result.ok(httpRequest))
+  const validation: Validator = {
+    run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
   const sut = new CreateBaseController({ usecase, validation })
 
@@ -51,13 +51,13 @@ describe('CreateBase Controller', () => {
   it('Should call validation with correct values', async () => {
     const { sut, validation, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(validation.validate).toHaveBeenNthCalledWith(1, httpRequest)
+    expect(validation.run).toHaveBeenNthCalledWith(1, httpRequest)
   })
 
   it('Should return 400 if validation returns fail result', async () => {
     const { sut, validation, httpRequest } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
-    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(err))
+    jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
@@ -72,7 +72,7 @@ describe('CreateBase Controller', () => {
     const { sut, validation, usecase, httpRequest } = makeSut()
     const error = new Error('any_error')
 
-    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
+    jest.spyOn(validation, 'run').mockImplementationOnce(() => {
       throw error
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())

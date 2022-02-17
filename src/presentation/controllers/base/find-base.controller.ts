@@ -1,10 +1,10 @@
-import { Find, Validation } from '@/application/protocols'
+import { Find, Validator } from '@/application/protocols'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 type Props = {
   usecase: Find
-  validation: Validation
+  validation: Validator
 }
 
 export class FindBaseController implements Controller {
@@ -12,7 +12,7 @@ export class FindBaseController implements Controller {
 
   async handler(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const validationResult = this.props.validation.validate(request)
+      const validationResult = this.props.validation.run(request)
 
       if (validationResult.isFailure) {
         return resultErrorHandler(validationResult.error)

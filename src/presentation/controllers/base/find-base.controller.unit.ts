@@ -4,7 +4,7 @@ import {
   ErrorModel,
   Result
 } from '@/application/models'
-import { Find, Validation } from '@/application/protocols'
+import { Find, Validator } from '@/application/protocols'
 import { FindBaseController } from '@/presentation/controllers/base'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import { HttpRequest } from '@/presentation/protocols'
@@ -14,14 +14,14 @@ interface SutTypes {
   httpRequest: HttpRequest
   baseModel: BaseModel
   usecase: Find
-  validation: Validation
+  validation: Validator
 }
 
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { params: { id: baseModel.id } }
-  const validation: Validation = {
-    validate: jest.fn().mockReturnValue(Result.ok(httpRequest))
+  const validation: Validator = {
+    run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
   const usecase: Find = {
     find: jest.fn().mockResolvedValue(Result.ok(baseModel))
@@ -47,7 +47,7 @@ describe('FindBase Controller', () => {
   it('Should return status code 400 if request is invalid', async () => {
     const { sut, validation, httpRequest } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
-    jest.spyOn(validation, 'validate').mockReturnValueOnce(Result.fail(err))
+    jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
@@ -70,7 +70,7 @@ describe('FindBase Controller', () => {
     const { sut, validation, usecase, httpRequest } = makeSut()
     const error = new Error('any_error')
 
-    jest.spyOn(validation, 'validate').mockImplementationOnce(() => {
+    jest.spyOn(validation, 'run').mockImplementationOnce(() => {
       throw error
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())

@@ -1,4 +1,4 @@
-import { Update, Validation } from '@/application/protocols'
+import { Update, Validator } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,
@@ -8,7 +8,7 @@ import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 type Props = {
   usecase: Update
-  validation: Validation
+  validation: Validator
 }
 
 export class UpdateBaseController implements Controller {
@@ -16,7 +16,7 @@ export class UpdateBaseController implements Controller {
 
   async handler(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const validationResult = this.props.validation.validate(request)
+      const validationResult = this.props.validation.run(request)
 
       if (validationResult.isFailure) {
         return resultErrorHandler(validationResult.error)

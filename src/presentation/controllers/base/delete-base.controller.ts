@@ -1,4 +1,4 @@
-import { Delete, Validation } from '@/application/protocols'
+import { Delete, Validator } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,
@@ -8,7 +8,7 @@ import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 type Props = {
   usecase: Delete
-  validation: Validation
+  validation: Validator
 }
 
 export class DeleteBaseController implements Controller {
@@ -16,7 +16,7 @@ export class DeleteBaseController implements Controller {
 
   async handler(request: HttpRequest): Promise<HttpResponse> {
     try {
-      const validateResult = this.props.validation.validate(request)
+      const validateResult = this.props.validation.run(request)
 
       if (validateResult.isFailure) {
         return resultErrorHandler(validateResult.error)

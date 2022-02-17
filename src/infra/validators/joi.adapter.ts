@@ -1,11 +1,11 @@
 import { ErrorModel, Result } from '@/application/models'
-import { Validation } from '@/application/protocols'
+import { Validator } from '@/application/protocols'
 import Joi from 'joi'
 
-export class JoiAdapter<T = any> implements Validation {
+export class JoiAdapter<T = any> implements Validator {
   constructor(private readonly schema: Joi.Schema) {}
 
-  validate(data: any): Result<T> {
+  run(data: any): Result<T> {
     const { error, value } = this.schema.validate(data, { convert: true })
 
     if (error) {
