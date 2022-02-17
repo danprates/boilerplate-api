@@ -1,6 +1,5 @@
 import { FindBaseController } from '@/application/controllers/base'
 import { Controller } from '@/application/protocols'
-import { DbFindBase } from '@/application/usecases/base'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
@@ -17,6 +16,5 @@ export const findUsersFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const findRepository = new BaseRepository(UserEntity)
-  const usecase = new DbFindBase({ findRepository })
-  return new FindBaseController({ usecase, validation })
+  return new FindBaseController({ findRepository, validation })
 }

@@ -1,15 +1,16 @@
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
+import { ErrorModel } from '@/application/models'
 import {
   Controller,
-  Find,
+  FindRepository,
   HttpRequest,
   HttpResponse,
   Validator
 } from '@/application/protocols'
 
 type Props = {
-  usecase: Find
   validation: Validator
+  findRepository: FindRepository
 }
 
 export class FindBaseController implements Controller {
@@ -25,13 +26,13 @@ export class FindBaseController implements Controller {
 
       const { params } = validationResult.getValue()
 
-      const result = await this.props.usecase.find(params.id)
+      const result = await this.props.findRepository.find(params.id)
 
-      if (result.isFailure) {
-        return resultErrorHandler(result.error)
+      if (!result) {
+        return resultErrorHandler(ErrorModel.notFound())
       }
 
-      return ok(result.getValue())
+      return ok(result)
     } catch (error) {
       return serverError()
     }
