@@ -18,9 +18,9 @@ export interface UpdateRepository {
 }
 
 export interface SoftDeleteRepository {
-  softDelete: (id: string) => Promise<boolean>
+  delete: (id: string) => Promise<boolean>
 }
 
 export interface HardDeleteRepository {
-  hardDelete: (id: string) => Promise<boolean>
+  delete: (id: string) => Promise<boolean>
 }

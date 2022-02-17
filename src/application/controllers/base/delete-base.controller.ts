@@ -3,17 +3,19 @@ import {
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
+import { ErrorModel } from '@/application/models'
 import {
   Controller,
-  Delete,
+  HardDeleteRepository,
   HttpRequest,
   HttpResponse,
+  SoftDeleteRepository,
   Validator
 } from '@/application/protocols'
 
 type Props = {
-  usecase: Delete
   validation: Validator
+  deleteRepository: HardDeleteRepository | SoftDeleteRepository
 }
 
 export class DeleteBaseController implements Controller {
@@ -29,13 +31,13 @@ export class DeleteBaseController implements Controller {
 
       const { params } = validateResult.getValue()
 
-      const wasDeleted = await this.props.usecase.delete(params.id)
+      const wasDeleted = await this.props.deleteRepository.delete(params.id)
 
-      if (wasDeleted.isFailure) {
-        return resultErrorHandler(wasDeleted.error)
+      if (wasDeleted) {
+        return noContent()
       }
 
-      return noContent()
+      return resultErrorHandler(ErrorModel.notFound())
     } catch (error) {
       return serverError()
     }

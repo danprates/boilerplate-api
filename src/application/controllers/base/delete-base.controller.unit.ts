@@ -5,13 +5,18 @@ import {
   serverError
 } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
-import { Delete, HttpRequest, Validator } from '@/application/protocols'
+import {
+  HardDeleteRepository,
+  HttpRequest,
+  SoftDeleteRepository,
+  Validator
+} from '@/application/protocols'
 
 interface SutTypes {
   sut: DeleteBaseController
   httpRequest: HttpRequest
-  usecase: Delete
   validation: Validator
+  deleteRepository: HardDeleteRepository | SoftDeleteRepository
 }
 
 const makeSut = (): SutTypes => {
@@ -19,24 +24,27 @@ const makeSut = (): SutTypes => {
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const usecase: Delete = {
-    delete: jest.fn().mockResolvedValue(Result.ok(true))
+  const deleteRepository: HardDeleteRepository = {
+    delete: jest.fn().mockResolvedValue(true)
   }
-  const sut = new DeleteBaseController({ usecase, validation })
+  const sut = new DeleteBaseController({ deleteRepository, validation })
 
   return {
     sut,
-    usecase,
     validation,
-    httpRequest
+    httpRequest,
+    deleteRepository
   }
 }
 
 describe('DeleteBase Controller', () => {
-  it('Should call usecase with correct values', async () => {
-    const { sut, usecase, httpRequest } = makeSut()
+  it('Should call deleteRepository with correct values', async () => {
+    const { sut, deleteRepository, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(usecase.delete).toHaveBeenNthCalledWith(1, httpRequest.params.id)
+    expect(deleteRepository.delete).toHaveBeenNthCalledWith(
+      1,
+      httpRequest.params.id
+    )
   })
 
   it('Should return status code 400 if request is invalid', async () => {
@@ -48,9 +56,9 @@ describe('DeleteBase Controller', () => {
   })
 
   it('Should return status code 404 if data was not found', async () => {
-    const { sut, usecase, httpRequest } = makeSut()
+    const { sut, deleteRepository, httpRequest } = makeSut()
     const err = ErrorModel.notFound()
-    jest.spyOn(usecase, 'delete').mockResolvedValueOnce(Result.fail(err))
+    jest.spyOn(deleteRepository, 'delete').mockResolvedValueOnce(false)
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
@@ -62,7 +70,7 @@ describe('DeleteBase Controller', () => {
   })
 
   it('Should return status code 500 if any dependency throws', async () => {
-    const { sut, validation, usecase, httpRequest } = makeSut()
+    const { sut, validation, deleteRepository, httpRequest } = makeSut()
     const error = new Error('any_error')
 
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
@@ -70,7 +78,7 @@ describe('DeleteBase Controller', () => {
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
-    jest.spyOn(usecase, 'delete').mockRejectedValueOnce(error)
+    jest.spyOn(deleteRepository, 'delete').mockRejectedValueOnce(error)
     expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })

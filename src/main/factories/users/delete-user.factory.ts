@@ -1,6 +1,5 @@
 import { DeleteBaseController } from '@/application/controllers/base'
 import { Controller } from '@/application/protocols'
-import { DbSoftDeleteBase } from '@/application/usecases/base'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
@@ -17,6 +16,5 @@ export const deleteUserFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const deleteRepository = new BaseRepository(UserEntity)
-  const usecase = new DbSoftDeleteBase({ deleteRepository })
-  return new DeleteBaseController({ usecase, validation })
+  return new DeleteBaseController({ deleteRepository, validation })
 }
