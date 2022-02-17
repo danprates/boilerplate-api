@@ -1,16 +1,16 @@
 import { UpdateBaseController } from '@/application/controllers/base'
 import {
+  noContent,
+  resultErrorHandler,
+  serverError
+} from '@/application/helpers'
+import {
   BaseModel,
   BaseModelFixture,
   ErrorModel,
   Result
 } from '@/application/models'
 import { HttpRequest, Update, Validator } from '@/application/protocols'
-import {
-  noContent,
-  resultErrorHandler,
-  serverError
-} from '@/presentation/helpers'
 
 interface SutTypes {
   sut: UpdateBaseController

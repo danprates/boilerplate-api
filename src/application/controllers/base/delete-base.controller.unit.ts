@@ -1,11 +1,11 @@
 import { DeleteBaseController } from '@/application/controllers/base'
-import { ErrorModel, Result } from '@/application/models'
-import { Delete, HttpRequest, Validator } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,
   serverError
-} from '@/presentation/helpers'
+} from '@/application/helpers'
+import { ErrorModel, Result } from '@/application/models'
+import { Delete, HttpRequest, Validator } from '@/application/protocols'
 
 interface SutTypes {
   sut: DeleteBaseController

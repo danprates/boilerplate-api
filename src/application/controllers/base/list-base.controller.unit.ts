@@ -1,4 +1,5 @@
 import { ListBaseController } from '@/application/controllers/base'
+import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import {
   BaseModel,
   BaseModelFixture,
@@ -6,7 +7,6 @@ import {
   Result
 } from '@/application/models'
 import { HttpRequest, List, Validator } from '@/application/protocols'
-import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 
 interface SutTypes {
   sut: ListBaseController
