@@ -1,6 +1,5 @@
 import { BaseModel, ErrorModel, Result } from '@/domain/models'
-import { Update } from '@/domain/protocols'
-import { UpdateRepository } from '../../protocols'
+import { Update, UpdateRepository } from '@/domain/protocols'
 
 type Props = {
   updateRepository: UpdateRepository

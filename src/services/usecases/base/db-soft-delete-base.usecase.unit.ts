@@ -1,5 +1,5 @@
 import { ErrorModel, Result } from '@/domain/models'
-import { SoftDeleteRepository } from '../../protocols'
+import { SoftDeleteRepository } from '@/domain/protocols'
 import { DbSoftDeleteBase } from './db-soft-delete-base.usecase'
 
 interface SutTypes {

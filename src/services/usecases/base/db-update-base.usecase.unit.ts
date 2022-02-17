@@ -4,7 +4,7 @@ import {
   ErrorModel,
   Result
 } from '@/domain/models'
-import { UpdateRepository } from '../../protocols'
+import { UpdateRepository } from '@/domain/protocols'
 import { DbUpdateBase } from './db-update-base.usecase'
 
 interface SutTypes {

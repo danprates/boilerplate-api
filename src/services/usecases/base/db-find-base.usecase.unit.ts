@@ -4,7 +4,7 @@ import {
   ErrorModel,
   Result
 } from '@/domain/models'
-import { FindRepository } from '../../protocols'
+import { FindRepository } from '@/domain/protocols'
 import { DbFindBase } from './db-find-base.usecase'
 
 interface SutTypes {

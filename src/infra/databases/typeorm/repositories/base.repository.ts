@@ -1,13 +1,14 @@
 import { BaseModel } from '@/domain/models'
-import { Pagination, PaginationOptions } from '@/domain/protocols'
 import {
   CreateRepository,
   FindRepository,
   HardDeleteRepository,
   ListRepository,
+  Pagination,
+  PaginationOptions,
   SoftDeleteRepository,
   UpdateRepository
-} from '@/services/protocols'
+} from '@/domain/protocols'
 import { TypeormHelper } from '../typeorm-helper'
 
 export class BaseRepository

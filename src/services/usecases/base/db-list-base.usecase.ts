@@ -1,6 +1,10 @@
 import { BaseModel, Result } from '@/domain/models'
-import { List, Pagination, PaginationOptions } from '@/domain/protocols'
-import { ListRepository } from '../../protocols'
+import {
+  List,
+  ListRepository,
+  Pagination,
+  PaginationOptions
+} from '@/domain/protocols'
 
 type Props = {
   listRepository: ListRepository

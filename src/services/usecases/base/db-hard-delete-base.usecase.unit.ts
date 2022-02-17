@@ -1,5 +1,5 @@
 import { ErrorModel, Result } from '@/domain/models'
-import { HardDeleteRepository } from '../../protocols'
+import { HardDeleteRepository } from '@/domain/protocols'
 import { DbHardDeleteBase } from './db-hard-delete-base.usecase'
 
 interface SutTypes {
