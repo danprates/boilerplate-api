@@ -1,11 +1,11 @@
 import {
+  Controller,
   Find,
   HttpRequest,
   HttpResponse,
   Validator
 } from '@/application/protocols'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
-import { Controller } from '@/presentation/protocols'
 
 type Props = {
   usecase: Find

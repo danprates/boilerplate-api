@@ -1,5 +1,4 @@
-import { HttpRequest } from '@/application/protocols'
-import { Controller } from '@/presentation/protocols'
+import { Controller, HttpRequest } from '@/application/protocols'
 import { Request, Response } from 'express'
 
 export const expressRouteAdapter = (controller: Controller) => {

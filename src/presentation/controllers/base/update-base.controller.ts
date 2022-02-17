@@ -1,4 +1,5 @@
 import {
+  Controller,
   HttpRequest,
   HttpResponse,
   Update,
@@ -9,7 +10,6 @@ import {
   resultErrorHandler,
   serverError
 } from '@/presentation/helpers'
-import { Controller } from '@/presentation/protocols'
 
 type Props = {
   usecase: Update

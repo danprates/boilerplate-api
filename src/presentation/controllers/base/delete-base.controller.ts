@@ -1,4 +1,5 @@
 import {
+  Controller,
   Delete,
   HttpRequest,
   HttpResponse,
@@ -9,7 +10,6 @@ import {
   resultErrorHandler,
   serverError
 } from '@/presentation/helpers'
-import { Controller } from '@/presentation/protocols'
 
 type Props = {
   usecase: Delete
