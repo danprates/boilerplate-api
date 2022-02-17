@@ -6,13 +6,13 @@ import {
   ErrorModel,
   Result
 } from '@/application/models'
-import { HttpRequest, List, Validator } from '@/application/protocols'
+import { HttpRequest, ListRepository, Validator } from '@/application/protocols'
 
 interface SutTypes {
   sut: ListBaseController
   httpRequest: HttpRequest
   baseModel: BaseModel
-  usecase: List
+  listRepository: ListRepository
   validation: Validator
 }
 
@@ -22,25 +22,25 @@ const makeSut = (): SutTypes => {
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const usecase: List = {
-    list: jest.fn().mockResolvedValue(Result.ok([baseModel]))
+  const listRepository: ListRepository = {
+    list: jest.fn().mockResolvedValue([baseModel])
   }
-  const sut = new ListBaseController({ usecase, validation })
+  const sut = new ListBaseController({ listRepository, validation })
 
   return {
     sut,
-    usecase,
     baseModel,
     validation,
-    httpRequest
+    httpRequest,
+    listRepository
   }
 }
 
 describe('FindBase Controller', () => {
-  it('Should call usecase with correct values', async () => {
-    const { sut, usecase, httpRequest } = makeSut()
+  it('Should call listRepository with correct values', async () => {
+    const { sut, listRepository, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(usecase.list).toHaveBeenNthCalledWith(1, httpRequest.query)
+    expect(listRepository.list).toHaveBeenNthCalledWith(1, httpRequest.query)
   })
 
   it('Should return status code 400 if request is invalid', async () => {
@@ -58,7 +58,7 @@ describe('FindBase Controller', () => {
   })
 
   it('Should return status code 500 if any dependency throws', async () => {
-    const { sut, validation, usecase, httpRequest } = makeSut()
+    const { sut, validation, listRepository, httpRequest } = makeSut()
     const error = new Error('any_error')
 
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
@@ -66,7 +66,7 @@ describe('FindBase Controller', () => {
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
-    jest.spyOn(usecase, 'list').mockRejectedValueOnce(error)
+    jest.spyOn(listRepository, 'list').mockRejectedValueOnce(error)
     expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })

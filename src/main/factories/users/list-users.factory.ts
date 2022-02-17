@@ -1,6 +1,5 @@
 import { ListBaseController } from '@/application/controllers/base'
 import { Controller } from '@/application/protocols'
-import { DbListBase } from '@/application/usecases/base'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
@@ -18,6 +17,5 @@ export const listUsersFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const listRepository = new BaseRepository(UserEntity)
-  const usecase = new DbListBase({ listRepository })
-  return new ListBaseController({ usecase, validation })
+  return new ListBaseController({ listRepository, validation })
 }

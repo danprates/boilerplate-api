@@ -3,12 +3,12 @@ import {
   Controller,
   HttpRequest,
   HttpResponse,
-  List,
+  ListRepository,
   Validator
 } from '@/application/protocols'
 
 type Props = {
-  usecase: List
+  listRepository: ListRepository
   validation: Validator
 }
 
@@ -25,9 +25,9 @@ export class ListBaseController implements Controller {
 
       const { query } = validationResult.getValue()
 
-      const result = await this.props.usecase.list(query)
+      const result = await this.props.listRepository.list(query)
 
-      return ok(result.getValue())
+      return ok(result)
     } catch (error) {
       return serverError()
     }
