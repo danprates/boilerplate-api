@@ -1,9 +1,9 @@
+import { DbListBase } from '@/application/usecases/base'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
 import { ListBaseController } from '@/presentation/controllers/base'
 import { Controller } from '@/presentation/protocols'
-import { DbListBase } from '@/services/usecases/base'
 import Joi from 'joi'
 
 export const listUsersFactory = (): Controller => {
