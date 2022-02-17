@@ -4,10 +4,9 @@ import {
   ErrorModel,
   Result
 } from '@/application/models'
-import { Find, Validator } from '@/application/protocols'
+import { Find, HttpRequest, Validator } from '@/application/protocols'
 import { FindBaseController } from '@/presentation/controllers/base'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
-import { HttpRequest } from '@/presentation/protocols'
 
 interface SutTypes {
   sut: FindBaseController

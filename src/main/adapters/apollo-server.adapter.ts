@@ -1,4 +1,5 @@
-import { Controller, HttpRequest } from '@/presentation/protocols'
+import { HttpRequest } from '@/application/protocols'
+import { Controller } from '@/presentation/protocols'
 import { ApolloError } from 'apollo-server-express'
 
 enum DEFAULT {

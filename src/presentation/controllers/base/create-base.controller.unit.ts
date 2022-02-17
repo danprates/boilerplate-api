@@ -4,14 +4,13 @@ import {
   ErrorModel,
   Result
 } from '@/application/models'
-import { Create, Validator } from '@/application/protocols'
+import { Create, HttpRequest, Validator } from '@/application/protocols'
 import { CreateBaseController } from '@/presentation/controllers/base'
 import {
   created,
   resultErrorHandler,
   serverError
 } from '@/presentation/helpers'
-import { HttpRequest } from '@/presentation/protocols'
 
 interface SutTypes {
   sut: CreateBaseController

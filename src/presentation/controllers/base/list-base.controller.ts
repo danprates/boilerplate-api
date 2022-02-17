@@ -1,6 +1,11 @@
-import { List, Validator } from '@/application/protocols'
+import {
+  HttpRequest,
+  HttpResponse,
+  List,
+  Validator
+} from '@/application/protocols'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
-import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
+import { Controller } from '@/presentation/protocols'
 
 type Props = {
   usecase: List

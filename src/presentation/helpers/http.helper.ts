@@ -1,5 +1,5 @@
 import { ErrorModel } from '@/application/models'
-import { HttpResponse } from '../protocols'
+import { HttpResponse } from '@/application/protocols'
 
 export const ok = (data: any): HttpResponse => ({
   statusCode: 200,
