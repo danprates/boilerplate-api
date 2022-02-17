@@ -1,9 +1,9 @@
+import { DeleteBaseController } from '@/application/controllers/base'
 import { Controller } from '@/application/protocols'
 import { DbSoftDeleteBase } from '@/application/usecases/base'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
-import { DeleteBaseController } from '@/presentation/controllers/base'
 import Joi from 'joi'
 
 export const deleteUserFactory = (): Controller => {

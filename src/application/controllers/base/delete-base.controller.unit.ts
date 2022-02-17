@@ -1,11 +1,6 @@
-import {
-  BaseModel,
-  BaseModelFixture,
-  ErrorModel,
-  Result
-} from '@/application/models'
-import { HttpRequest, Update, Validator } from '@/application/protocols'
-import { UpdateBaseController } from '@/presentation/controllers/base'
+import { DeleteBaseController } from '@/application/controllers/base'
+import { ErrorModel, Result } from '@/application/models'
+import { Delete, HttpRequest, Validator } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,
@@ -13,42 +8,35 @@ import {
 } from '@/presentation/helpers'
 
 interface SutTypes {
-  sut: UpdateBaseController
+  sut: DeleteBaseController
   httpRequest: HttpRequest
-  baseModel: BaseModel
-  usecase: Update
+  usecase: Delete
   validation: Validator
 }
 
 const makeSut = (): SutTypes => {
-  const baseModel = BaseModelFixture()
-  const httpRequest = { params: { id: baseModel.id }, body: baseModel }
+  const httpRequest = { params: { id: 'any_name' } }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const usecase: Update = {
-    update: jest.fn().mockResolvedValue(Result.ok(baseModel))
+  const usecase: Delete = {
+    delete: jest.fn().mockResolvedValue(Result.ok(true))
   }
-  const sut = new UpdateBaseController({ usecase, validation })
+  const sut = new DeleteBaseController({ usecase, validation })
 
   return {
     sut,
     usecase,
-    baseModel,
     validation,
     httpRequest
   }
 }
 
-describe('FindBase Controller', () => {
+describe('DeleteBase Controller', () => {
   it('Should call usecase with correct values', async () => {
     const { sut, usecase, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(usecase.update).toHaveBeenNthCalledWith(
-      1,
-      httpRequest.params.id,
-      httpRequest.body
-    )
+    expect(usecase.delete).toHaveBeenNthCalledWith(1, httpRequest.params.id)
   })
 
   it('Should return status code 400 if request is invalid', async () => {
@@ -62,7 +50,7 @@ describe('FindBase Controller', () => {
   it('Should return status code 404 if data was not found', async () => {
     const { sut, usecase, httpRequest } = makeSut()
     const err = ErrorModel.notFound()
-    jest.spyOn(usecase, 'update').mockResolvedValueOnce(Result.fail(err))
+    jest.spyOn(usecase, 'delete').mockResolvedValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
@@ -82,7 +70,7 @@ describe('FindBase Controller', () => {
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
-    jest.spyOn(usecase, 'update').mockRejectedValueOnce(error)
+    jest.spyOn(usecase, 'delete').mockRejectedValueOnce(error)
     expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })

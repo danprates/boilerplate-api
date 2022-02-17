@@ -1,35 +1,31 @@
+import { ListBaseController } from '@/application/controllers/base'
 import {
   BaseModel,
   BaseModelFixture,
   ErrorModel,
   Result
 } from '@/application/models'
-import { Create, HttpRequest, Validator } from '@/application/protocols'
-import { CreateBaseController } from '@/presentation/controllers/base'
-import {
-  created,
-  resultErrorHandler,
-  serverError
-} from '@/presentation/helpers'
+import { HttpRequest, List, Validator } from '@/application/protocols'
+import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 
 interface SutTypes {
-  sut: CreateBaseController
+  sut: ListBaseController
   httpRequest: HttpRequest
   baseModel: BaseModel
-  usecase: Create
+  usecase: List
   validation: Validator
 }
 
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
-  const httpRequest = { body: { name: 'any_name' } }
-  const usecase: Create = {
-    create: jest.fn().mockResolvedValue(Result.ok(baseModel))
-  }
+  const httpRequest = {}
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const sut = new CreateBaseController({ usecase, validation })
+  const usecase: List = {
+    list: jest.fn().mockResolvedValue(Result.ok([baseModel]))
+  }
+  const sut = new ListBaseController({ usecase, validation })
 
   return {
     sut,
@@ -40,31 +36,25 @@ const makeSut = (): SutTypes => {
   }
 }
 
-describe('CreateBase Controller', () => {
+describe('FindBase Controller', () => {
   it('Should call usecase with correct values', async () => {
     const { sut, usecase, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(usecase.create).toHaveBeenNthCalledWith(1, httpRequest.body)
+    expect(usecase.list).toHaveBeenNthCalledWith(1, httpRequest.query)
   })
 
-  it('Should call validation with correct values', async () => {
-    const { sut, validation, httpRequest } = makeSut()
-    await sut.handler(httpRequest)
-    expect(validation.run).toHaveBeenNthCalledWith(1, httpRequest)
-  })
-
-  it('Should return 400 if validation returns fail result', async () => {
-    const { sut, validation, httpRequest } = makeSut()
+  it('Should return status code 400 if request is invalid', async () => {
+    const { sut, httpRequest, validation } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
     jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
-  it('Should return status code 201 when correct params are provided', async () => {
+  it('Should return status code 200 when correct params are provided', async () => {
     const { sut, baseModel, httpRequest } = makeSut()
     const result = await sut.handler(httpRequest)
-    expect(result).toEqual(created(baseModel))
+    expect(result).toEqual(ok([baseModel]))
   })
 
   it('Should return status code 500 if any dependency throws', async () => {
@@ -76,7 +66,7 @@ describe('CreateBase Controller', () => {
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
-    jest.spyOn(usecase, 'create').mockRejectedValueOnce(error)
+    jest.spyOn(usecase, 'list').mockRejectedValueOnce(error)
     expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })
