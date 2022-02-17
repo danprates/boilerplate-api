@@ -1,4 +1,4 @@
-import { UserModelFixture } from '@/domain/models/user.model.fixture'
+import { UserModelFixture } from '@/application/models/user.model.fixture'
 import { config } from 'dotenv'
 import { Repository } from 'typeorm'
 import { BaseRepository } from '.'

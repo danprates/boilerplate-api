@@ -1,9 +1,9 @@
-import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
+import { BaseModel, BaseModelFixture, Result } from '@/application/models'
 import {
   ListRepository,
   Pagination,
   PaginationOptions
-} from '@/domain/protocols'
+} from '@/application/protocols'
 import { DbListBase } from './db-list-base.usecase'
 
 interface SutTypes {

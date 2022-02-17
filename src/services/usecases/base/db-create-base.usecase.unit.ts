@@ -1,5 +1,5 @@
-import { BaseModel, BaseModelFixture, Result } from '@/domain/models'
-import { CreateRepository } from '@/domain/protocols'
+import { BaseModel, BaseModelFixture, Result } from '@/application/models'
+import { CreateRepository } from '@/application/protocols'
 import { DbCreateBase } from './db-create-base.usecase'
 
 interface SutTypes {

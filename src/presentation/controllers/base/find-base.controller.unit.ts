@@ -3,8 +3,8 @@ import {
   BaseModelFixture,
   ErrorModel,
   Result
-} from '@/domain/models'
-import { Find } from '@/domain/protocols'
+} from '@/application/models'
+import { Find } from '@/application/protocols'
 import { FindBaseController } from '@/presentation/controllers/base'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'

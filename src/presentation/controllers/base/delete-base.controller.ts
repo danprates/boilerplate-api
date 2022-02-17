@@ -1,4 +1,4 @@
-import { Delete } from '@/domain/protocols'
+import { Delete } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,

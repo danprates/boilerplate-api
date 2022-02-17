@@ -1,4 +1,4 @@
-import { BaseModel } from '@/domain/models'
+import { BaseModel } from '@/application/models'
 import {
   CreateRepository,
   FindRepository,
@@ -8,7 +8,7 @@ import {
   PaginationOptions,
   SoftDeleteRepository,
   UpdateRepository
-} from '@/domain/protocols'
+} from '@/application/protocols'
 import { TypeormHelper } from '../typeorm-helper'
 
 export class BaseRepository

@@ -1,4 +1,4 @@
-import { Find } from '@/domain/protocols'
+import { Find } from '@/application/protocols'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import {
   Controller,

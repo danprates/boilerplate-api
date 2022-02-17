@@ -3,8 +3,8 @@ import {
   BaseModelFixture,
   ErrorModel,
   Result
-} from '@/domain/models'
-import { UpdateRepository } from '@/domain/protocols'
+} from '@/application/models'
+import { UpdateRepository } from '@/application/protocols'
 import { DbUpdateBase } from './db-update-base.usecase'
 
 interface SutTypes {

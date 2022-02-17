@@ -3,8 +3,8 @@ import {
   BaseModelFixture,
   ErrorModel,
   Result
-} from '@/domain/models'
-import { FindRepository } from '@/domain/protocols'
+} from '@/application/models'
+import { FindRepository } from '@/application/protocols'
 import { DbFindBase } from './db-find-base.usecase'
 
 interface SutTypes {

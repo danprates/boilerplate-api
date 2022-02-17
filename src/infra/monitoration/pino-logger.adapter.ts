@@ -1,4 +1,4 @@
-import { Logger } from '@/domain/protocols'
+import { Logger } from '@/application/protocols'
 import { APP_NAME, LOG_LEVEL } from '@/main/config/env.config'
 import { pino } from 'pino'
 

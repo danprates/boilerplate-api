@@ -1,5 +1,5 @@
-import { BaseModel, ErrorModel, Result } from '@/domain/models'
-import { Find, FindRepository } from '@/domain/protocols'
+import { BaseModel, ErrorModel, Result } from '@/application/models'
+import { Find, FindRepository } from '@/application/protocols'
 
 type Props = {
   findRepository: FindRepository

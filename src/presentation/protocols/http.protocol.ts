@@ -1,4 +1,4 @@
-import { PaginationOptions } from '@/domain/protocols'
+import { PaginationOptions } from '@/application/protocols'
 
 export interface HttpRequest<T = unknown> {
   body?: any

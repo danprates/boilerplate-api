@@ -3,8 +3,8 @@ import {
   BaseModelFixture,
   ErrorModel,
   Result
-} from '@/domain/models'
-import { Create } from '@/domain/protocols'
+} from '@/application/models'
+import { Create } from '@/application/protocols'
 import { CreateBaseController } from '@/presentation/controllers/base'
 import {
   created,

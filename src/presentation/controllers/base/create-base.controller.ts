@@ -1,4 +1,4 @@
-import { Create } from '@/domain/protocols'
+import { Create } from '@/application/protocols'
 import {
   created,
   resultErrorHandler,

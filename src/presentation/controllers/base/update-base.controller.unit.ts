@@ -3,8 +3,8 @@ import {
   BaseModelFixture,
   ErrorModel,
   Result
-} from '@/domain/models'
-import { Update } from '@/domain/protocols'
+} from '@/application/models'
+import { Update } from '@/application/protocols'
 import { UpdateBaseController } from '@/presentation/controllers/base'
 import {
   noContent,

@@ -1,5 +1,5 @@
-import { BaseModel } from '@/domain/models'
-import { Pagination, PaginationOptions } from '@/domain/protocols'
+import { BaseModel } from '@/application/models'
+import { Pagination, PaginationOptions } from '@/application/protocols'
 
 export interface CreateRepository {
   create: (data: Partial<BaseModel>) => Promise<BaseModel>

@@ -1,5 +1,5 @@
-import { ErrorModel, Result } from '@/domain/models'
-import { Delete, HardDeleteRepository } from '@/domain/protocols'
+import { ErrorModel, Result } from '@/application/models'
+import { Delete, HardDeleteRepository } from '@/application/protocols'
 
 type Props = {
   deleteRepository: HardDeleteRepository

@@ -1,4 +1,4 @@
-import { ErrorModel } from '@/domain/models'
+import { ErrorModel } from '@/application/models'
 import { created, noContent, ok, resultErrorHandler, serverError } from '.'
 
 describe('HTTPHelper', () => {

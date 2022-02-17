@@ -1,4 +1,4 @@
-import { Update } from '@/domain/protocols'
+import { Update } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,

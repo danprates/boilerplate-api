@@ -1,4 +1,4 @@
-import { ErrorModel } from '@/domain/models'
+import { ErrorModel } from '@/application/models'
 import { HttpResponse } from '../protocols'
 
 export const ok = (data: any): HttpResponse => ({

@@ -1,5 +1,5 @@
-import { ErrorModel } from '@/domain/models'
-import { UserModelFixture } from '@/domain/models/user.model.fixture'
+import { ErrorModel } from '@/application/models'
+import { UserModelFixture } from '@/application/models/user.model.fixture'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'
 import { resultErrorHandler } from '@/presentation/helpers'

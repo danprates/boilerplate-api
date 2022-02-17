@@ -1,5 +1,5 @@
-import { BaseModel, Result } from '@/domain/models'
-import { Create, CreateRepository } from '@/domain/protocols'
+import { BaseModel, Result } from '@/application/models'
+import { Create, CreateRepository } from '@/application/protocols'
 
 type Props = {
   createRepository: CreateRepository
