@@ -3,17 +3,18 @@ import {
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
+import { ErrorModel } from '@/application/models'
 import {
   Controller,
   HttpRequest,
   HttpResponse,
-  Update,
+  UpdateRepository,
   Validator
 } from '@/application/protocols'
 
 type Props = {
-  usecase: Update
   validation: Validator
+  updateRepository: UpdateRepository
 }
 
 export class UpdateBaseController implements Controller {
@@ -29,10 +30,13 @@ export class UpdateBaseController implements Controller {
 
       const { params, body } = validationResult.getValue()
 
-      const wasUpdated = await this.props.usecase.update(params.id, body)
+      const wasUpdated = await this.props.updateRepository.update(
+        params.id,
+        body
+      )
 
-      if (wasUpdated.isFailure) {
-        return resultErrorHandler(wasUpdated.error)
+      if (!wasUpdated) {
+        return resultErrorHandler(ErrorModel.notFound())
       }
 
       return noContent()

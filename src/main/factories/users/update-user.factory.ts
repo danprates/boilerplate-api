@@ -1,6 +1,5 @@
 import { UpdateBaseController } from '@/application/controllers/base'
 import { Controller } from '@/application/protocols'
-import { DbUpdateBase } from '@/application/usecases/base'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
@@ -21,6 +20,5 @@ export const updateUserFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const updateRepository = new BaseRepository(UserEntity)
-  const usecase = new DbUpdateBase({ updateRepository })
-  return new UpdateBaseController({ usecase, validation })
+  return new UpdateBaseController({ updateRepository, validation })
 }
