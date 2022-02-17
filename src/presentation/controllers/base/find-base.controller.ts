@@ -1,11 +1,6 @@
-import { Find } from '@/application/protocols'
+import { Find, Validation } from '@/application/protocols'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
-import {
-  Controller,
-  HttpRequest,
-  HttpResponse,
-  Validation
-} from '@/presentation/protocols'
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 type Props = {
   usecase: Find

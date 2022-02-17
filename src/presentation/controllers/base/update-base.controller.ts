@@ -1,15 +1,10 @@
-import { Update } from '@/application/protocols'
+import { Update, Validation } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,
   serverError
 } from '@/presentation/helpers'
-import {
-  Controller,
-  HttpRequest,
-  HttpResponse,
-  Validation
-} from '@/presentation/protocols'
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 type Props = {
   usecase: Update

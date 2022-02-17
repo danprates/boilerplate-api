@@ -1,15 +1,10 @@
-import { Delete } from '@/application/protocols'
+import { Delete, Validation } from '@/application/protocols'
 import {
   noContent,
   resultErrorHandler,
   serverError
 } from '@/presentation/helpers'
-import {
-  Controller,
-  HttpRequest,
-  HttpResponse,
-  Validation
-} from '@/presentation/protocols'
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 type Props = {
   usecase: Delete

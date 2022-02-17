@@ -1,5 +1,5 @@
 import { ErrorModel, Result } from '@/application/models'
-import { Validation } from '@/presentation/protocols'
+import { Validation } from '@/application/protocols'
 import Joi from 'joi'
 
 export class JoiAdapter<T = any> implements Validation {

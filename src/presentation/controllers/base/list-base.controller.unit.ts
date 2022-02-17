@@ -4,10 +4,10 @@ import {
   ErrorModel,
   Result
 } from '@/application/models'
-import { List } from '@/application/protocols'
+import { List, Validation } from '@/application/protocols'
 import { ListBaseController } from '@/presentation/controllers/base'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
-import { HttpRequest, Validation } from '@/presentation/protocols'
+import { HttpRequest } from '@/presentation/protocols'
 
 interface SutTypes {
   sut: ListBaseController

@@ -1,15 +1,10 @@
-import { Create } from '@/application/protocols'
+import { Create, Validation } from '@/application/protocols'
 import {
   created,
   resultErrorHandler,
   serverError
 } from '@/presentation/helpers'
-import {
-  Controller,
-  HttpRequest,
-  HttpResponse,
-  Validation
-} from '@/presentation/protocols'
+import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 type Props = {
   usecase: Create
