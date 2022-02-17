@@ -4,7 +4,7 @@ import {
   ErrorModel,
   Result
 } from '@/domain/models'
-import { Update } from '@/domain/usecases'
+import { Update } from '@/domain/protocols'
 import { UpdateBaseController } from '@/presentation/controllers/base'
 import {
   noContent,

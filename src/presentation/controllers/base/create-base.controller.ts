@@ -1,4 +1,4 @@
-import { Create } from '@/domain/usecases'
+import { Create } from '@/domain/protocols'
 import {
   created,
   resultErrorHandler,

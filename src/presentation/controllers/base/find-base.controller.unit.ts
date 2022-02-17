@@ -4,7 +4,7 @@ import {
   ErrorModel,
   Result
 } from '@/domain/models'
-import { Find } from '@/domain/usecases'
+import { Find } from '@/domain/protocols'
 import { FindBaseController } from '@/presentation/controllers/base'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import { HttpRequest, Validation } from '@/presentation/protocols'

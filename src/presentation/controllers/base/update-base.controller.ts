@@ -1,4 +1,4 @@
-import { Update } from '@/domain/usecases'
+import { Update } from '@/domain/protocols'
 import {
   noContent,
   resultErrorHandler,

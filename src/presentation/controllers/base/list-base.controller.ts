@@ -1,4 +1,4 @@
-import { List } from '@/domain/usecases'
+import { List } from '@/domain/protocols'
 import { ok, resultErrorHandler, serverError } from '@/presentation/helpers'
 import {
   Controller,

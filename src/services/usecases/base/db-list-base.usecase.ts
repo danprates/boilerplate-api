@@ -1,6 +1,5 @@
 import { BaseModel, Result } from '@/domain/models'
-import { Pagination, PaginationOptions } from '@/domain/protocols'
-import { List } from '@/domain/usecases'
+import { List, Pagination, PaginationOptions } from '@/domain/protocols'
 import { ListRepository } from '../../protocols'
 
 type Props = {

@@ -1,5 +1,5 @@
 import { BaseModel, Result } from '../models'
-import { PaginationOptions, Pagination } from '../protocols/'
+import { Pagination, PaginationOptions } from './pagination.protocol'
 
 export interface Create {
   create: (data: Partial<BaseModel>) => Promise<Result<BaseModel>>

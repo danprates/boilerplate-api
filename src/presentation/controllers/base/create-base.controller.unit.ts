@@ -4,7 +4,7 @@ import {
   ErrorModel,
   Result
 } from '@/domain/models'
-import { Create } from '@/domain/usecases'
+import { Create } from '@/domain/protocols'
 import { CreateBaseController } from '@/presentation/controllers/base'
 import {
   created,

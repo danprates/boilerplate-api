@@ -1,4 +1,4 @@
-import { Delete } from '@/domain/usecases'
+import { Delete } from '@/domain/protocols'
 import {
   noContent,
   resultErrorHandler,
