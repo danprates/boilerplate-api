@@ -1,15 +1,15 @@
 import { created, resultErrorHandler, serverError } from '@/application/helpers'
 import {
   Controller,
-  Create,
+  CreateRepository,
   HttpRequest,
   HttpResponse,
   Validator
 } from '@/application/protocols'
 
 type Props = {
-  usecase: Create
   validation: Validator
+  createRepository: CreateRepository
 }
 
 export class CreateBaseController implements Controller {
@@ -24,9 +24,9 @@ export class CreateBaseController implements Controller {
       }
       const { body } = requestValidated.getValue()
 
-      const result = await this.props.usecase.create(body)
+      const result = await this.props.createRepository.create(body)
 
-      return created(result.getValue())
+      return created(result)
     } catch (error) {
       return serverError()
     }

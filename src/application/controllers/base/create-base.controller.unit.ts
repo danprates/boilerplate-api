@@ -6,30 +6,34 @@ import {
   ErrorModel,
   Result
 } from '@/application/models'
-import { Create, HttpRequest, Validator } from '@/application/protocols'
+import {
+  CreateRepository,
+  HttpRequest,
+  Validator
+} from '@/application/protocols'
 
 interface SutTypes {
   sut: CreateBaseController
   httpRequest: HttpRequest
   baseModel: BaseModel
-  usecase: Create
   validation: Validator
+  createRepository: CreateRepository
 }
 
 const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { body: { name: 'any_name' } }
-  const usecase: Create = {
-    create: jest.fn().mockResolvedValue(Result.ok(baseModel))
+  const createRepository: CreateRepository = {
+    create: jest.fn().mockResolvedValue(baseModel)
   }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const sut = new CreateBaseController({ usecase, validation })
+  const sut = new CreateBaseController({ createRepository, validation })
 
   return {
     sut,
-    usecase,
+    createRepository,
     baseModel,
     validation,
     httpRequest
@@ -37,10 +41,10 @@ const makeSut = (): SutTypes => {
 }
 
 describe('CreateBase Controller', () => {
-  it('Should call usecase with correct values', async () => {
-    const { sut, usecase, httpRequest } = makeSut()
+  it('Should call createRepository with correct values', async () => {
+    const { sut, createRepository, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(usecase.create).toHaveBeenNthCalledWith(1, httpRequest.body)
+    expect(createRepository.create).toHaveBeenNthCalledWith(1, httpRequest.body)
   })
 
   it('Should call validation with correct values', async () => {
@@ -64,7 +68,7 @@ describe('CreateBase Controller', () => {
   })
 
   it('Should return status code 500 if any dependency throws', async () => {
-    const { sut, validation, usecase, httpRequest } = makeSut()
+    const { sut, validation, createRepository, httpRequest } = makeSut()
     const error = new Error('any_error')
 
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
@@ -72,7 +76,7 @@ describe('CreateBase Controller', () => {
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
-    jest.spyOn(usecase, 'create').mockRejectedValueOnce(error)
+    jest.spyOn(createRepository, 'create').mockRejectedValueOnce(error)
     expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })

@@ -1,4 +1,3 @@
-export * from './db-create-base.usecase'
 export * from './db-find-base.usecase'
 export * from './db-hard-delete-base.usecase'
 export * from './db-list-base.usecase'
