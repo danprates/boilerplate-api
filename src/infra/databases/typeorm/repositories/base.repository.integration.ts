@@ -1,4 +1,4 @@
-import { UserModelFixture } from '@/domain/models/user.model.fixture'
+import { UserModelFixture } from '@/application/models/user.model.fixture'
 import { config } from 'dotenv'
 import { Repository } from 'typeorm'
 import { BaseRepository } from '.'
@@ -85,10 +85,10 @@ describe('BaseRepository', () => {
     })
   })
 
-  describe('softDelete', () => {
-    it('should softDelete the user', async () => {
+  describe('delete', () => {
+    it('should delete the user', async () => {
       const user = await userRepository.save(UserModelFixture())
-      const updated = await sut.softDelete(user.id)
+      const updated = await sut.delete(user.id)
       const result = await userRepository.findOne(
         { id: user.id },
         { select: ['isActive', 'isDeleted'] }
@@ -100,24 +100,7 @@ describe('BaseRepository', () => {
     })
 
     it('should return undefined when does not exist user', async () => {
-      const updated = await sut.softDelete('wrong_id')
-
-      expect(updated).toBeFalsy()
-    })
-  })
-
-  describe('hardDelete', () => {
-    it('should hardDelete the user', async () => {
-      const user = await userRepository.save(UserModelFixture())
-      const updated = await sut.hardDelete(user.id)
-      const result = await userRepository.findOne({ id: user.id })
-
-      expect(updated).toBeTruthy()
-      expect(result).toBeUndefined()
-    })
-
-    it('should return undefined when does not exist user', async () => {
-      const updated = await sut.hardDelete('wrong_id')
+      const updated = await sut.delete('wrong_id')
 
       expect(updated).toBeFalsy()
     })
