@@ -2,9 +2,9 @@
 
 ## Dependencies
 
-- Node: ^14.15.3
-- NPM: ^6.14.15
-- Docker: ^20.10.8
+- Node: ^16.14.2
+- NPM: ^8.5.0
+- Docker: ^20.10.14
 - docker-compose: ^1.27.4
 
 ## Rodando o projeto
