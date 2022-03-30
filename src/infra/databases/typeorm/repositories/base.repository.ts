@@ -56,12 +56,14 @@ export class BaseRepository
       : Result.fail(ErrorModel.notFound())
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string): Promise<Result<boolean>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const { affected } = await repo.update(id, {
       isActive: false,
       isDeleted: true
     })
     return Number(affected) > 0
+      ? Result.ok(true)
+      : Result.fail(ErrorModel.notFound())
   }
 }
