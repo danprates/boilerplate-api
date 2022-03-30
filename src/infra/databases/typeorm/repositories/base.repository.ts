@@ -1,4 +1,4 @@
-import { BaseModel } from '@/application/models'
+import { BaseModel, Result } from '@/application/models'
 import {
   CreateRepository,
   FindRepository,
@@ -22,9 +22,10 @@ export class BaseRepository
 {
   constructor(private readonly entity: any) {}
 
-  async create(data: Partial<BaseModel>): Promise<BaseModel> {
+  async create(data: Partial<BaseModel>): Promise<Result<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    return repo.save(data)
+    const created = await repo.save(data)
+    return Result.ok(created)
   }
 
   async list(options: PaginationOptions): Promise<Pagination<BaseModel>> {
