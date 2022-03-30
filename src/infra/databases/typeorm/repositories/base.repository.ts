@@ -48,10 +48,12 @@ export class BaseRepository
     return result ? Result.ok(result) : Result.fail(ErrorModel.notFound())
   }
 
-  async update(id: string, data: Partial<BaseModel>): Promise<boolean> {
+  async update(id: string, data: Partial<BaseModel>): Promise<Result<boolean>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const { affected } = await repo.update(id, data)
     return Number(affected) > 0
+      ? Result.ok(true)
+      : Result.fail(ErrorModel.notFound())
   }
 
   async delete(id: string): Promise<boolean> {

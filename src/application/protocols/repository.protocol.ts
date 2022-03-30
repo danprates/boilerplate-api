@@ -14,7 +14,7 @@ export interface FindRepository {
 }
 
 export interface UpdateRepository {
-  update: (id: string, data: Partial<BaseModel>) => Promise<boolean>
+  update: (id: string, data: Partial<BaseModel>) => Promise<Result<boolean>>
 }
 
 export interface SoftDeleteRepository {

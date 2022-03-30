@@ -3,7 +3,6 @@ import {
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
-import { ErrorModel } from '@/application/models'
 import {
   Controller,
   HttpRequest,
@@ -35,8 +34,8 @@ export class UpdateBaseController implements Controller {
         body
       )
 
-      if (!wasUpdated) {
-        return resultErrorHandler(ErrorModel.notFound())
+      if (wasUpdated.isFailure) {
+        return resultErrorHandler(wasUpdated.error)
       }
 
       return noContent()
