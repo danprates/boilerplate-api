@@ -24,7 +24,7 @@ const makeSut = (): SutTypes => {
   const baseModel = BaseModelFixture()
   const httpRequest = { body: { name: 'any_name' } }
   const createRepository: CreateRepository = {
-    create: jest.fn().mockResolvedValue(baseModel)
+    create: jest.fn().mockResolvedValue(Result.ok(baseModel))
   }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))

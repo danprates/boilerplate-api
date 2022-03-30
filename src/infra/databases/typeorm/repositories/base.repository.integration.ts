@@ -22,10 +22,13 @@ describe('BaseRepository', () => {
 
   describe('create', () => {
     it('should create a new user', async () => {
-      const user = await sut.create(UserModelFixture())
-      const result = await userRepository.findOne({ id: user.id })
+      const userResult = await sut.create(UserModelFixture())
+      const user = userResult.getValue()
+      const result = await userRepository.findOne({
+        id: user?.id
+      })
 
-      expect(user.id).toEqual(result?.id)
+      expect(user?.id).toEqual(result?.id)
     })
   })
 
