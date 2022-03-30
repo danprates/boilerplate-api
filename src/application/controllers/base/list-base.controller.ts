@@ -27,7 +27,7 @@ export class ListBaseController implements Controller {
 
       const result = await this.props.listRepository.list(query)
 
-      return ok(result)
+      return ok(result.getValue())
     } catch (error) {
       return serverError()
     }

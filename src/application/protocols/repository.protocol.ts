@@ -6,7 +6,7 @@ export interface CreateRepository {
 }
 
 export interface ListRepository {
-  list: (options: PaginationOptions) => Promise<Pagination<BaseModel>>
+  list: (options: PaginationOptions) => Promise<Result<Pagination<BaseModel>>>
 }
 
 export interface FindRepository {

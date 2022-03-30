@@ -28,16 +28,18 @@ export class BaseRepository
     return Result.ok(created)
   }
 
-  async list(options: PaginationOptions): Promise<Pagination<BaseModel>> {
+  async list(
+    options: PaginationOptions
+  ): Promise<Result<Pagination<BaseModel>>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const [data, total] = await repo.findAndCount({
       ...options
     })
-    return {
+    return Result.ok({
       ...options,
       data,
       total
-    }
+    })
   }
 
   async find(id: string): Promise<BaseModel | undefined> {
