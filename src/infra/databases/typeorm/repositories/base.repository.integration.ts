@@ -36,20 +36,22 @@ describe('BaseRepository', () => {
     it('should return a list of users', async () => {
       const user = await userRepository.save(UserModelFixture())
       const result = await sut.list({ take: 10, skip: 0 })
+      const value = result.getValue()
 
-      expect(result.total).toEqual(1)
-      expect(result.take).toEqual(10)
-      expect(result.skip).toEqual(0)
-      expect(result.data[0].id).toEqual(user.id)
+      expect(value?.total).toEqual(1)
+      expect(value?.take).toEqual(10)
+      expect(value?.skip).toEqual(0)
+      expect(value?.data[0].id).toEqual(user.id)
     })
 
     it('should return an empty list when does not exist users', async () => {
       const result = await sut.list({ take: 10, skip: 0 })
+      const value = result.getValue()
 
-      expect(result.total).toEqual(0)
-      expect(result.take).toEqual(10)
-      expect(result.skip).toEqual(0)
-      expect(result.data).toEqual([])
+      expect(value?.total).toEqual(0)
+      expect(value?.take).toEqual(10)
+      expect(value?.skip).toEqual(0)
+      expect(value?.data).toEqual([])
     })
   })
 
