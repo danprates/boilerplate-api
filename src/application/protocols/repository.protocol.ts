@@ -10,7 +10,7 @@ export interface ListRepository {
 }
 
 export interface FindRepository {
-  find: (id: string) => Promise<BaseModel | undefined>
+  find: (id: string) => Promise<Result<BaseModel>>
 }
 
 export interface UpdateRepository {

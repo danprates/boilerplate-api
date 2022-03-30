@@ -1,4 +1,4 @@
-import { BaseModel, Result } from '@/application/models'
+import { BaseModel, ErrorModel, Result } from '@/application/models'
 import {
   CreateRepository,
   FindRepository,
@@ -42,9 +42,10 @@ export class BaseRepository
     })
   }
 
-  async find(id: string): Promise<BaseModel | undefined> {
+  async find(id: string): Promise<Result<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    return repo.findOne(id)
+    const result = await repo.findOne(id)
+    return result ? Result.ok(result) : Result.fail(ErrorModel.notFound())
   }
 
   async update(id: string, data: Partial<BaseModel>): Promise<boolean> {
