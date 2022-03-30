@@ -76,9 +76,9 @@
     "joi": "^17.6.0",
     "mongodb": "3.7.0",
     "openapi-types": "^10.0.0",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
     "pino": "^7.9.2",
     "swagger-ui-express": "^4.3.0",
-    "typeorm": "^0.2.41"
+    "typeorm": "^0.3.4"
   }
 }
