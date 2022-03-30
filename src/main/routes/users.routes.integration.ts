@@ -56,7 +56,7 @@ describe('/users routes', () => {
         .post(`/api/${API_VERSION}/users`)
         .send({ name, email, password })
 
-      const user = await userRepository.findOne({ id: body.id })
+      const user = await userRepository.findOneBy({ id: body.id })
 
       expect(statusCode).toEqual(201)
 
@@ -95,7 +95,7 @@ describe('/users routes', () => {
         .put(`/api/${API_VERSION}/users/${user.id}`)
         .send({ name: 'new_name' })
 
-      const userResult = await userRepository.findOne({ id: user.id })
+      const userResult = await userRepository.findOneBy({ id: user.id })
 
       expect(statusCode).toEqual(204)
       expect(userResult?.name).toEqual('new_name')
@@ -120,10 +120,10 @@ describe('/users routes', () => {
         `/api/${API_VERSION}/users/${user.id}`
       )
 
-      const userResult = await userRepository.findOne(
-        { id: user.id },
-        { select: ['isDeleted', 'isActive'] }
-      )
+      const userResult = await userRepository.findOne({
+        where: { id: user.id },
+        select: ['isDeleted', 'isActive']
+      })
 
       expect(statusCode).toEqual(204)
       expect(userResult?.isDeleted).toBeTruthy()

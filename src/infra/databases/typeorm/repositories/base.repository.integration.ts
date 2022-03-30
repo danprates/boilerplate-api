@@ -25,7 +25,7 @@ describe('BaseRepository', () => {
     it('should create a new user', async () => {
       const userResult = await sut.create(UserModelFixture())
       const user = userResult.getValue()
-      const result = await userRepository.findOne({
+      const result = await userRepository.findOneBy({
         id: user?.id
       })
 
@@ -78,10 +78,12 @@ describe('BaseRepository', () => {
     it('should update the user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const updated = await sut.update(user.id, { isActive: !user.isActive })
-      const result = await userRepository.findOne(
-        { id: user.id },
-        { select: ['isActive'] }
-      )
+      const result = await userRepository.findOne({
+        where: {
+          id: user.id
+        },
+        select: ['isActive']
+      })
       const value = updated.getValue()
 
       expect(updated.isSuccess).toBeTruthy()
@@ -101,10 +103,10 @@ describe('BaseRepository', () => {
     it('should delete the user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const updated = await sut.delete(user.id)
-      const result = await userRepository.findOne(
-        { id: user.id },
-        { select: ['isActive', 'isDeleted'] }
-      )
+      const result = await userRepository.findOne({
+        where: { id: user.id },
+        select: ['isActive', 'isDeleted']
+      })
       const value = updated.getValue()
 
       expect(updated.isSuccess).toBeTruthy()
