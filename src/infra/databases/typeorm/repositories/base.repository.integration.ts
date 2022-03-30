@@ -105,16 +105,19 @@ describe('BaseRepository', () => {
         { id: user.id },
         { select: ['isActive', 'isDeleted'] }
       )
+      const value = updated.getValue()
 
-      expect(updated).toBeTruthy()
+      expect(updated.isSuccess).toBeTruthy()
+      expect(value).toBeTruthy()
       expect(result?.isActive).toBeFalsy()
       expect(result?.isDeleted).toBeTruthy()
     })
 
-    it('should return undefined when does not exist user', async () => {
+    it('should return Not found when does not exist user', async () => {
       const updated = await sut.delete('wrong_id')
 
-      expect(updated).toBeFalsy()
+      expect(updated.isFailure).toBeTruthy()
+      expect(updated.error).toEqual(ErrorModel.notFound())
     })
   })
 })
