@@ -33,7 +33,7 @@
     "test:integration": "npm test -- --watch -c jest-integration.config.js",
     "test:ci": "npm test -- --coverage",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
-    "version": "auto-changelog -p -b 1000 --template keepachangelog"
+    "version": "auto-changelog -p -b 1000 -l 1000 --template keepachangelog && git add CHANGELOG.md"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.0.0-alpha.3",
