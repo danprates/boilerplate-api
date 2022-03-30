@@ -18,7 +18,8 @@
     "url": "git@github.com:danprates/boilerplate-api.git"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.14.2",
+    "npm": ">=8.5.0"
   },
   "scripts": {
     "prepare": "husky install",
