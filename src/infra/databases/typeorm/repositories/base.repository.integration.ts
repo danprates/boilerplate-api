@@ -1,3 +1,4 @@
+import { ErrorModel } from '@/application/models'
 import { UserModelFixture } from '@/application/models/user.model.fixture'
 import { config } from 'dotenv'
 import { Repository } from 'typeorm'
@@ -59,14 +60,17 @@ describe('BaseRepository', () => {
     it('should return an user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const result = await sut.find(user.id)
+      const value = result.getValue()
 
-      expect(result?.id).toEqual(user.id)
+      expect(result.isSuccess).toBeTruthy()
+      expect(value?.id).toEqual(user.id)
     })
 
-    it('should return undefined when does not exist user', async () => {
+    it('should return Not found when does not exist user', async () => {
       const result = await sut.find('wrong_id')
 
-      expect(result?.id).toBeUndefined()
+      expect(result.isFailure).toBeTruthy()
+      expect(result.error).toEqual(ErrorModel.notFound())
     })
   })
 
