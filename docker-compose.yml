@@ -14,7 +14,7 @@ networks:
 services:
   api:
     container_name: boilerplate-api
-    image: node:14
+    image: node:16.14.2
     working_dir: /usr/src/app
     restart: always
     env_file: .env
