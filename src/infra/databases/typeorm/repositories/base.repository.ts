@@ -44,7 +44,7 @@ export class BaseRepository
 
   async find(id: string): Promise<Result<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    const result = await repo.findOneBy({ id })
+    const result = await repo.findOne({ id })
     return result ? Result.ok(result) : Result.fail(ErrorModel.notFound())
   }
 

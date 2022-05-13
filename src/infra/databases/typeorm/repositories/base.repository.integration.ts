@@ -25,7 +25,7 @@ describe('BaseRepository', () => {
     it('should create a new user', async () => {
       const userResult = await sut.create(UserModelFixture())
       const user = userResult.getValue()
-      const result = await userRepository.findOneBy({
+      const result = await userRepository.findOne({
         id: user?.id
       })
 
