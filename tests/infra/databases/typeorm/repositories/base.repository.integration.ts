@@ -1,10 +1,10 @@
 import { ErrorModel } from '@/application/models'
+import { UserEntity } from '@/infra/databases/typeorm/entities'
+import { BaseRepository } from '@/infra/databases/typeorm/repositories'
+import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'
 import { UserModelFixture } from '@/tests/application/fixtures/user.model.fixture'
 import { config } from 'dotenv'
 import { Repository } from 'typeorm'
-import { BaseRepository } from '.'
-import { UserEntity } from '../entities'
-import { TypeormHelper } from '../typeorm-helper'
 
 config({ path: process.env.NODE_ENV === 'test' ? '.env.testing' : '.env' })
 

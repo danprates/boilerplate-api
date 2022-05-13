@@ -1,6 +1,6 @@
+import { UserEntity } from '@/infra/databases/typeorm/entities'
+import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'
 import { config } from 'dotenv'
-import { UserEntity } from './entities'
-import { TypeormHelper } from './typeorm-helper'
 
 config({ path: process.env.NODE_ENV === 'test' ? '.env.testing' : '.env' })
 

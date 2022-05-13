@@ -1,6 +1,6 @@
 import { ErrorModel } from '@/application/models'
+import { JoiAdapter } from '@/infra/validators/joi.adapter'
 import Joi from 'joi'
-import { JoiAdapter } from './joi.adapter'
 
 describe('JoiAdapter', () => {
   it('should return a result ok when passed correct data', () => {

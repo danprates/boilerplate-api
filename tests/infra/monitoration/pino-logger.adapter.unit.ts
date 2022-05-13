@@ -1,4 +1,4 @@
-import { PinoLoggerAdapter } from './pino-logger.adapter'
+import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
 
 const pinoMock = {
   debug: jest.fn(),
