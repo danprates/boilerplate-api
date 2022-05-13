@@ -26,7 +26,7 @@ describe('BaseRepository', () => {
       const userResult = await sut.create(UserModelFixture())
       const user = userResult.getValue()
       const result = await userRepository.findOne({
-        id: user?.id
+        where: { id: user?.id }
       })
 
       expect(user?.id).toEqual(result?.id)
