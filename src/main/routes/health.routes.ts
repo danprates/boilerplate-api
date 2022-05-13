@@ -1,8 +1,16 @@
-import { Router } from 'express'
+import { Controller, HttpRequest, HttpResponse } from '@/application/protocols'
 import { NODE_ENV } from '../config/env.config'
+import { Http } from '../http/http.protocol'
 
-export default (router: Router): void => {
-  router.get('/health', (req, res) => {
-    res.status(200).json({ message: `App is running in ${NODE_ENV} mode` })
-  })
+class HealthController implements Controller {
+  async handler(request: HttpRequest<unknown>): Promise<HttpResponse> {
+    return Promise.resolve({
+      statusCode: 200,
+      body: { message: `App is running in ${NODE_ENV} mode` }
+    })
+  }
+}
+
+export default (http: Http): void => {
+  http.on('get', '/health', () => new HealthController())
 }

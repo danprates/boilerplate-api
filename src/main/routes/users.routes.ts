@@ -1,5 +1,3 @@
-import { Router } from 'express'
-import { expressRouteAdapter } from '../adapters/express-route.adapter'
 import {
   createUserFactory,
   deleteUserFactory,
@@ -7,11 +5,12 @@ import {
   listUsersFactory,
   updateUserFactory
 } from '../factories/users'
+import { Http } from '../http/http.protocol'
 
-export default (router: Router): void => {
-  router.get('/users', expressRouteAdapter(listUsersFactory()))
-  router.post('/users', expressRouteAdapter(createUserFactory()))
-  router.get('/users/:id', expressRouteAdapter(findUsersFactory()))
-  router.put('/users/:id', expressRouteAdapter(updateUserFactory()))
-  router.delete('/users/:id', expressRouteAdapter(deleteUserFactory()))
+export default (http: Http): void => {
+  http.on('get', '/users', listUsersFactory)
+  http.on('post', '/users', createUserFactory)
+  http.on('get', '/users/:id', findUsersFactory)
+  http.on('put', '/users/:id', updateUserFactory)
+  http.on('delete', '/users/:id', deleteUserFactory)
 }

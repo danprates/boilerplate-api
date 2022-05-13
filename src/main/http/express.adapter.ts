@@ -1,4 +1,5 @@
 import express from 'express'
+import { expressRouteAdapter } from '../adapters/express-route.adapter'
 import { Http } from './http.protocol'
 
 export default class ExpressAdapter implements Http {
@@ -9,11 +10,8 @@ export default class ExpressAdapter implements Http {
     this.app.use(express.json())
   }
 
-  on(method: string, url: string, callback: any): void {
-    this.app[method](url, async (req: any, res: any) => {
-      const output = await callback(req.params, req.body)
-      res.json(output)
-    })
+  on(method: string, url: string, controller: any): void {
+    this.app[method]('/api/v1' + url, expressRouteAdapter(controller()))
   }
 
   listen(port: number): void {
