@@ -1,10 +1,11 @@
-import express from 'express'
+import ExpressAdapter from '../http/express.adapter'
 import { setupApolloServer } from './apollo-server'
 import { middlewaresConfig } from './middlewares.config'
 import { routesConfig } from './routes.config'
 import { swaggerConfig } from './swagger.config'
 
-const app = express()
+const expressAdapter = new ExpressAdapter()
+const app = expressAdapter.app
 swaggerConfig(app)
 middlewaresConfig(app)
 routesConfig(app)
