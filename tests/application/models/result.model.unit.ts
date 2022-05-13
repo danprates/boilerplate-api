@@ -1,5 +1,4 @@
-import { ErrorModel } from './error.model'
-import { Result } from './result.model'
+import { ErrorModel, Result } from '@/application/models'
 
 describe('Result model', () => {
   it('should return a success return when ok is called', () => {

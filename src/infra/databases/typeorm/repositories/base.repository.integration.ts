@@ -1,5 +1,5 @@
 import { ErrorModel } from '@/application/models'
-import { UserModelFixture } from '@/application/models/user.model.fixture'
+import { UserModelFixture } from '@/tests/application/fixtures/user.model.fixture'
 import { config } from 'dotenv'
 import { Repository } from 'typeorm'
 import { BaseRepository } from '.'

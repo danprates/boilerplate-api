@@ -1,16 +1,12 @@
 import { CreateBaseController } from '@/application/controllers/base'
 import { created, resultErrorHandler, serverError } from '@/application/helpers'
-import {
-  BaseModel,
-  BaseModelFixture,
-  ErrorModel,
-  Result
-} from '@/application/models'
+import { BaseModel, ErrorModel, Result } from '@/application/models'
 import {
   CreateRepository,
   HttpRequest,
   Validator
 } from '@/application/protocols'
+import { BaseModelFixture } from '../fixtures/base.model.fixture'
 
 interface SutTypes {
   sut: CreateBaseController

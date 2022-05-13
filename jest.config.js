@@ -17,7 +17,7 @@ module.exports = {
   },
   testMatch: ['**/*.unit.ts', '**/*.integration.ts'],
   moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1',
-    '@/tests': '<rootDir>/tests/$1'
+    '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/(.*)': '<rootDir>/src/$1'
   }
 }

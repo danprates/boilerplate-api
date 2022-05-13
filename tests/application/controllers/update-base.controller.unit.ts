@@ -4,17 +4,13 @@ import {
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
-import {
-  BaseModel,
-  BaseModelFixture,
-  ErrorModel,
-  Result
-} from '@/application/models'
+import { BaseModel, ErrorModel, Result } from '@/application/models'
 import {
   HttpRequest,
   UpdateRepository,
   Validator
 } from '@/application/protocols'
+import { BaseModelFixture } from '../fixtures/base.model.fixture'
 
 interface SutTypes {
   sut: UpdateBaseController
