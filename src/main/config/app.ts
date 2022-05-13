@@ -1,8 +1,7 @@
 import ExpressAdapter from '../http/express.adapter'
-import healthRoutes from '../routes/health.routes'
-import usersRoutes from '../routes/users.routes'
 import { setupApolloServer } from './apollo-server'
 import { middlewaresConfig } from './middlewares.config'
+import { routesConfig } from './routes.config'
 
 const expressAdapter = new ExpressAdapter()
 
@@ -10,7 +9,6 @@ const expressAdapter = new ExpressAdapter()
 middlewaresConfig(expressAdapter.app)
 setupApolloServer(expressAdapter.app)
 
-usersRoutes(expressAdapter)
-healthRoutes(expressAdapter)
+routesConfig(expressAdapter)
 
 export default expressAdapter.app
