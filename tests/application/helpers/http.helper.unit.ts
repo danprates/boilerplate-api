@@ -1,11 +1,11 @@
-import { ErrorModel } from '@/application/models'
 import {
   created,
   noContent,
   ok,
   resultErrorHandler,
   serverError
-} from './http.helper'
+} from '@/application/helpers'
+import { ErrorModel } from '@/application/models'
 
 describe('HTTPHelper', () => {
   it('should return correct values when ok is called', () => {
