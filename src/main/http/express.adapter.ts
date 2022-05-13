@@ -14,7 +14,8 @@ export default class ExpressAdapter implements Http {
     this.app[method]('/api/v1' + url, expressRouteAdapter(controller()))
   }
 
-  listen(port: number): void {
+  listen(port: number, callback: any): void {
     this.app.listen(port)
+    callback()
   }
 }
