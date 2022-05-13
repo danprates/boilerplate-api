@@ -1,4 +1,4 @@
-import { Controller, HttpRequest, HttpResponse } from '@/application/protocols'
+import HealthController from '@/application/controllers/health.controller'
 import {
   createUserFactory,
   deleteUserFactory,
@@ -9,17 +9,8 @@ import {
 import { Http } from '../http/http.protocol'
 import { NODE_ENV } from './env.config'
 
-class HealthController implements Controller {
-  async handler(request: HttpRequest<unknown>): Promise<HttpResponse> {
-    return Promise.resolve({
-      statusCode: 200,
-      body: { message: `App is running in ${NODE_ENV} mode` }
-    })
-  }
-}
-
 export const routesConfig = (http: Http): void => {
-  http.on('get', '/health', () => new HealthController())
+  http.on('get', '/health', () => new HealthController(NODE_ENV))
 
   http.on('get', '/users', listUsersFactory)
   http.on('post', '/users', createUserFactory)
