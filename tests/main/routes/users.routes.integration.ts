@@ -2,11 +2,11 @@ import { resultErrorHandler } from '@/application/helpers'
 import { ErrorModel } from '@/application/models'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'
+import app from '@/main/config/app'
+import { API_VERSION } from '@/main/config/env.config'
 import { UserModelFixture } from '@/tests/application/fixtures/user.model.fixture'
 import request from 'supertest'
 import { Repository } from 'typeorm'
-import app from '../config/app'
-import { API_VERSION } from '../config/env.config'
 
 describe('/users routes', () => {
   let userRepository: Repository<UserEntity>
