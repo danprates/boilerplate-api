@@ -9,7 +9,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   testResultsProcessor: 'jest-sonar-reporter',
   coverageReporters: ['json', 'lcov', 'text', 'text-summary'],
-  roots: ['<rootDir>/src'],
+  roots: ['<rootDir>'],
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
@@ -17,6 +17,7 @@ module.exports = {
   },
   testMatch: ['**/*.unit.ts', '**/*.integration.ts'],
   moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1'
+    '@/(.*)': '<rootDir>/src/$1',
+    '@/tests': '<rootDir>/tests/$1'
   }
 }

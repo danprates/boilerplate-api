@@ -13,8 +13,9 @@
     "baseUrl": "src",
     "sourceMap": true,
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@/tests": ["tests"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "tests"],
 }
