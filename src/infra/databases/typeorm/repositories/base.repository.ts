@@ -1,4 +1,4 @@
-import { BaseModel } from '@/application/models'
+import { BaseModel, ErrorModel, Result } from '@/application/models'
 import {
   CreateRepository,
   FindRepository,
@@ -22,40 +22,48 @@ export class BaseRepository
 {
   constructor(private readonly entity: any) {}
 
-  async create(data: Partial<BaseModel>): Promise<BaseModel> {
+  async create(data: Partial<BaseModel>): Promise<Result<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    return repo.save(data)
+    const created = await repo.save(data)
+    return Result.ok(created)
   }
 
-  async list(options: PaginationOptions): Promise<Pagination<BaseModel>> {
+  async list(
+    options: PaginationOptions
+  ): Promise<Result<Pagination<BaseModel>>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const [data, total] = await repo.findAndCount({
       ...options
     })
-    return {
+    return Result.ok({
       ...options,
       data,
       total
-    }
+    })
   }
 
-  async find(id: string): Promise<BaseModel | undefined> {
+  async find(id: string): Promise<Result<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    return repo.findOne(id)
+    const result = await repo.findOne({ where: { id } })
+    return result ? Result.ok(result) : Result.fail(ErrorModel.notFound())
   }
 
-  async update(id: string, data: Partial<BaseModel>): Promise<boolean> {
+  async update(id: string, data: Partial<BaseModel>): Promise<Result<boolean>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const { affected } = await repo.update(id, data)
     return Number(affected) > 0
+      ? Result.ok(true)
+      : Result.fail(ErrorModel.notFound())
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string): Promise<Result<boolean>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const { affected } = await repo.update(id, {
       isActive: false,
       isDeleted: true
     })
     return Number(affected) > 0
+      ? Result.ok(true)
+      : Result.fail(ErrorModel.notFound())
   }
 }

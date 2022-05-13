@@ -23,7 +23,7 @@ const makeSut = (): SutTypes => {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
   const findRepository: FindRepository = {
-    find: jest.fn().mockResolvedValue(baseModel)
+    find: jest.fn().mockResolvedValue(Result.ok(baseModel))
   }
   const sut = new FindBaseController({ findRepository, validation })
 
@@ -57,7 +57,7 @@ describe('FindBase Controller', () => {
   it('Should return status code 404 if data was not found', async () => {
     const { sut, findRepository, httpRequest } = makeSut()
     const err = ErrorModel.notFound()
-    jest.spyOn(findRepository, 'find').mockResolvedValueOnce(undefined)
+    jest.spyOn(findRepository, 'find').mockResolvedValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })

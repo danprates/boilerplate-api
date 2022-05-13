@@ -2,9 +2,9 @@
 
 ## Dependencies
 
-- Node: ^14.15.3
-- NPM: ^6.14.15
-- Docker: ^20.10.8
+- Node: ^16.14.2
+- NPM: ^8.5.0
+- Docker: ^20.10.14
 - docker-compose: ^1.27.4
 
 ## Rodando o projeto
@@ -74,11 +74,10 @@ $ npm run lint
     ```
 ## Como criar uma nova versão do projeto
 
-1. Mude a versão do `package.json`
-1. Atualize o CHANGELOG: `npm run version`
-1. Faça um commit das mudanças, ex: `chore: update project version`
-1. Crie a tag no git: `git tag -a v0.0.2 -m 'v0.0.2'`
-1. Faça o push da tag: `git push origin master --follow-tags`
+1. Mude a versão do projeto: `npm version [VERSION] -m '[MESSAGE]'`
+    - Escolha a versão de acordo com o [Semver](https://semver.org/)
+    - Adicione um [MESSAGE] para identificar a mudança, Ex: 'feat: add some feature'
+1. Faça o push da tag: `git push origin [BRANCH] --follow-tags`
 
 ## Como executar o sonarqube localmente
 

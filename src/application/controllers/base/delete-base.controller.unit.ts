@@ -25,7 +25,7 @@ const makeSut = (): SutTypes => {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
   const deleteRepository: HardDeleteRepository = {
-    delete: jest.fn().mockResolvedValue(true)
+    delete: jest.fn().mockResolvedValue(Result.ok(true))
   }
   const sut = new DeleteBaseController({ deleteRepository, validation })
 
@@ -58,7 +58,9 @@ describe('DeleteBase Controller', () => {
   it('Should return status code 404 if data was not found', async () => {
     const { sut, deleteRepository, httpRequest } = makeSut()
     const err = ErrorModel.notFound()
-    jest.spyOn(deleteRepository, 'delete').mockResolvedValueOnce(false)
+    jest
+      .spyOn(deleteRepository, 'delete')
+      .mockResolvedValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })

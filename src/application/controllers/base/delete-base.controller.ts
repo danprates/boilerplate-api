@@ -33,11 +33,11 @@ export class DeleteBaseController implements Controller {
 
       const wasDeleted = await this.props.deleteRepository.delete(params.id)
 
-      if (wasDeleted) {
-        return noContent()
+      if (wasDeleted.isFailure) {
+        return resultErrorHandler(ErrorModel.notFound())
       }
 
-      return resultErrorHandler(ErrorModel.notFound())
+      return noContent()
     } catch (error) {
       return serverError()
     }

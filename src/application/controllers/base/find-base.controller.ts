@@ -1,5 +1,4 @@
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
-import { ErrorModel } from '@/application/models'
 import {
   Controller,
   FindRepository,
@@ -28,11 +27,11 @@ export class FindBaseController implements Controller {
 
       const result = await this.props.findRepository.find(params.id)
 
-      if (!result) {
-        return resultErrorHandler(ErrorModel.notFound())
+      if (result.isFailure) {
+        return resultErrorHandler(result.error)
       }
 
-      return ok(result)
+      return ok(result.getValue())
     } catch (error) {
       return serverError()
     }

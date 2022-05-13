@@ -1,26 +1,26 @@
-import { BaseModel } from '@/application/models'
+import { BaseModel, Result } from '@/application/models'
 import { Pagination, PaginationOptions } from '@/application/protocols'
 
 export interface CreateRepository {
-  create: (data: Partial<BaseModel>) => Promise<BaseModel>
+  create: (data: Partial<BaseModel>) => Promise<Result<BaseModel>>
 }
 
 export interface ListRepository {
-  list: (options: PaginationOptions) => Promise<Pagination<BaseModel>>
+  list: (options: PaginationOptions) => Promise<Result<Pagination<BaseModel>>>
 }
 
 export interface FindRepository {
-  find: (id: string) => Promise<BaseModel | undefined>
+  find: (id: string) => Promise<Result<BaseModel>>
 }
 
 export interface UpdateRepository {
-  update: (id: string, data: Partial<BaseModel>) => Promise<boolean>
+  update: (id: string, data: Partial<BaseModel>) => Promise<Result<boolean>>
 }
 
 export interface SoftDeleteRepository {
-  delete: (id: string) => Promise<boolean>
+  delete: (id: string) => Promise<Result<boolean>>
 }
 
 export interface HardDeleteRepository {
-  delete: (id: string) => Promise<boolean>
+  delete: (id: string) => Promise<Result<boolean>>
 }

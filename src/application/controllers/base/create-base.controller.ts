@@ -26,7 +26,7 @@ export class CreateBaseController implements Controller {
 
       const result = await this.props.createRepository.create(body)
 
-      return created(result)
+      return created(result.getValue())
     } catch (error) {
       return serverError()
     }

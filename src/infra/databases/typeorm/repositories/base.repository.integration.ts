@@ -1,3 +1,4 @@
+import { ErrorModel } from '@/application/models'
 import { UserModelFixture } from '@/application/models/user.model.fixture'
 import { config } from 'dotenv'
 import { Repository } from 'typeorm'
@@ -22,10 +23,13 @@ describe('BaseRepository', () => {
 
   describe('create', () => {
     it('should create a new user', async () => {
-      const user = await sut.create(UserModelFixture())
-      const result = await userRepository.findOne({ id: user.id })
+      const userResult = await sut.create(UserModelFixture())
+      const user = userResult.getValue()
+      const result = await userRepository.findOne({
+        where: { id: user?.id }
+      })
 
-      expect(user.id).toEqual(result?.id)
+      expect(user?.id).toEqual(result?.id)
     })
   })
 
@@ -33,20 +37,22 @@ describe('BaseRepository', () => {
     it('should return a list of users', async () => {
       const user = await userRepository.save(UserModelFixture())
       const result = await sut.list({ take: 10, skip: 0 })
+      const value = result.getValue()
 
-      expect(result.total).toEqual(1)
-      expect(result.take).toEqual(10)
-      expect(result.skip).toEqual(0)
-      expect(result.data[0].id).toEqual(user.id)
+      expect(value?.total).toEqual(1)
+      expect(value?.take).toEqual(10)
+      expect(value?.skip).toEqual(0)
+      expect(value?.data[0].id).toEqual(user.id)
     })
 
     it('should return an empty list when does not exist users', async () => {
       const result = await sut.list({ take: 10, skip: 0 })
+      const value = result.getValue()
 
-      expect(result.total).toEqual(0)
-      expect(result.take).toEqual(10)
-      expect(result.skip).toEqual(0)
-      expect(result.data).toEqual([])
+      expect(value?.total).toEqual(0)
+      expect(value?.take).toEqual(10)
+      expect(value?.skip).toEqual(0)
+      expect(value?.data).toEqual([])
     })
   })
 
@@ -54,14 +60,17 @@ describe('BaseRepository', () => {
     it('should return an user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const result = await sut.find(user.id)
+      const value = result.getValue()
 
-      expect(result?.id).toEqual(user.id)
+      expect(result.isSuccess).toBeTruthy()
+      expect(value?.id).toEqual(user.id)
     })
 
-    it('should return undefined when does not exist user', async () => {
+    it('should return Not found when does not exist user', async () => {
       const result = await sut.find('wrong_id')
 
-      expect(result?.id).toBeUndefined()
+      expect(result.isFailure).toBeTruthy()
+      expect(result.error).toEqual(ErrorModel.notFound())
     })
   })
 
@@ -69,19 +78,24 @@ describe('BaseRepository', () => {
     it('should update the user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const updated = await sut.update(user.id, { isActive: !user.isActive })
-      const result = await userRepository.findOne(
-        { id: user.id },
-        { select: ['isActive'] }
-      )
+      const result = await userRepository.findOne({
+        where: {
+          id: user.id
+        },
+        select: ['isActive']
+      })
+      const value = updated.getValue()
 
-      expect(updated).toBeTruthy()
+      expect(updated.isSuccess).toBeTruthy()
+      expect(value).toBeTruthy()
       expect(result?.isActive).toEqual(!user.isActive)
     })
 
-    it('should return undefined when does not exist user', async () => {
+    it('should return Not found when does not exist user', async () => {
       const updated = await sut.update('wrong_id', { isActive: false })
 
-      expect(updated).toBeFalsy()
+      expect(updated.isFailure).toBeTruthy()
+      expect(updated.error).toEqual(ErrorModel.notFound())
     })
   })
 
@@ -89,20 +103,23 @@ describe('BaseRepository', () => {
     it('should delete the user', async () => {
       const user = await userRepository.save(UserModelFixture())
       const updated = await sut.delete(user.id)
-      const result = await userRepository.findOne(
-        { id: user.id },
-        { select: ['isActive', 'isDeleted'] }
-      )
+      const result = await userRepository.findOne({
+        where: { id: user.id },
+        select: ['isActive', 'isDeleted']
+      })
+      const value = updated.getValue()
 
-      expect(updated).toBeTruthy()
+      expect(updated.isSuccess).toBeTruthy()
+      expect(value).toBeTruthy()
       expect(result?.isActive).toBeFalsy()
       expect(result?.isDeleted).toBeTruthy()
     })
 
-    it('should return undefined when does not exist user', async () => {
+    it('should return Not found when does not exist user', async () => {
       const updated = await sut.delete('wrong_id')
 
-      expect(updated).toBeFalsy()
+      expect(updated.isFailure).toBeTruthy()
+      expect(updated.error).toEqual(ErrorModel.notFound())
     })
   })
 })
