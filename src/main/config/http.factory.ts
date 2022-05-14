@@ -2,10 +2,8 @@ import ExpressAdapter from '../http/express.adapter'
 import { Http } from '../http/http.protocol'
 import { setupApolloServer } from './apollo-server'
 import { routesConfig } from './routes.config'
-import { swaggerConfig } from './swagger.config'
 
 export const httpFactory = (httpAdapter = new ExpressAdapter()): Http => {
-  swaggerConfig(httpAdapter.app)
   setupApolloServer(httpAdapter.app)
   routesConfig(httpAdapter)
 

@@ -1,7 +1,9 @@
 import { Controller, HttpRequest } from '@/application/protocols'
 import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
+import { serve, setup } from 'swagger-ui-express'
 import { API_VERSION } from '../config/env.config'
+import { docs } from '../docs/swagger'
 import { Http } from './http.protocol'
 
 export default class ExpressAdapter implements Http {
@@ -12,6 +14,7 @@ export default class ExpressAdapter implements Http {
     this.app = express()
     this.app.use(json())
     this.cors('*')
+    this.addSwagger('/docs')
     this.contentType('json')
   }
 
@@ -48,6 +51,10 @@ export default class ExpressAdapter implements Http {
     })
   }
 
+  addSwagger(path: string): void {
+    this.app.use(`/api/${API_VERSION}${path}`, this.noCache, serve, setup(docs))
+  }
+
   controllerAdapter(controller: Controller): any {
     return async (req: Request, res: Response) => {
       try {
@@ -73,5 +80,16 @@ export default class ExpressAdapter implements Http {
         res.status(500).json({ message: 'Server erro', code: error.name })
       }
     }
+  }
+
+  private noCache(req, res, next): void {
+    res.set(
+      'cache-control',
+      'no-cache, no-store, must-revalidate, proxy-validate'
+    )
+    res.set('pragma', 'no-cache')
+    res.set('expires', '0')
+    res.set('surrogate-control', 'no-store')
+    next()
   }
 }

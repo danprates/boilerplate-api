@@ -8,4 +8,5 @@ export interface Http {
   controllerAdapter: (controller: Controller) => any
   cors: (origin: string) => void
   contentType: (type: string) => void
+  addSwagger: (path: string) => void
 }
