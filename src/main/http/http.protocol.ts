@@ -1,7 +1,9 @@
 import { Controller } from '@/application/protocols'
 
 export interface Http {
+  app: any
   on: (method: string, url: string, factory: () => Controller) => void
-  listen: (port: number, callback: any) => void
+  listen: (port: number, callback?: any) => void
+  close: (callback?: any) => void
   controllerAdapter: (controller: Controller) => any
 }

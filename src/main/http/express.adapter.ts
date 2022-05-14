@@ -1,10 +1,12 @@
 import { Controller, HttpRequest } from '@/application/protocols'
 import express, { Express, json, Request, Response } from 'express'
+import http from 'http'
 import { API_VERSION } from '../config/env.config'
 import { Http } from './http.protocol'
 
 export default class ExpressAdapter implements Http {
   app: Express
+  server: http.Server
 
   constructor() {
     this.app = express()
@@ -13,14 +15,19 @@ export default class ExpressAdapter implements Http {
 
   on(method: string, url: string, factory: () => Controller): void {
     this.app[method](
-      `/api/${API_VERSION}/${url}`,
+      `/api/${API_VERSION}${url}`,
       this.controllerAdapter(factory())
     )
   }
 
-  listen(port: number, callback: any): void {
-    this.app.listen(port)
-    callback()
+  listen(port: number, callback?: any): void {
+    this.server = this.app.listen(port)
+    if (callback) callback()
+  }
+
+  close(callback?: any): void {
+    this.server.close()
+    if (callback) callback()
   }
 
   controllerAdapter(controller: Controller): any {
