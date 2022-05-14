@@ -1,14 +1,15 @@
-import app from '@/main/config/app'
+import { httpFactory } from '@/main/config/http.factory'
 import { noCache } from '@/main/middlewares'
 import request from 'supertest'
 
 describe('NoCache middleware', () => {
   it('should disable cache', async () => {
-    app.get('/test_no_cache', noCache, (req, res) => {
+    const http = httpFactory()
+    http.app.get('/test_no_cache', noCache, (req, res) => {
       res.send()
     })
 
-    await request(app)
+    await request(http.app)
       .get('/test_no_cache')
       .expect(
         'cache-control',

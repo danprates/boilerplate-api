@@ -1,13 +1,14 @@
-import app from '@/main/config/app'
+import { httpFactory } from '@/main/config/http.factory'
 import request from 'supertest'
 
 describe('CORS middleware', () => {
   it('should enable CORS', async () => {
-    app.get('/test_cors', (req, res) => {
+    const http = httpFactory()
+    http.app.get('/test_cors', (req, res) => {
       res.send()
     })
 
-    await request(app)
+    await request(http.app)
       .get('/test_cors')
       .expect('access-control-allow-origin', '*')
       .expect('access-control-allow-headers', '*')

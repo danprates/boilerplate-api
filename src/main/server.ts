@@ -1,6 +1,7 @@
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
-import app from './config/app'
 import { NODE_ENV, PORT } from './config/env.config'
+import { httpFactory } from './config/http.factory'
+import ExpressAdapter from './http/express.adapter'
 
 const logger = new PinoLoggerAdapter('SERVER')
 
@@ -24,7 +25,9 @@ process.on('uncaughtException', (error) => {
 
 const main = async (): Promise<void> => {
   try {
-    const server = app.listen(PORT, () =>
+    const http = httpFactory(new ExpressAdapter())
+
+    http.listen(Number(PORT), () =>
       logger.info(
         `Server running in ${NODE_ENV} mode at http://localhost:${PORT}`
       )
@@ -33,7 +36,7 @@ const main = async (): Promise<void> => {
     for (const exitSignal of exitSignals) {
       process.on(exitSignal, async () => {
         try {
-          server.close()
+          http.close()
           logger.info('App exited with success')
           process.exit(ExitStatus.Success)
         } catch (error) {

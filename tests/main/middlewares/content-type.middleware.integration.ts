@@ -1,22 +1,26 @@
-import app from '@/main/config/app'
+import { httpFactory } from '@/main/config/http.factory'
 import request from 'supertest'
 
 describe('Content Type middleware', () => {
+  const http = httpFactory()
+
   it('should return default content type as json', async () => {
-    app.get('/test_content_type', (req, res) => {
+    http.app.get('/test_content_type', (req, res) => {
       res.send()
     })
 
-    await request(app).get('/test_content_type').expect('content-type', /json/)
+    await request(http.app)
+      .get('/test_content_type')
+      .expect('content-type', /json/)
   })
 
   it('should return xml content type when forced', async () => {
-    app.get('/test_content_type_xml', (req, res) => {
+    http.app.get('/test_content_type_xml', (req, res) => {
       res.type('xml')
       res.send()
     })
 
-    await request(app)
+    await request(http.app)
       .get('/test_content_type_xml')
       .expect('content-type', /xml/)
   })
