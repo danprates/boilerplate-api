@@ -1,6 +1,5 @@
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
 import { NODE_ENV, PORT } from './config/env.config'
-import { httpFactory } from './config/http.factory'
 import ExpressAdapter from './http/express.adapter'
 
 const logger = new PinoLoggerAdapter('SERVER')
@@ -25,7 +24,7 @@ process.on('uncaughtException', (error) => {
 
 const main = async (): Promise<void> => {
   try {
-    const http = httpFactory(new ExpressAdapter())
+    const http = new ExpressAdapter()
 
     http.listen(Number(PORT), () =>
       logger.info(

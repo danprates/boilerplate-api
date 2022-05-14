@@ -4,6 +4,7 @@ import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
 import { serve, setup } from 'swagger-ui-express'
 import { API_VERSION } from '../config/env.config'
+import { routesConfig } from '../config/routes.config'
 import { docs } from '../docs/swagger'
 import resolvers from '../graphql/resolvers'
 import typeDefs from '../graphql/typedefs'
@@ -20,6 +21,7 @@ export default class ExpressAdapter implements Http {
     this.addSwagger('/docs')
     this.contentType('json')
     this.setupGraphql()
+    routesConfig(this)
   }
 
   addRoute(method: string, url: string, factory: () => Controller): void {
