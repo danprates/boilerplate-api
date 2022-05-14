@@ -6,6 +6,7 @@
     "name": "Docker: Attach to Node",
     "remoteRoot": "/usr/src/app",
     "restart": true,
-    "port": 9222
+    "port": 9222,
+    "internalConsoleOptions": "neverOpen"
   }]
 }
