@@ -1,11 +1,11 @@
-import { apolloServerAdapter } from '@/main/adapters/apollo-server.adapter'
 import {
   createUserFactory,
   deleteUserFactory,
   findUsersFactory,
   listUsersFactory,
   updateUserFactory
-} from '@/main/factories/users'
+} from '@/infra/factories/users'
+import { apolloServerAdapter } from '@/infra/graphql/apollo-server.adapter'
 
 export default {
   Query: {

@@ -1,6 +1,6 @@
+import { NODE_ENV, PORT } from '@/infra/config/env.config'
+import ExpressAdapter from '@/infra/http/express.adapter'
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
-import { NODE_ENV, PORT } from './config/env.config'
-import ExpressAdapter from './http/express.adapter'
 
 const logger = new PinoLoggerAdapter('SERVER')
 

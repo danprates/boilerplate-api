@@ -1,8 +1,8 @@
-import { httpFactory } from '@/main/config/http.factory'
+import ExpressAdapter from '@/infra/http/express.adapter'
 import request from 'supertest'
 
 describe('Content Type middleware', () => {
-  const http = httpFactory()
+  const http = new ExpressAdapter()
 
   it('should return default content type as json', async () => {
     http.app.get('/test_content_type', (req, res) => {

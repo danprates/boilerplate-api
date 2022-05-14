@@ -1,8 +1,8 @@
-import { httpFactory } from '@/main/config/http.factory'
+import ExpressAdapter from '@/infra/http/express.adapter'
 import request from 'supertest'
 
 describe('Body-parser middleware', () => {
-  const http = httpFactory()
+  const http = new ExpressAdapter()
 
   it('should parse body as json', async () => {
     http.app.post('/test_body_parser', (req, res) => {

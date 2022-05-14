@@ -1,9 +1,9 @@
-import { httpFactory } from '@/main/config/http.factory'
+import ExpressAdapter from '@/infra/http/express.adapter'
 import request from 'supertest'
 
 describe('CORS middleware', () => {
   it('should enable CORS', async () => {
-    const http = httpFactory()
+    const http = new ExpressAdapter()
     http.app.get('/test_cors', (req, res) => {
       res.send()
     })

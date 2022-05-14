@@ -1,9 +1,9 @@
 import { resultErrorHandler } from '@/application/helpers'
 import { ErrorModel } from '@/application/models'
+import { API_VERSION } from '@/infra/config/env.config'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { TypeormHelper } from '@/infra/databases/typeorm/typeorm-helper'
-import { API_VERSION } from '@/main/config/env.config'
-import { httpFactory } from '@/main/config/http.factory'
+import ExpressAdapter from '@/infra/http/express.adapter'
 import { UserModelFixture } from '@/tests/application/fixtures/user.model.fixture'
 import request from 'supertest'
 import { Repository } from 'typeorm'
@@ -11,7 +11,7 @@ import { Repository } from 'typeorm'
 describe('/users routes', () => {
   let userRepository: Repository<UserEntity>
   const wrongId = '962c798d-876d-4c99-a9cd-899253d8cd0d'
-  const http = httpFactory()
+  const http = new ExpressAdapter()
 
   beforeAll(async () => {
     userRepository = await TypeormHelper.getRepository(UserEntity)
