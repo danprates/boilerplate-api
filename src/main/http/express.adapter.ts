@@ -1,9 +1,12 @@
 import { Controller, HttpRequest } from '@/application/protocols'
+import { ApolloServer } from 'apollo-server-express'
 import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
 import { serve, setup } from 'swagger-ui-express'
 import { API_VERSION } from '../config/env.config'
 import { docs } from '../docs/swagger'
+import resolvers from '../graphql/resolvers'
+import typeDefs from '../graphql/typedefs'
 import { Http } from './http.protocol'
 
 export default class ExpressAdapter implements Http {
@@ -16,6 +19,7 @@ export default class ExpressAdapter implements Http {
     this.cors('*')
     this.addSwagger('/docs')
     this.contentType('json')
+    this.setupGraphql()
   }
 
   addRoute(method: string, url: string, factory: () => Controller): void {
@@ -23,6 +27,17 @@ export default class ExpressAdapter implements Http {
       `/api/${API_VERSION}${url}`,
       this.controllerAdapter(factory())
     )
+  }
+
+  setupGraphql(): void {
+    const server = new ApolloServer({
+      resolvers,
+      typeDefs
+    })
+
+    server.start().then(() => {
+      server.applyMiddleware({ app: this.app })
+    })
   }
 
   listen(port: number, callback?: any): void {

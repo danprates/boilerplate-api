@@ -9,4 +9,5 @@ export interface Http {
   cors: (origin: string) => void
   contentType: (type: string) => void
   addSwagger: (path: string) => void
+  setupGraphql: () => void
 }
