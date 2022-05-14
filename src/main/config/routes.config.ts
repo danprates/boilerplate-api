@@ -10,11 +10,11 @@ import { Http } from '../http/http.protocol'
 import { NODE_ENV } from './env.config'
 
 export const routesConfig = (http: Http): void => {
-  http.on('get', '/health', () => new HealthController(NODE_ENV))
+  http.addRoute('get', '/health', () => new HealthController(NODE_ENV))
 
-  http.on('get', '/users', listUsersFactory)
-  http.on('post', '/users', createUserFactory)
-  http.on('get', '/users/:id', findUsersFactory)
-  http.on('put', '/users/:id', updateUserFactory)
-  http.on('delete', '/users/:id', deleteUserFactory)
+  http.addRoute('get', '/users', listUsersFactory)
+  http.addRoute('post', '/users', createUserFactory)
+  http.addRoute('get', '/users/:id', findUsersFactory)
+  http.addRoute('put', '/users/:id', updateUserFactory)
+  http.addRoute('delete', '/users/:id', deleteUserFactory)
 }

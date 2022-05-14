@@ -13,7 +13,7 @@ export default class ExpressAdapter implements Http {
     this.app.use(json())
   }
 
-  on(method: string, url: string, factory: () => Controller): void {
+  addRoute(method: string, url: string, factory: () => Controller): void {
     this.app[method](
       `/api/${API_VERSION}${url}`,
       this.controllerAdapter(factory())
