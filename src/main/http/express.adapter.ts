@@ -11,6 +11,8 @@ export default class ExpressAdapter implements Http {
   constructor() {
     this.app = express()
     this.app.use(json())
+    this.cors('*')
+    this.contentType('json')
   }
 
   addRoute(method: string, url: string, factory: () => Controller): void {
@@ -28,6 +30,22 @@ export default class ExpressAdapter implements Http {
   close(callback?: any): void {
     this.server.close()
     if (callback) callback()
+  }
+
+  cors(origin: string): void {
+    this.app.use((req, res, next) => {
+      res.set('access-control-allow-origin', origin)
+      res.set('access-control-allow-headers', origin)
+      res.set('access-control-allow-methods', origin)
+      next()
+    })
+  }
+
+  contentType(type: string): void {
+    this.app.use((req, res, next) => {
+      res.type(type)
+      next()
+    })
   }
 
   controllerAdapter(controller: Controller): any {
