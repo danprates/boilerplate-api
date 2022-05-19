@@ -1,4 +1,5 @@
 import { DeleteUserController } from '@/application/controllers/users'
+import { DeleteUserInputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
@@ -7,20 +8,19 @@ import {
 import { ErrorModel, Result } from '@/application/models'
 import {
   HardDeleteRepository,
-  HttpRequest,
   SoftDeleteRepository,
   Validator
 } from '@/application/protocols'
 
 interface SutTypes {
   sut: DeleteUserController
-  httpRequest: HttpRequest
+  httpRequest: DeleteUserInputDTO
   validation: Validator
   deleteRepository: HardDeleteRepository | SoftDeleteRepository
 }
 
 const makeSut = (): SutTypes => {
-  const httpRequest = { params: { id: 'any_name' } }
+  const httpRequest: DeleteUserInputDTO = { params: { id: 'any_name' } }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }

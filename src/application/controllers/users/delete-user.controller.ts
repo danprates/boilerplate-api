@@ -1,3 +1,4 @@
+import { DeleteUserInputDTO, DeleteUserOutputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
@@ -7,8 +8,6 @@ import { ErrorModel } from '@/application/models'
 import {
   Controller,
   HardDeleteRepository,
-  HttpRequest,
-  HttpResponse,
   Logger,
   SoftDeleteRepository,
   Validator
@@ -20,10 +19,12 @@ type Props = {
   logger: Logger
 }
 
-export class DeleteUserController implements Controller {
+export class DeleteUserController
+  implements Controller<DeleteUserInputDTO, DeleteUserOutputDTO>
+{
   constructor(private readonly props: Props) {}
 
-  async handler(request: HttpRequest): Promise<HttpResponse> {
+  async handler(request: DeleteUserInputDTO): Promise<DeleteUserOutputDTO> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)
