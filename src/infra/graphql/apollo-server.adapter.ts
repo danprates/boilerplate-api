@@ -31,9 +31,9 @@ export const apolloServerAdapter =
         return result.body
       }
 
-      throw new ApolloError(result.body.message, result.body.type)
+      return new ApolloError(result.body.message, result.body.type)
     } catch (error) {
       console.error(error.stack)
-      throw new ApolloError('Server error', error.name)
+      return new ApolloError('Server error', error.name)
     }
   }
