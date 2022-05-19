@@ -1,3 +1,4 @@
+import { UpdateUserInputDTO, UpdateUserOutputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
@@ -5,8 +6,6 @@ import {
 } from '@/application/helpers'
 import {
   Controller,
-  HttpRequest,
-  HttpResponse,
   Logger,
   UpdateRepository,
   Validator
@@ -18,10 +17,12 @@ type Props = {
   logger: Logger
 }
 
-export class UpdateUserController implements Controller {
+export class UpdateUserController
+  implements Controller<UpdateUserInputDTO, UpdateUserOutputDTO>
+{
   constructor(private readonly props: Props) {}
 
-  async handler(request: HttpRequest): Promise<HttpResponse> {
+  async handler(request: UpdateUserInputDTO): Promise<UpdateUserOutputDTO> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)

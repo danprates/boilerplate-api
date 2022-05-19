@@ -1,4 +1,5 @@
 import { UpdateUserController } from '@/application/controllers/users'
+import { UpdateUserInputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
@@ -6,16 +7,12 @@ import {
 } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
-import {
-  HttpRequest,
-  UpdateRepository,
-  Validator
-} from '@/application/protocols'
+import { UpdateRepository, Validator } from '@/application/protocols'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
   sut: UpdateUserController
-  httpRequest: HttpRequest
+  httpRequest: UpdateUserInputDTO
   userModel: UserModel
   validation: Validator
   updateRepository: UpdateRepository
@@ -23,7 +20,10 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const userModel = UserModelFixture()
-  const httpRequest = { params: { id: userModel.id }, body: userModel }
+  const httpRequest: UpdateUserInputDTO = {
+    params: { id: userModel.id },
+    body: userModel
+  }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
