@@ -2,6 +2,7 @@ import { ListBaseController } from '@/application/controllers/base'
 import { Controller } from '@/application/protocols'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
+import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
 import Joi from 'joi'
 
@@ -17,5 +18,9 @@ export const listUsersFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const listRepository = new BaseRepository(UserEntity)
-  return new ListBaseController({ listRepository, validation })
+  return new ListBaseController({
+    listRepository,
+    validation,
+    logger: new PinoLoggerAdapter('[LIST_USER]')
+  })
 }
