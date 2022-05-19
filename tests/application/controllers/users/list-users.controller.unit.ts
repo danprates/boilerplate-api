@@ -1,13 +1,14 @@
 import { ListUsersController } from '@/application/controllers/users'
+import { ListUserInputDTO } from '@/application/dtos'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
-import { HttpRequest, ListRepository, Validator } from '@/application/protocols'
+import { ListRepository, Validator } from '@/application/protocols'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
   sut: ListUsersController
-  httpRequest: HttpRequest
+  httpRequest: ListUserInputDTO
   userModel: UserModel
   listRepository: ListRepository
   validation: Validator
@@ -15,7 +16,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const userModel = UserModelFixture()
-  const httpRequest = {}
+  const httpRequest: ListUserInputDTO = {}
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
