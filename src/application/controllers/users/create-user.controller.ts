@@ -1,9 +1,8 @@
+import { CreateUserInputDTO, CreateUserOutputDTO } from '@/application/dtos'
 import { created, resultErrorHandler, serverError } from '@/application/helpers'
 import {
   Controller,
   CreateRepository,
-  HttpRequest,
-  HttpResponse,
   Logger,
   Validator
 } from '@/application/protocols'
@@ -14,10 +13,12 @@ type Props = {
   logger: Logger
 }
 
-export class CreateUserController implements Controller {
+export class CreateUserController
+  implements Controller<CreateUserInputDTO, CreateUserOutputDTO>
+{
   constructor(private readonly props: Props) {}
 
-  async handler(request: HttpRequest): Promise<HttpResponse> {
+  async handler(request: CreateUserInputDTO): Promise<CreateUserOutputDTO> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)

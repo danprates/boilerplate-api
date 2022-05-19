@@ -1,5 +1,3 @@
-import { HttpRequest, HttpResponse } from '@/application/protocols'
-
-export interface Controller {
-  handler: (request: HttpRequest) => Promise<HttpResponse>
+export interface Controller<Req = any, Res = any> {
+  handler: (request: Req) => Promise<Res>
 }

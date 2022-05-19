@@ -6,7 +6,7 @@ export interface HttpRequest<T = unknown> {
   query?: PaginationOptions & Partial<T>
 }
 
-export interface HttpResponse {
+export interface HttpResponse<T = any> {
   statusCode: number
-  body: any
+  body: T
 }

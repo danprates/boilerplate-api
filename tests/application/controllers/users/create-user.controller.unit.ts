@@ -1,17 +1,14 @@
 import { CreateUserController } from '@/application/controllers/users'
+import { CreateUserInputDTO } from '@/application/dtos'
 import { created, resultErrorHandler, serverError } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
-import {
-  CreateRepository,
-  HttpRequest,
-  Validator
-} from '@/application/protocols'
+import { CreateRepository, Validator } from '@/application/protocols'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
   sut: CreateUserController
-  httpRequest: HttpRequest
+  httpRequest: CreateUserInputDTO
   userModel: UserModel
   validation: Validator
   createRepository: CreateRepository
@@ -19,7 +16,13 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const userModel = UserModelFixture()
-  const httpRequest = { body: { name: 'any_name' } }
+  const httpRequest: CreateUserInputDTO = {
+    body: {
+      name: userModel.name,
+      email: userModel.email,
+      password: userModel.password
+    }
+  }
   const createRepository: CreateRepository = {
     create: jest.fn().mockResolvedValue(Result.ok(userModel))
   }
