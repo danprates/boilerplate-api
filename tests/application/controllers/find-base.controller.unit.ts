@@ -21,7 +21,13 @@ const makeSut = (): SutTypes => {
   const findRepository: FindRepository = {
     find: jest.fn().mockResolvedValue(Result.ok(baseModel))
   }
-  const sut = new FindBaseController({ findRepository, validation })
+  const logger: any = {
+    warn: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn()
+  }
+  const sut = new FindBaseController({ findRepository, validation, logger })
 
   return {
     sut,

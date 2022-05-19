@@ -21,7 +21,13 @@ const makeSut = (): SutTypes => {
   const listRepository: ListRepository = {
     list: jest.fn().mockResolvedValue(Result.ok([baseModel]))
   }
-  const sut = new ListBaseController({ listRepository, validation })
+  const logger: any = {
+    warn: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn()
+  }
+  const sut = new ListBaseController({ listRepository, validation, logger })
 
   return {
     sut,

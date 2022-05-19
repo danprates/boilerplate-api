@@ -25,7 +25,13 @@ const makeSut = (): SutTypes => {
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const sut = new CreateBaseController({ createRepository, validation })
+  const logger: any = {
+    warn: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn()
+  }
+  const sut = new CreateBaseController({ createRepository, validation, logger })
 
   return {
     sut,

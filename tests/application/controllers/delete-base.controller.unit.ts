@@ -27,7 +27,13 @@ const makeSut = (): SutTypes => {
   const deleteRepository: HardDeleteRepository = {
     delete: jest.fn().mockResolvedValue(Result.ok(true))
   }
-  const sut = new DeleteBaseController({ deleteRepository, validation })
+  const logger: any = {
+    warn: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn()
+  }
+  const sut = new DeleteBaseController({ deleteRepository, validation, logger })
 
   return {
     sut,

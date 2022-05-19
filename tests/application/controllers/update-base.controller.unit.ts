@@ -29,7 +29,13 @@ const makeSut = (): SutTypes => {
   const updateRepository: UpdateRepository = {
     update: jest.fn().mockResolvedValue(Result.ok(true))
   }
-  const sut = new UpdateBaseController({ updateRepository, validation })
+  const logger: any = {
+    warn: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn()
+  }
+  const sut = new UpdateBaseController({ updateRepository, validation, logger })
 
   return {
     sut,
