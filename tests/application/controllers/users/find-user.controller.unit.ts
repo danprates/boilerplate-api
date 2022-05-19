@@ -1,13 +1,14 @@
 import { FindUserController } from '@/application/controllers/users'
+import { FindUserInputDTO } from '@/application/dtos'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
-import { FindRepository, HttpRequest, Validator } from '@/application/protocols'
+import { FindRepository, Validator } from '@/application/protocols'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
   sut: FindUserController
-  httpRequest: HttpRequest
+  httpRequest: FindUserInputDTO
   userModel: UserModel
   validation: Validator
   findRepository: FindRepository
@@ -15,7 +16,7 @@ interface SutTypes {
 
 const makeSut = (): SutTypes => {
   const userModel = UserModelFixture()
-  const httpRequest = { params: { id: userModel.id } }
+  const httpRequest: FindUserInputDTO = { params: { id: userModel.id } }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }

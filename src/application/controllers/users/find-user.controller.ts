@@ -1,9 +1,8 @@
+import { FindUserInputDTO, FindUserOutputDTO } from '@/application/dtos'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import {
   Controller,
   FindRepository,
-  HttpRequest,
-  HttpResponse,
   Logger,
   Validator
 } from '@/application/protocols'
@@ -14,10 +13,12 @@ type Props = {
   logger: Logger
 }
 
-export class FindUserController implements Controller {
+export class FindUserController
+  implements Controller<FindUserInputDTO, FindUserOutputDTO>
+{
   constructor(private readonly props: Props) {}
 
-  async handler(request: HttpRequest): Promise<HttpResponse> {
+  async handler(request: FindUserInputDTO): Promise<FindUserOutputDTO> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)
