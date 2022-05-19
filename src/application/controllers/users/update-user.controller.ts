@@ -1,20 +1,24 @@
-import { ok, resultErrorHandler, serverError } from '@/application/helpers'
+import {
+  noContent,
+  resultErrorHandler,
+  serverError
+} from '@/application/helpers'
 import {
   Controller,
   HttpRequest,
   HttpResponse,
-  ListRepository,
   Logger,
+  UpdateRepository,
   Validator
 } from '@/application/protocols'
 
 type Props = {
-  listRepository: ListRepository
   validation: Validator
+  updateRepository: UpdateRepository
   logger: Logger
 }
 
-export class ListBaseController implements Controller {
+export class UpdateUserController implements Controller {
   constructor(private readonly props: Props) {}
 
   async handler(request: HttpRequest): Promise<HttpResponse> {
@@ -28,16 +32,20 @@ export class ListBaseController implements Controller {
         return resultErrorHandler(validationResult.error)
       }
 
-      const { query } = validationResult.getValue()
+      const { params, body } = validationResult.getValue()
 
-      const result = await this.props.listRepository.list(query)
-      if (result.isFailure) {
+      const wasUpdated = await this.props.updateRepository.update(
+        params.id,
+        body
+      )
+
+      if (wasUpdated.isFailure) {
         this.props.logger.warn('Repository returned an error')
-        return resultErrorHandler(result.error)
+        return resultErrorHandler(wasUpdated.error)
       }
 
       this.props.logger.info('Finished')
-      return ok(result.getValue())
+      return noContent()
     } catch (error) {
       this.props.logger.error(error.message, error)
       return serverError()

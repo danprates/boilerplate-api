@@ -14,7 +14,7 @@ type Props = {
   logger: Logger
 }
 
-export class CreateBaseController implements Controller {
+export class CreateUserController implements Controller {
   constructor(private readonly props: Props) {}
 
   async handler(request: HttpRequest): Promise<HttpResponse> {

@@ -20,7 +20,7 @@ type Props = {
   logger: Logger
 }
 
-export class DeleteBaseController implements Controller {
+export class DeleteUserController implements Controller {
   constructor(private readonly props: Props) {}
 
   async handler(request: HttpRequest): Promise<HttpResponse> {

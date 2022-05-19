@@ -1,25 +1,26 @@
-import { ListBaseController } from '@/application/controllers/base'
+import { ListUsersController } from '@/application/controllers/users'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
-import { BaseModel, ErrorModel, Result } from '@/application/models'
+import { ErrorModel, Result } from '@/application/models'
+import { UserModel } from '@/application/models/user.model'
 import { HttpRequest, ListRepository, Validator } from '@/application/protocols'
-import { BaseModelFixture } from '../fixtures/base.model.fixture'
+import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
-  sut: ListBaseController
+  sut: ListUsersController
   httpRequest: HttpRequest
-  baseModel: BaseModel
+  userModel: UserModel
   listRepository: ListRepository
   validation: Validator
 }
 
 const makeSut = (): SutTypes => {
-  const baseModel = BaseModelFixture()
+  const userModel = UserModelFixture()
   const httpRequest = {}
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
   const listRepository: ListRepository = {
-    list: jest.fn().mockResolvedValue(Result.ok([baseModel]))
+    list: jest.fn().mockResolvedValue(Result.ok([userModel]))
   }
   const logger: any = {
     warn: jest.fn(),
@@ -27,18 +28,18 @@ const makeSut = (): SutTypes => {
     info: jest.fn(),
     debug: jest.fn()
   }
-  const sut = new ListBaseController({ listRepository, validation, logger })
+  const sut = new ListUsersController({ listRepository, validation, logger })
 
   return {
     sut,
-    baseModel,
+    userModel,
     validation,
     httpRequest,
     listRepository
   }
 }
 
-describe('FindBase Controller', () => {
+describe('ListUsers Controller', () => {
   it('Should call listRepository with correct values', async () => {
     const { sut, listRepository, httpRequest } = makeSut()
     await sut.handler(httpRequest)
@@ -54,9 +55,9 @@ describe('FindBase Controller', () => {
   })
 
   it('Should return status code 200 when correct params are provided', async () => {
-    const { sut, baseModel, httpRequest } = makeSut()
+    const { sut, userModel, httpRequest } = makeSut()
     const result = await sut.handler(httpRequest)
-    expect(result).toEqual(ok([baseModel]))
+    expect(result).toEqual(ok([userModel]))
   })
 
   it('Should return status code 500 if any dependency throws', async () => {

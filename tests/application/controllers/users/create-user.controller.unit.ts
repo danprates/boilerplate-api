@@ -1,26 +1,27 @@
-import { CreateBaseController } from '@/application/controllers/base'
+import { CreateUserController } from '@/application/controllers/users'
 import { created, resultErrorHandler, serverError } from '@/application/helpers'
-import { BaseModel, ErrorModel, Result } from '@/application/models'
+import { ErrorModel, Result } from '@/application/models'
+import { UserModel } from '@/application/models/user.model'
 import {
   CreateRepository,
   HttpRequest,
   Validator
 } from '@/application/protocols'
-import { BaseModelFixture } from '../fixtures/base.model.fixture'
+import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
-  sut: CreateBaseController
+  sut: CreateUserController
   httpRequest: HttpRequest
-  baseModel: BaseModel
+  userModel: UserModel
   validation: Validator
   createRepository: CreateRepository
 }
 
 const makeSut = (): SutTypes => {
-  const baseModel = BaseModelFixture()
+  const userModel = UserModelFixture()
   const httpRequest = { body: { name: 'any_name' } }
   const createRepository: CreateRepository = {
-    create: jest.fn().mockResolvedValue(Result.ok(baseModel))
+    create: jest.fn().mockResolvedValue(Result.ok(userModel))
   }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
@@ -31,18 +32,18 @@ const makeSut = (): SutTypes => {
     info: jest.fn(),
     debug: jest.fn()
   }
-  const sut = new CreateBaseController({ createRepository, validation, logger })
+  const sut = new CreateUserController({ createRepository, validation, logger })
 
   return {
     sut,
     createRepository,
-    baseModel,
+    userModel,
     validation,
     httpRequest
   }
 }
 
-describe('CreateBase Controller', () => {
+describe('CreateUser Controller', () => {
   it('Should call createRepository with correct values', async () => {
     const { sut, createRepository, httpRequest } = makeSut()
     await sut.handler(httpRequest)
@@ -64,9 +65,9 @@ describe('CreateBase Controller', () => {
   })
 
   it('Should return status code 201 when correct params are provided', async () => {
-    const { sut, baseModel, httpRequest } = makeSut()
+    const { sut, userModel, httpRequest } = makeSut()
     const result = await sut.handler(httpRequest)
-    expect(result).toEqual(created(baseModel))
+    expect(result).toEqual(created(userModel))
   })
 
   it('Should return status code 500 if any dependency throws', async () => {

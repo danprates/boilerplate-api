@@ -1,33 +1,31 @@
-import { UpdateBaseController } from '@/application/controllers/base'
+import { DeleteUserController } from '@/application/controllers/users'
 import {
   noContent,
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
-import { BaseModel, ErrorModel, Result } from '@/application/models'
+import { ErrorModel, Result } from '@/application/models'
 import {
+  HardDeleteRepository,
   HttpRequest,
-  UpdateRepository,
+  SoftDeleteRepository,
   Validator
 } from '@/application/protocols'
-import { BaseModelFixture } from '../fixtures/base.model.fixture'
 
 interface SutTypes {
-  sut: UpdateBaseController
+  sut: DeleteUserController
   httpRequest: HttpRequest
-  baseModel: BaseModel
   validation: Validator
-  updateRepository: UpdateRepository
+  deleteRepository: HardDeleteRepository | SoftDeleteRepository
 }
 
 const makeSut = (): SutTypes => {
-  const baseModel = BaseModelFixture()
-  const httpRequest = { params: { id: baseModel.id }, body: baseModel }
+  const httpRequest = { params: { id: 'any_name' } }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const updateRepository: UpdateRepository = {
-    update: jest.fn().mockResolvedValue(Result.ok(true))
+  const deleteRepository: HardDeleteRepository = {
+    delete: jest.fn().mockResolvedValue(Result.ok(true))
   }
   const logger: any = {
     warn: jest.fn(),
@@ -35,25 +33,23 @@ const makeSut = (): SutTypes => {
     info: jest.fn(),
     debug: jest.fn()
   }
-  const sut = new UpdateBaseController({ updateRepository, validation, logger })
+  const sut = new DeleteUserController({ deleteRepository, validation, logger })
 
   return {
     sut,
-    baseModel,
     validation,
     httpRequest,
-    updateRepository
+    deleteRepository
   }
 }
 
-describe('FindBase Controller', () => {
-  it('Should call updateRepository with correct values', async () => {
-    const { sut, updateRepository, httpRequest } = makeSut()
+describe('DeleteUser Controller', () => {
+  it('Should call deleteRepository with correct values', async () => {
+    const { sut, deleteRepository, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(updateRepository.update).toHaveBeenNthCalledWith(
+    expect(deleteRepository.delete).toHaveBeenNthCalledWith(
       1,
-      httpRequest.params.id,
-      httpRequest.body
+      httpRequest.params.id
     )
   })
 
@@ -66,10 +62,10 @@ describe('FindBase Controller', () => {
   })
 
   it('Should return status code 404 if data was not found', async () => {
-    const { sut, updateRepository, httpRequest } = makeSut()
+    const { sut, deleteRepository, httpRequest } = makeSut()
     const err = ErrorModel.notFound()
     jest
-      .spyOn(updateRepository, 'update')
+      .spyOn(deleteRepository, 'delete')
       .mockResolvedValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
@@ -82,7 +78,7 @@ describe('FindBase Controller', () => {
   })
 
   it('Should return status code 500 if any dependency throws', async () => {
-    const { sut, validation, updateRepository, httpRequest } = makeSut()
+    const { sut, validation, deleteRepository, httpRequest } = makeSut()
     const error = new Error('any_error')
 
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
@@ -90,7 +86,7 @@ describe('FindBase Controller', () => {
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
-    jest.spyOn(updateRepository, 'update').mockRejectedValueOnce(error)
+    jest.spyOn(deleteRepository, 'delete').mockRejectedValueOnce(error)
     expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })
