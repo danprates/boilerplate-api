@@ -1,11 +1,29 @@
 {
   "version": "0.2.0",
-  "configurations": [{
-    "type": "node",
-    "request": "attach",
-    "name": "Docker: Attach to Node",
-    "remoteRoot": "/usr/src/app",
-    "restart": true,
-    "port": 9222
-  }]
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Docker: Attach to Node",
+      "remoteRoot": "/usr/src/app",
+      "restart": true,
+      "port": 9222,
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/jest/bin/jest.js",
+        "--runInBand",
+        "--watch",
+        "--silent"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9223
+    }
+  ]
 }
