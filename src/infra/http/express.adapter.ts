@@ -16,6 +16,7 @@ export default class ExpressAdapter implements Http {
 
   constructor() {
     this.app = express()
+    this.app.disable('x-powered-by')
     this.app.use(json())
     this.cors('*')
     this.addSwagger('/docs')
