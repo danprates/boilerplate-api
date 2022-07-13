@@ -46,6 +46,7 @@
     "@typescript-eslint/parser": "^5.23.0",
     "auto-changelog": "^2.4.0",
     "better-sqlite3": "^7.5.1",
+    "dependency-cruiser": "^11.11.0",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
