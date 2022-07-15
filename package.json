@@ -82,6 +82,6 @@
     "pg": "^8.7.3",
     "pino": "^8.1.0",
     "swagger-ui-express": "^4.5.0",
-    "typeorm": "^0.3.6"
+    "typeorm": "^0.3.7"
   }
 }
