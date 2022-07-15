@@ -32,6 +32,8 @@
     "test:unit": "npm test -- --watch -c jest-unit.config.js",
     "test:integration": "npm test -- --watch -c jest-integration.config.js",
     "test:ci": "npm test -- --coverage",
+    "depcruiser": "depcruise --config .dependency-cruiser.js src",
+    "depcruiser:graph": "depcruise --include-only \"^src\" --output-type dot src | dot -T svg > dependencygraph.svg",
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "version": "auto-changelog -p -b 1000 -l 1000 --template keepachangelog && git add CHANGELOG.md"
   },
