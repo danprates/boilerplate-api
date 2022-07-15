@@ -1,5 +1,5 @@
 import { BaseModel } from '@/application/models'
-import faker from '@faker-js/faker'
+import { faker } from '@faker-js/faker'
 
 export const BaseModelFixture = (): BaseModel => ({
   id: faker.datatype.uuid(),
