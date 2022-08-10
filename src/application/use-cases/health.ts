@@ -1,6 +1,6 @@
 import { Controller, HttpRequest, HttpResponse } from '../protocols'
 
-export default class HealthController implements Controller {
+export default class Health implements Controller {
   constructor(private readonly env: string) {}
   async handler(request: HttpRequest): Promise<HttpResponse> {
     return Promise.resolve({

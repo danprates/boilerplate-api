@@ -1,31 +1,34 @@
-import { DeleteUserController } from '@/application/controllers/users'
-import { DeleteUserInputDTO } from '@/application/dtos'
+import { UpdateUserInputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
-import {
-  HardDeleteRepository,
-  SoftDeleteRepository,
-  Validator
-} from '@/application/protocols'
+import { UserModel } from '@/application/models/user.model'
+import { UpdateRepository, Validator } from '@/application/protocols'
+import UpdateUser from '@/application/use-cases/update-user'
+import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
-  sut: DeleteUserController
-  httpRequest: DeleteUserInputDTO
+  sut: UpdateUser
+  httpRequest: UpdateUserInputDTO
+  userModel: UserModel
   validation: Validator
-  deleteRepository: HardDeleteRepository | SoftDeleteRepository
+  updateRepository: UpdateRepository
 }
 
 const makeSut = (): SutTypes => {
-  const httpRequest: DeleteUserInputDTO = { params: { id: 'any_name' } }
+  const userModel = UserModelFixture()
+  const httpRequest: UpdateUserInputDTO = {
+    params: { id: userModel.id },
+    body: userModel
+  }
   const validation: Validator = {
     run: jest.fn().mockReturnValue(Result.ok(httpRequest))
   }
-  const deleteRepository: HardDeleteRepository = {
-    delete: jest.fn().mockResolvedValue(Result.ok(true))
+  const updateRepository: UpdateRepository = {
+    update: jest.fn().mockResolvedValue(Result.ok(true))
   }
   const logger: any = {
     warn: jest.fn(),
@@ -33,23 +36,25 @@ const makeSut = (): SutTypes => {
     info: jest.fn(),
     debug: jest.fn()
   }
-  const sut = new DeleteUserController({ deleteRepository, validation, logger })
+  const sut = new UpdateUser({ updateRepository, validation, logger })
 
   return {
     sut,
+    userModel,
     validation,
     httpRequest,
-    deleteRepository
+    updateRepository
   }
 }
 
-describe('DeleteUser Controller', () => {
-  it('Should call deleteRepository with correct values', async () => {
-    const { sut, deleteRepository, httpRequest } = makeSut()
+describe('UpdateUser Controller', () => {
+  it('Should call updateRepository with correct values', async () => {
+    const { sut, updateRepository, httpRequest } = makeSut()
     await sut.handler(httpRequest)
-    expect(deleteRepository.delete).toHaveBeenNthCalledWith(
+    expect(updateRepository.update).toHaveBeenNthCalledWith(
       1,
-      httpRequest.params.id
+      httpRequest.params.id,
+      httpRequest.body
     )
   })
 
@@ -62,10 +67,10 @@ describe('DeleteUser Controller', () => {
   })
 
   it('Should return status code 404 if data was not found', async () => {
-    const { sut, deleteRepository, httpRequest } = makeSut()
+    const { sut, updateRepository, httpRequest } = makeSut()
     const err = ErrorModel.notFound()
     jest
-      .spyOn(deleteRepository, 'delete')
+      .spyOn(updateRepository, 'update')
       .mockResolvedValueOnce(Result.fail(err))
     const result = await sut.handler(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
@@ -78,7 +83,7 @@ describe('DeleteUser Controller', () => {
   })
 
   it('Should return status code 500 if any dependency throws', async () => {
-    const { sut, validation, deleteRepository, httpRequest } = makeSut()
+    const { sut, validation, updateRepository, httpRequest } = makeSut()
     const error = new Error('any_error')
 
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
@@ -86,7 +91,7 @@ describe('DeleteUser Controller', () => {
     })
     expect(await sut.handler(httpRequest)).toEqual(serverError())
 
-    jest.spyOn(deleteRepository, 'delete').mockRejectedValueOnce(error)
+    jest.spyOn(updateRepository, 'update').mockRejectedValueOnce(error)
     expect(await sut.handler(httpRequest)).toEqual(serverError())
   })
 })

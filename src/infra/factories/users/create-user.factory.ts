@@ -1,5 +1,5 @@
-import { CreateUserController } from '@/application/controllers/users'
 import { Controller } from '@/application/protocols'
+import CreateUser from '@/application/use-cases/create-user'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
@@ -20,7 +20,7 @@ export const createUserFactory = (): Controller => {
 
   const createRepository = new BaseRepository(UserEntity)
 
-  return new CreateUserController({
+  return new CreateUser({
     createRepository,
     validation,
     logger: new PinoLoggerAdapter('[CREATE_USER]')

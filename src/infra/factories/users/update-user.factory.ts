@@ -1,5 +1,5 @@
-import { UpdateUserController } from '@/application/controllers/users'
 import { Controller } from '@/application/protocols'
+import UpdateUser from '@/application/use-cases/update-user'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
@@ -21,7 +21,7 @@ export const updateUserFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const updateRepository = new BaseRepository(UserEntity)
-  return new UpdateUserController({
+  return new UpdateUser({
     updateRepository,
     validation,
     logger: new PinoLoggerAdapter('[UPDATE_USER]')

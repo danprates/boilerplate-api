@@ -1,4 +1,4 @@
-import HealthController from '@/application/controllers/health.controller'
+import Health from '@/application/use-cases/health'
 import {
   createUserFactory,
   deleteUserFactory,
@@ -10,7 +10,7 @@ import { Http } from '../http/http.protocol'
 import { NODE_ENV } from './env.config'
 
 export const routesConfig = (http: Http): void => {
-  http.addRoute('get', '/health', () => new HealthController(NODE_ENV))
+  http.addRoute('get', '/health', () => new Health(NODE_ENV))
 
   http.addRoute('get', '/users', listUsersFactory)
   http.addRoute('post', '/users', createUserFactory)

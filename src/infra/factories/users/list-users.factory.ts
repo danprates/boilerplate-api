@@ -1,5 +1,5 @@
-import { ListUsersController } from '@/application/controllers/users'
 import { Controller } from '@/application/protocols'
+import ListUsers from '@/application/use-cases/list-users'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
@@ -18,7 +18,7 @@ export const listUsersFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const listRepository = new BaseRepository(UserEntity)
-  return new ListUsersController({
+  return new ListUsers({
     listRepository,
     validation,
     logger: new PinoLoggerAdapter('[LIST_USER]')

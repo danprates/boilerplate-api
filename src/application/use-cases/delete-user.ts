@@ -19,7 +19,7 @@ type Props = {
   logger: Logger
 }
 
-export class DeleteUserController
+export default class DeleteUser
   implements Controller<DeleteUserInputDTO, DeleteUserOutputDTO>
 {
   constructor(private readonly props: Props) {}

@@ -1,5 +1,5 @@
-import { DeleteUserController } from '@/application/controllers/users'
 import { Controller } from '@/application/protocols'
+import DeleteUser from '@/application/use-cases/delete-user'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
@@ -17,7 +17,7 @@ export const deleteUserFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const deleteRepository = new BaseRepository(UserEntity)
-  return new DeleteUserController({
+  return new DeleteUser({
     deleteRepository,
     validation,
     logger: new PinoLoggerAdapter('[DELETE_USER]')

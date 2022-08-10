@@ -1,13 +1,13 @@
-import { ListUsersController } from '@/application/controllers/users'
 import { ListUserInputDTO } from '@/application/dtos'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
 import { ListRepository, Validator } from '@/application/protocols'
+import ListUsers from '@/application/use-cases/list-users'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
-  sut: ListUsersController
+  sut: ListUsers
   httpRequest: ListUserInputDTO
   userModel: UserModel
   listRepository: ListRepository
@@ -29,7 +29,7 @@ const makeSut = (): SutTypes => {
     info: jest.fn(),
     debug: jest.fn()
   }
-  const sut = new ListUsersController({ listRepository, validation, logger })
+  const sut = new ListUsers({ listRepository, validation, logger })
 
   return {
     sut,

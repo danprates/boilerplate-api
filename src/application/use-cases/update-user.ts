@@ -17,7 +17,7 @@ type Props = {
   logger: Logger
 }
 
-export class UpdateUserController
+export default class UpdateUser
   implements Controller<UpdateUserInputDTO, UpdateUserOutputDTO>
 {
   constructor(private readonly props: Props) {}

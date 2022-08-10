@@ -1,5 +1,5 @@
-import { FindUserController } from '@/application/controllers/users'
 import { Controller } from '@/application/protocols'
+import FindUser from '@/application/use-cases/find-user'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
@@ -17,7 +17,7 @@ export const findUsersFactory = (): Controller => {
   const validation = new JoiAdapter(schema)
 
   const findRepository = new BaseRepository(UserEntity)
-  return new FindUserController({
+  return new FindUser({
     findRepository,
     validation,
     logger: new PinoLoggerAdapter('[FIND_USER]')

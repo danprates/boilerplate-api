@@ -13,7 +13,7 @@ type Props = {
   logger: Logger
 }
 
-export class FindUserController
+export default class FindUser
   implements Controller<FindUserInputDTO, FindUserOutputDTO>
 {
   constructor(private readonly props: Props) {}

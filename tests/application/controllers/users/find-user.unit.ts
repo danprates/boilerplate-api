@@ -1,13 +1,13 @@
-import { FindUserController } from '@/application/controllers/users'
 import { FindUserInputDTO } from '@/application/dtos'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
 import { FindRepository, Validator } from '@/application/protocols'
+import FindUser from '@/application/use-cases/find-user'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 interface SutTypes {
-  sut: FindUserController
+  sut: FindUser
   httpRequest: FindUserInputDTO
   userModel: UserModel
   validation: Validator
@@ -29,7 +29,7 @@ const makeSut = (): SutTypes => {
     info: jest.fn(),
     debug: jest.fn()
   }
-  const sut = new FindUserController({ findRepository, validation, logger })
+  const sut = new FindUser({ findRepository, validation, logger })
 
   return {
     sut,
