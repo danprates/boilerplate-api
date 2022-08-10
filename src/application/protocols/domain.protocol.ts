@@ -8,7 +8,7 @@ export declare namespace Domain {
   }
 
   export type Response = {
-    code: number
+    statusCode: number
     data: any
   }
 

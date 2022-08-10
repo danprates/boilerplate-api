@@ -1,16 +1,14 @@
-import { Controller, HttpRequest } from '@/application/protocols'
+import { App, Domain } from '@/application/protocols'
 import { ApolloServer } from 'apollo-server-express'
 import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
 import { serve, setup } from 'swagger-ui-express'
 import { API_VERSION } from '../config/env.config'
-import { routesConfig } from '../config/routes.config'
 import resolvers from '../graphql/resolvers'
 import typeDefs from '../graphql/typedefs'
 import { docs } from '../swagger'
-import { Http } from './http.protocol'
 
-export default class ExpressAdapter implements Http {
+export default class ExpressAdapter implements App.Http {
   app: Express
   server: http.Server
 
@@ -22,14 +20,11 @@ export default class ExpressAdapter implements Http {
     this.addSwagger('/docs')
     this.contentType('json')
     this.setupGraphql()
-    routesConfig(this)
+    // routesConfig(this)
   }
 
-  addRoute(method: string, url: string, factory: () => Controller): void {
-    this.app[method](
-      `/api/${API_VERSION}${url}`,
-      this.controllerAdapter(factory())
-    )
+  addRoute(method: string, url: string, useCase: Domain.UseCase): void {
+    this.app[method.toLocaleLowerCase()](url, this.useCaseToRoute(useCase))
   }
 
   setupGraphql(): void {
@@ -73,27 +68,17 @@ export default class ExpressAdapter implements Http {
     this.app.use(`/api/${API_VERSION}${path}`, this.noCache, serve, setup(docs))
   }
 
-  controllerAdapter(controller: Controller): any {
-    return async (req: Request, res: Response) => {
+  useCaseToRoute(useCase: Domain.UseCase): any {
+    return async ({ body, query, params, headers }: Request, res: Response) => {
       try {
-        const httpRequest: HttpRequest = {
-          body: req.body,
-          params: req.params
-        }
+        const request: Domain.Request = { body, query, params, headers }
 
-        if (req.query) {
-          const { take, skip, ...query } = req.query
+        if (!useCase.isAuthorized(request))
+          return res.status(403).json({ message: 'Unauthorized' })
 
-          httpRequest.query = {
-            take: Number(req.query.take) || 10,
-            skip: Number(req.query.skip) || 0,
-            ...query
-          }
-        }
+        const httpResponse = await useCase.execute(request)
 
-        const httpResponse = await controller.handler(httpRequest)
-
-        res.status(httpResponse.statusCode).json(httpResponse.body)
+        res.status(httpResponse.statusCode).json(httpResponse.data)
       } catch (error) {
         res.status(500).json({ message: 'Server erro', code: error.name })
       }
