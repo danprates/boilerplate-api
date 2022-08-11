@@ -1,27 +1,27 @@
 import { ErrorModel } from '@/application/models'
-import { HttpResponse } from '@/application/protocols'
+import { Domain } from '@/application/protocols'
 
-export const ok = (data: any): HttpResponse => ({
+export const ok = (data: any): Domain.Response => ({
   statusCode: 200,
-  body: data
+  data
 })
 
-export const created = (data: any): HttpResponse => ({
+export const created = (data: any): Domain.Response => ({
   statusCode: 201,
-  body: data
+  data
 })
 
-export const noContent = (): HttpResponse => ({
+export const noContent = (): Domain.Response => ({
   statusCode: 204,
-  body: null
+  data: null
 })
 
-export const serverError = (): HttpResponse => ({
+export const serverError = (): Domain.Response => ({
   statusCode: 500,
-  body: { message: 'Server error' }
+  data: { message: 'Server error' }
 })
 
-export const resultErrorHandler = (err?: ErrorModel): HttpResponse => ({
-  body: { message: err?.message ?? 'Unexpected error' },
+export const resultErrorHandler = (err?: ErrorModel): Domain.Response => ({
+  data: { message: err?.message ?? 'Unexpected error' },
   statusCode: err?.code ?? 500
 })
