@@ -1,19 +1,8 @@
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
-import {
-  Domain,
-  ListRepository,
-  Logger,
-  Validator
-} from '@/application/protocols'
-
-type Props = {
-  listRepository: ListRepository
-  validation: Validator
-  logger: Logger
-}
+import { Dependencies, Domain } from '@/application/protocols'
 
 export default class ListUsers implements Domain.UseCase {
-  constructor(private readonly props: Props) {}
+  constructor(private readonly container: Dependencies.Container) {}
 
   getMetaData(): Domain.MetaData {
     return {
@@ -30,27 +19,27 @@ export default class ListUsers implements Domain.UseCase {
 
   async execute(request: Domain.Request): Promise<Domain.Response> {
     try {
-      this.props.logger.info('Started')
-      this.props.logger.debug('Request data:', request)
+      this.container.logger.info('Started')
+      this.container.logger.debug('Request data:', request)
 
-      const validationResult = this.props.validation.run(request)
+      const validationResult = this.container.validation.run(request)
       if (validationResult.isFailure) {
-        this.props.logger.warn('Request data is invalid')
+        this.container.logger.warn('Request data is invalid')
         return resultErrorHandler(validationResult.error)
       }
 
       const { query } = validationResult.getValue()
 
-      const result = await this.props.listRepository.list(query)
+      const result = await this.container.listRepository.list(query)
       if (result.isFailure) {
-        this.props.logger.warn('Repository returned an error')
+        this.container.logger.warn('Repository returned an error')
         return resultErrorHandler(result.error)
       }
 
-      this.props.logger.info('Finished')
+      this.container.logger.info('Finished')
       return ok(result.getValue())
     } catch (error) {
-      this.props.logger.error(error.message, error)
+      this.container.logger.error(error.message, error)
       return serverError()
     }
   }

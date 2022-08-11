@@ -4,22 +4,10 @@ import {
   serverError
 } from '@/application/helpers'
 import { ErrorModel } from '@/application/models'
-import {
-  Domain,
-  HardDeleteRepository,
-  Logger,
-  SoftDeleteRepository,
-  Validator
-} from '@/application/protocols'
-
-type Props = {
-  validation: Validator
-  deleteRepository: HardDeleteRepository | SoftDeleteRepository
-  logger: Logger
-}
+import { Dependencies, Domain } from '@/application/protocols'
 
 export default class DeleteUser implements Domain.UseCase {
-  constructor(private readonly props: Props) {}
+  constructor(private readonly container: Dependencies.Container) {}
   getMetaData(): Domain.MetaData {
     return {
       name: 'DeleteUser',
@@ -35,27 +23,27 @@ export default class DeleteUser implements Domain.UseCase {
 
   async execute(request: Domain.Request): Promise<Domain.Response> {
     try {
-      this.props.logger.info('Started')
-      this.props.logger.debug('Request data:', request)
+      this.container.logger.info('Started')
+      this.container.logger.debug('Request data:', request)
 
-      const validateResult = this.props.validation.run(request)
+      const validateResult = this.container.validation.run(request)
       if (validateResult.isFailure) {
-        this.props.logger.warn('Request data is invalid')
+        this.container.logger.warn('Request data is invalid')
         return resultErrorHandler(validateResult.error)
       }
 
       const { params } = validateResult.getValue()
 
-      const wasDeleted = await this.props.deleteRepository.delete(params.id)
+      const wasDeleted = await this.container.deleteRepository.delete(params.id)
       if (wasDeleted.isFailure) {
-        this.props.logger.warn('Repository returned an error')
+        this.container.logger.warn('Repository returned an error')
         return resultErrorHandler(ErrorModel.notFound())
       }
 
-      this.props.logger.info('Finished')
+      this.container.logger.info('Finished')
       return noContent()
     } catch (error) {
-      this.props.logger.error(error.message, error)
+      this.container.logger.error(error.message, error)
       return serverError()
     }
   }
