@@ -46,7 +46,7 @@ const makeSut = (): SutTypes => {
 describe('DeleteUser Controller', () => {
   it('Should call deleteRepository with correct values', async () => {
     const { sut, deleteRepository, httpRequest } = makeSut()
-    await sut.handler(httpRequest)
+    await sut.execute(httpRequest)
     expect(deleteRepository.delete).toHaveBeenNthCalledWith(
       1,
       httpRequest.params.id
@@ -57,7 +57,7 @@ describe('DeleteUser Controller', () => {
     const { sut, validation, httpRequest } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
     jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
@@ -67,13 +67,13 @@ describe('DeleteUser Controller', () => {
     jest
       .spyOn(deleteRepository, 'delete')
       .mockResolvedValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 204 when correct params are provided', async () => {
     const { sut, httpRequest } = makeSut()
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(noContent())
   })
 
@@ -84,9 +84,9 @@ describe('DeleteUser Controller', () => {
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
       throw error
     })
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
 
     jest.spyOn(deleteRepository, 'delete').mockRejectedValueOnce(error)
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })

@@ -49,13 +49,13 @@ const makeSut = (): SutTypes => {
 describe('CreateUser Controller', () => {
   it('Should call createRepository with correct values', async () => {
     const { sut, createRepository, httpRequest } = makeSut()
-    await sut.handler(httpRequest)
+    await sut.execute(httpRequest)
     expect(createRepository.create).toHaveBeenNthCalledWith(1, httpRequest.body)
   })
 
   it('Should call validation with correct values', async () => {
     const { sut, validation, httpRequest } = makeSut()
-    await sut.handler(httpRequest)
+    await sut.execute(httpRequest)
     expect(validation.run).toHaveBeenNthCalledWith(1, httpRequest)
   })
 
@@ -63,13 +63,13 @@ describe('CreateUser Controller', () => {
     const { sut, validation, httpRequest } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
     jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 201 when correct params are provided', async () => {
     const { sut, userModel, httpRequest } = makeSut()
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(created(userModel))
   })
 
@@ -80,9 +80,9 @@ describe('CreateUser Controller', () => {
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
       throw error
     })
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
 
     jest.spyOn(createRepository, 'create').mockRejectedValueOnce(error)
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })

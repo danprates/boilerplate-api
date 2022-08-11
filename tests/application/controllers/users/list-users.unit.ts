@@ -43,7 +43,7 @@ const makeSut = (): SutTypes => {
 describe('ListUsers Controller', () => {
   it('Should call listRepository with correct values', async () => {
     const { sut, listRepository, httpRequest } = makeSut()
-    await sut.handler(httpRequest)
+    await sut.execute(httpRequest)
     expect(listRepository.list).toHaveBeenNthCalledWith(1, httpRequest.query)
   })
 
@@ -51,13 +51,13 @@ describe('ListUsers Controller', () => {
     const { sut, httpRequest, validation } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
     jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 200 when correct params are provided', async () => {
     const { sut, userModel, httpRequest } = makeSut()
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(ok([userModel]))
   })
 
@@ -68,9 +68,9 @@ describe('ListUsers Controller', () => {
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
       throw error
     })
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
 
     jest.spyOn(listRepository, 'list').mockRejectedValueOnce(error)
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })

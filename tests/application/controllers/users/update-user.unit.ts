@@ -50,7 +50,7 @@ const makeSut = (): SutTypes => {
 describe('UpdateUser Controller', () => {
   it('Should call updateRepository with correct values', async () => {
     const { sut, updateRepository, httpRequest } = makeSut()
-    await sut.handler(httpRequest)
+    await sut.execute(httpRequest)
     expect(updateRepository.update).toHaveBeenNthCalledWith(
       1,
       httpRequest.params.id,
@@ -62,7 +62,7 @@ describe('UpdateUser Controller', () => {
     const { sut, validation, httpRequest } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
     jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
@@ -72,13 +72,13 @@ describe('UpdateUser Controller', () => {
     jest
       .spyOn(updateRepository, 'update')
       .mockResolvedValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 204 when correct params are provided', async () => {
     const { sut, httpRequest } = makeSut()
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(noContent())
   })
 
@@ -89,9 +89,9 @@ describe('UpdateUser Controller', () => {
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
       throw error
     })
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
 
     jest.spyOn(updateRepository, 'update').mockRejectedValueOnce(error)
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })

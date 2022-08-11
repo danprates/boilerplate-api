@@ -43,7 +43,7 @@ const makeSut = (): SutTypes => {
 describe('FindUser Controller', () => {
   it('Should call findRepository with correct values', async () => {
     const { sut, findRepository, httpRequest } = makeSut()
-    await sut.handler(httpRequest)
+    await sut.execute(httpRequest)
     expect(findRepository.find).toHaveBeenNthCalledWith(
       1,
       httpRequest.params.id
@@ -54,7 +54,7 @@ describe('FindUser Controller', () => {
     const { sut, validation, httpRequest } = makeSut()
     const err = ErrorModel.invalidParams('any_error')
     jest.spyOn(validation, 'run').mockReturnValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
@@ -62,13 +62,13 @@ describe('FindUser Controller', () => {
     const { sut, findRepository, httpRequest } = makeSut()
     const err = ErrorModel.notFound()
     jest.spyOn(findRepository, 'find').mockResolvedValueOnce(Result.fail(err))
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(resultErrorHandler(err))
   })
 
   it('Should return status code 200 when correct params are provided', async () => {
     const { sut, userModel, httpRequest } = makeSut()
-    const result = await sut.handler(httpRequest)
+    const result = await sut.execute(httpRequest)
     expect(result).toEqual(ok(userModel))
   })
 
@@ -79,9 +79,9 @@ describe('FindUser Controller', () => {
     jest.spyOn(validation, 'run').mockImplementationOnce(() => {
       throw error
     })
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
 
     jest.spyOn(findRepository, 'find').mockRejectedValueOnce(error)
-    expect(await sut.handler(httpRequest)).toEqual(serverError())
+    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })
