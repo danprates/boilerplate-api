@@ -1,4 +1,4 @@
-import { Controller } from '@/application/protocols'
+import { Domain } from '@/application/protocols'
 import UpdateUser from '@/application/use-cases/update-user'
 import { UserEntity } from '@/infra/databases/typeorm/entities'
 import { BaseRepository } from '@/infra/databases/typeorm/repositories'
@@ -6,7 +6,7 @@ import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
 import Joi from 'joi'
 
-export const updateUserFactory = (): Controller => {
+export const updateUserFactory = (): Domain.UseCase => {
   const schema = Joi.object({
     query: Joi.allow(),
     params: Joi.object({
