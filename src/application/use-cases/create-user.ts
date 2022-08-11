@@ -1,8 +1,7 @@
-import { CreateUserInputDTO, CreateUserOutputDTO } from '@/application/dtos'
 import { created, resultErrorHandler, serverError } from '@/application/helpers'
 import {
-  Controller,
   CreateRepository,
+  Domain,
   Logger,
   Validator
 } from '@/application/protocols'
@@ -13,12 +12,22 @@ type Props = {
   logger: Logger
 }
 
-export default class CreateUser
-  implements Controller<CreateUserInputDTO, CreateUserOutputDTO>
-{
+export default class CreateUser implements Domain.UseCase {
   constructor(private readonly props: Props) {}
+  getMetaData(): Domain.MetaData {
+    return {
+      name: 'CreateUser',
+      description: 'Create a new user',
+      method: 'POST',
+      route: '/users'
+    }
+  }
 
-  async handler(request: CreateUserInputDTO): Promise<CreateUserOutputDTO> {
+  isAuthorized(request: Domain.Request): boolean {
+    return true
+  }
+
+  async execute(request: Domain.Request): Promise<Domain.Response> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)

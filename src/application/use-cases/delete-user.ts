@@ -1,4 +1,3 @@
-import { DeleteUserInputDTO, DeleteUserOutputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
@@ -6,7 +5,7 @@ import {
 } from '@/application/helpers'
 import { ErrorModel } from '@/application/models'
 import {
-  Controller,
+  Domain,
   HardDeleteRepository,
   Logger,
   SoftDeleteRepository,
@@ -19,12 +18,22 @@ type Props = {
   logger: Logger
 }
 
-export default class DeleteUser
-  implements Controller<DeleteUserInputDTO, DeleteUserOutputDTO>
-{
+export default class DeleteUser implements Domain.UseCase {
   constructor(private readonly props: Props) {}
+  getMetaData(): Domain.MetaData {
+    return {
+      name: 'DeleteUser',
+      description: 'Delete a user',
+      method: 'DELETE',
+      route: '/users/:id'
+    }
+  }
 
-  async handler(request: DeleteUserInputDTO): Promise<DeleteUserOutputDTO> {
+  isAuthorized(request: Domain.Request): boolean {
+    return true
+  }
+
+  async execute(request: Domain.Request): Promise<Domain.Response> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)

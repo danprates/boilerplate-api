@@ -1,7 +1,6 @@
-import { FindUserInputDTO, FindUserOutputDTO } from '@/application/dtos'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import {
-  Controller,
+  Domain,
   FindRepository,
   Logger,
   Validator
@@ -13,12 +12,22 @@ type Props = {
   logger: Logger
 }
 
-export default class FindUser
-  implements Controller<FindUserInputDTO, FindUserOutputDTO>
-{
+export default class FindUser implements Domain.UseCase {
   constructor(private readonly props: Props) {}
+  getMetaData(): Domain.MetaData {
+    return {
+      name: 'FindUser',
+      description: 'Find user by id',
+      method: 'GET',
+      route: '/users/:id'
+    }
+  }
 
-  async handler(request: FindUserInputDTO): Promise<FindUserOutputDTO> {
+  isAuthorized(request: Domain.Request): boolean {
+    return true
+  }
+
+  async execute(request: Domain.Request): Promise<Domain.Response> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)

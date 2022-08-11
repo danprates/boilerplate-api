@@ -1,11 +1,10 @@
-import { UpdateUserInputDTO, UpdateUserOutputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
 import {
-  Controller,
+  Domain,
   Logger,
   UpdateRepository,
   Validator
@@ -17,12 +16,23 @@ type Props = {
   logger: Logger
 }
 
-export default class UpdateUser
-  implements Controller<UpdateUserInputDTO, UpdateUserOutputDTO>
-{
+export default class UpdateUser implements Domain.UseCase {
   constructor(private readonly props: Props) {}
 
-  async handler(request: UpdateUserInputDTO): Promise<UpdateUserOutputDTO> {
+  getMetaData(): Domain.MetaData {
+    return {
+      name: 'UpdateUser',
+      description: 'Update user by id',
+      method: 'PUT',
+      route: '/users/:id'
+    }
+  }
+
+  isAuthorized(request: Domain.Request): boolean {
+    return true
+  }
+
+  async execute(request: Domain.Request): Promise<Domain.Response> {
     try {
       this.props.logger.info('Started')
       this.props.logger.debug('Request data:', request)
