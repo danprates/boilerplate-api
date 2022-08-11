@@ -26,17 +26,9 @@ export default class UpdateUser implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const validationResult = this.container.validation.run(request)
-      if (validationResult.isFailure) {
-        this.container.logger.warn('Request data is invalid')
-        return resultErrorHandler(validationResult.error)
-      }
-
-      const { params, body } = validationResult.getValue()
-
       const wasUpdated = await this.container.updateRepository.update(
-        params.id,
-        body
+        request.params.id,
+        request.body
       )
 
       if (wasUpdated.isFailure) {

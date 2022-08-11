@@ -21,15 +21,7 @@ export default class CreateUser implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const requestValidated = this.container.validation.run(request)
-      if (requestValidated.isFailure) {
-        this.container.logger.warn('Request data is invalid')
-        return resultErrorHandler(requestValidated.error)
-      }
-
-      const { body } = requestValidated.getValue()
-
-      const result = await this.container.createRepository.create(body)
+      const result = await this.container.createRepository.create(request.body)
       if (result.isFailure) {
         this.container.logger.warn('Repository returned an error')
         return resultErrorHandler(result.error)

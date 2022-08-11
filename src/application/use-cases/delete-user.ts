@@ -26,15 +26,9 @@ export default class DeleteUser implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const validateResult = this.container.validation.run(request)
-      if (validateResult.isFailure) {
-        this.container.logger.warn('Request data is invalid')
-        return resultErrorHandler(validateResult.error)
-      }
-
-      const { params } = validateResult.getValue()
-
-      const wasDeleted = await this.container.deleteRepository.delete(params.id)
+      const wasDeleted = await this.container.deleteRepository.delete(
+        request.params.id
+      )
       if (wasDeleted.isFailure) {
         this.container.logger.warn('Repository returned an error')
         return resultErrorHandler(ErrorModel.notFound())
