@@ -28,6 +28,10 @@ export class JoiAdapter implements Validator {
     return schema.getSchema()
   }
 
+  addSchema(schema: BaseSchema): void {
+    this.schemas.push(schema)
+  }
+
   initSchemas(): void {
     const path = join(__dirname, './schemas')
 
