@@ -1,27 +1,13 @@
 import { BaseModel, ErrorModel, Result } from '@/application/models'
 import {
-  CreateRepository,
-  FindRepository,
-  HardDeleteRepository,
-  ListRepository,
+  Dependencies,
   Pagination,
-  PaginationOptions,
-  SoftDeleteRepository,
-  UpdateRepository
+  PaginationOptions
 } from '@/application/protocols'
 import { TypeormHelper } from '../typeorm-helper'
 
-export class BaseRepository
-  implements
-    CreateRepository,
-    ListRepository,
-    FindRepository,
-    UpdateRepository,
-    SoftDeleteRepository,
-    HardDeleteRepository
-{
+export class BaseRepository implements Dependencies.Repository {
   constructor(private readonly entity: any) {}
-
   async create(data: Partial<BaseModel>): Promise<Result<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const created = await repo.save(data)
@@ -56,12 +42,20 @@ export class BaseRepository
       : Result.fail(ErrorModel.notFound())
   }
 
-  async delete(id: string): Promise<Result<boolean>> {
+  async softDelete(id: string): Promise<Result<boolean>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
     const { affected } = await repo.update(id, {
       isActive: false,
       isDeleted: true
     })
+    return Number(affected) > 0
+      ? Result.ok(true)
+      : Result.fail(ErrorModel.notFound())
+  }
+
+  async hardDelete(id: string): Promise<Result<boolean>> {
+    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    const { affected } = await repo.delete(id)
     return Number(affected) > 0
       ? Result.ok(true)
       : Result.fail(ErrorModel.notFound())
