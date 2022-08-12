@@ -1,8 +1,8 @@
-import { Logger } from '@/application/protocols'
+import { Dependencies } from '@/application/protocols'
 import { APP_NAME, LOG_LEVEL } from '@/infra/config/env.config'
 import { pino } from 'pino'
 
-export class PinoLoggerAdapter implements Logger {
+export class PinoLoggerAdapter implements Dependencies.Logger {
   private readonly logger: pino.Logger
 
   constructor(name?: string) {
