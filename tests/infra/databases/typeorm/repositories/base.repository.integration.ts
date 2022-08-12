@@ -99,10 +99,10 @@ describe('BaseRepository', () => {
     })
   })
 
-  describe('delete', () => {
+  describe('softDelete', () => {
     it('should delete the user', async () => {
       const user = await userRepository.save(UserModelFixture())
-      const updated = await sut.delete(user.id)
+      const updated = await sut.softDelete(user.id)
       const result = await userRepository.findOne({
         where: { id: user.id },
         select: ['isActive', 'isDeleted']
@@ -116,7 +116,7 @@ describe('BaseRepository', () => {
     })
 
     it('should return Not found when does not exist user', async () => {
-      const updated = await sut.delete('wrong_id')
+      const updated = await sut.softDelete('wrong_id')
 
       expect(updated.isFailure).toBeTruthy()
       expect(updated.error).toEqual(ErrorModel.notFound())
