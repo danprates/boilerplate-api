@@ -4,12 +4,12 @@ import {
   Pagination,
   PaginationOptions
 } from '@/application/protocols'
+import { UserEntity } from '../entities'
 import { TypeormHelper } from '../typeorm-helper'
 
 export class BaseRepository implements Dependencies.Repository {
-  constructor(private readonly entity: any) {}
   async create(data: Partial<BaseModel>): Promise<Result<BaseModel>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const created = await repo.save(data)
     return Result.ok(created)
   }
@@ -17,7 +17,7 @@ export class BaseRepository implements Dependencies.Repository {
   async list(
     options: PaginationOptions
   ): Promise<Result<Pagination<BaseModel>>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const [data, total] = await repo.findAndCount({
       ...options
     })
@@ -29,13 +29,13 @@ export class BaseRepository implements Dependencies.Repository {
   }
 
   async find(id: string): Promise<Result<BaseModel>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const result = await repo.findOne({ where: { id } })
     return result ? Result.ok(result) : Result.fail(ErrorModel.notFound())
   }
 
   async update(id: string, data: Partial<BaseModel>): Promise<Result<boolean>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const { affected } = await repo.update(id, data)
     return Number(affected) > 0
       ? Result.ok(true)
@@ -43,7 +43,7 @@ export class BaseRepository implements Dependencies.Repository {
   }
 
   async softDelete(id: string): Promise<Result<boolean>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const { affected } = await repo.update(id, {
       isActive: false,
       isDeleted: true
@@ -54,7 +54,7 @@ export class BaseRepository implements Dependencies.Repository {
   }
 
   async hardDelete(id: string): Promise<Result<boolean>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const { affected } = await repo.delete(id)
     return Number(affected) > 0
       ? Result.ok(true)

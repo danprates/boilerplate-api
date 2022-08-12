@@ -5,6 +5,6 @@ import { JoiAdapter } from './validators/joi.adapter'
 
 export const container: Dependencies.Container = {
   logger: new PinoLoggerAdapter(),
-  repository: new BaseRepository(null),
+  repository: new BaseRepository(),
   validation: new JoiAdapter()
 }
