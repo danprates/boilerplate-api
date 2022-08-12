@@ -1,29 +1,39 @@
 import { ErrorModel } from '@/application/models'
+import BaseSchema from '@/infra/validators/base-schema'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
 import Joi from 'joi'
 
+class TestSchema extends BaseSchema {
+  constructor() {
+    super('Test')
+  }
+
+  getSchema(): Joi.Schema {
+    return Joi.object({ body: { foo: Joi.number().required() } })
+  }
+}
+
 describe('JoiAdapter', () => {
+  const sut = new JoiAdapter()
+  sut.addSchema(new TestSchema())
+
   it('should return a result ok when passed correct data', () => {
-    const schema = Joi.object({ foo: Joi.string().required() })
-    const sut = new JoiAdapter(schema)
-    const result = sut.run({ foo: 'bar' })
+    const result = sut.check({ body: { foo: 123 } }, 'Test')
     expect(result.isSuccess).toBeTruthy()
-    expect(result.getValue()).toEqual({ foo: 'bar' })
+    expect(result.getValue()).toEqual({ body: { foo: 123 } })
   })
 
   it('should convert data when its possible', () => {
-    const schema = Joi.object({ foo: Joi.number().required() })
-    const sut = new JoiAdapter(schema)
-    const result = sut.run({ foo: '123' })
+    const result = sut.check({ body: { foo: '123' } }, 'Test')
     expect(result.isSuccess).toBeTruthy()
-    expect(result.getValue()).toEqual({ foo: 123 })
+    expect(result.getValue()).toEqual({ body: { foo: 123 } })
   })
 
   it('should return a result fail when passed incorrect data', () => {
-    const schema = Joi.object({ foo: Joi.string().required() })
-    const sut = new JoiAdapter(schema)
-    const result = sut.run({ foo: undefined })
+    const result = sut.check({ body: { foo: undefined } }, 'Test')
     expect(result.isSuccess).toBeFalsy()
-    expect(result.error).toEqual(ErrorModel.invalidParams('"foo" is required'))
+    expect(result.error).toEqual(
+      ErrorModel.invalidParams('"body.foo" is required')
+    )
   })
 })
