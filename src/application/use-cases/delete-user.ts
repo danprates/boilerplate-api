@@ -26,7 +26,7 @@ export default class DeleteUser implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const wasDeleted = await this.container.deleteRepository.delete(
+      const wasDeleted = await this.container.repository.softDelete(
         request.params.id
       )
       if (wasDeleted.isFailure) {

@@ -22,7 +22,7 @@ export default class ListUsers implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const result = await this.container.listRepository.list(request.query)
+      const result = await this.container.repository.list(request.query)
       if (result.isFailure) {
         this.container.logger.warn('Repository returned an error')
         return resultErrorHandler(result.error)

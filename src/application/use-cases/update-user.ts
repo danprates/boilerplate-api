@@ -26,7 +26,7 @@ export default class UpdateUser implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const wasUpdated = await this.container.updateRepository.update(
+      const wasUpdated = await this.container.repository.update(
         request.params.id,
         request.body
       )
