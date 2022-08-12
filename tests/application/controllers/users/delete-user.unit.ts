@@ -1,15 +1,15 @@
-import { DeleteUserInputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
   serverError
 } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
+import { Domain } from '@/application/protocols'
 import DeleteUser from '@/application/use-cases/delete-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 
 describe('DeleteUser Controller', () => {
-  const httpRequest: DeleteUserInputDTO = { params: { id: 'any_name' } }
+  const httpRequest: Domain.Request = { params: { id: 'any_name' } }
   let sut: DeleteUser
 
   beforeEach(() => {

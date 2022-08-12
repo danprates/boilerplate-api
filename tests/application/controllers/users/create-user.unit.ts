@@ -1,6 +1,6 @@
-import { CreateUserInputDTO } from '@/application/dtos'
 import { created, serverError } from '@/application/helpers'
 import { Result } from '@/application/models'
+import { Domain } from '@/application/protocols'
 import CreateUser from '@/application/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
@@ -8,7 +8,7 @@ import { UserModelFixture } from '../../fixtures/user.model.fixture'
 describe('CreateUser Controller', () => {
   let sut: CreateUser
   let userModel
-  let httpRequest: CreateUserInputDTO
+  let httpRequest: Domain.Request
 
   beforeEach(() => {
     userModel = UserModelFixture()

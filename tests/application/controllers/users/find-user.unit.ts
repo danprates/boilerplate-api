@@ -1,14 +1,14 @@
-import { FindUserInputDTO } from '@/application/dtos'
 import { ok, resultErrorHandler, serverError } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
+import { Domain } from '@/application/protocols'
 import FindUser from '@/application/use-cases/find-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('FindUser Controller', () => {
   let userModel: UserModel
-  let httpRequest: FindUserInputDTO
+  let httpRequest: Domain.Request
   let sut: FindUser
 
   beforeEach(() => {

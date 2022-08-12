@@ -1,14 +1,14 @@
-import { ListUserInputDTO } from '@/application/dtos'
 import { ok, serverError } from '@/application/helpers'
 import { Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
+import { Domain } from '@/application/protocols'
 import ListUsers from '@/application/use-cases/list-users'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('ListUsers Controller', () => {
   let userModel: UserModel
-  const httpRequest: ListUserInputDTO = {}
+  const httpRequest: Domain.Request = {}
   let sut = new ListUsers(containerFixture)
 
   beforeEach(() => {

@@ -1,4 +1,3 @@
-import { UpdateUserInputDTO } from '@/application/dtos'
 import {
   noContent,
   resultErrorHandler,
@@ -6,13 +5,14 @@ import {
 } from '@/application/helpers'
 import { ErrorModel, Result } from '@/application/models'
 import { UserModel } from '@/application/models/user.model'
+import { Domain } from '@/application/protocols'
 import UpdateUser from '@/application/use-cases/update-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('UpdateUser Controller', () => {
   let userModel: UserModel = UserModelFixture()
-  let httpRequest: UpdateUserInputDTO
+  let httpRequest: Domain.Request
   let sut: UpdateUser
 
   beforeEach(() => {
