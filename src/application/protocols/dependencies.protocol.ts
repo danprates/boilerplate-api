@@ -1,6 +1,6 @@
 import { BaseModel, Result } from '../models'
+import { Domain } from './domain.protocol'
 import { Pagination, PaginationOptions } from './pagination.protocol'
-import { Validator } from './validator.protocol'
 
 export declare namespace Dependencies {
   export interface Logger {
@@ -18,6 +18,10 @@ export declare namespace Dependencies {
     update: (id: string, data: Partial<BaseModel>) => Promise<Result<boolean>>
     softDelete: (id: string) => Promise<Result<boolean>>
     hardDelete: (id: string) => Promise<Result<boolean>>
+  }
+
+  export interface Validator {
+    check: (data: Domain.Request, schemaName: string) => Result<Domain.Request>
   }
 
   export interface Container {
