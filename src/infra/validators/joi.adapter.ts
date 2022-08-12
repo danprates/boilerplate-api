@@ -1,15 +1,12 @@
 import { ErrorModel, Result } from '@/application/models'
-import { Domain, Validator } from '@/application/protocols'
+import { Dependencies, Domain } from '@/application/protocols'
 import { readdirSync } from 'fs'
 import Joi from 'joi'
 import { join } from 'path'
 import BaseSchema from './base-schema'
 
-export class JoiAdapter implements Validator {
+export class JoiAdapter implements Dependencies.Validator {
   private readonly schemas: BaseSchema[] = []
-  constructor() {
-    this.initSchemas()
-  }
 
   check(data: Domain.Request, schemaName: string): Result<Domain.Request> {
     const schema = this.getSchema(schemaName)
@@ -32,7 +29,7 @@ export class JoiAdapter implements Validator {
     this.schemas.push(schema)
   }
 
-  initSchemas(): void {
+  async initSchemas(): Promise<void> {
     const path = join(__dirname, './schemas')
 
     readdirSync(path).forEach(async (file) => {
@@ -43,5 +40,7 @@ export class JoiAdapter implements Validator {
         this.schemas.push(new Schema())
       }
     })
+
+    return Promise.resolve()
   }
 }
