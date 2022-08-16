@@ -4,18 +4,29 @@ import { App, Dependencies, Domain } from './protocols'
 
 export class Application {
   private readonly useCases: Domain.UseCase[] = []
-  constructor(
+  private constructor(
     private readonly http: App.Http,
     private readonly container: Dependencies.Container
   ) {}
 
+  static async init(
+    http: App.Http,
+    container: Dependencies.Container
+  ): Promise<Application> {
+    const app = new Application(http, container)
+    await app.initUseCases()
+    app.setupRest()
+    return app
+  }
+
   setupRest(): void {
-    this.container.logger.debug('\nREST endpoints')
+    this.container.logger.debug('REST endpoints')
     this.useCases.forEach((useCase) => {
       const { method, route, description } = useCase.getMetaData()
+
       const url = `/api/v1${route}`
 
-      this.container.logger.debug(`\t${method} ${url} -> ${description}`)
+      this.container.logger.debug(`${method} ${url} -> ${description}`)
       this.http.addRoute(method, url, useCase)
     })
   }

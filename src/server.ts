@@ -27,7 +27,7 @@ process.on('uncaughtException', (error) => {
 const main = async (): Promise<void> => {
   try {
     const http = new ExpressAdapter()
-    const app = new Application(http, container)
+    const app = await Application.init(http, container)
 
     app.listen(Number(PORT), () =>
       container.logger.info(
