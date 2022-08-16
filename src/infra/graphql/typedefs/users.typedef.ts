@@ -13,9 +13,9 @@ export default gql`
   }
 
   type ListUserResult {
-    skip: Int!
-    take: Int!
-    total: Int!
+    skip: Int
+    take: Int
+    total: Int
     data: [User]!
   }
 

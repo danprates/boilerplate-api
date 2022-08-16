@@ -1,5 +1,5 @@
 import { App, Domain } from '@/application/protocols'
-import { ApolloServer } from 'apollo-server-express'
+import { ApolloError, ApolloServer } from 'apollo-server-express'
 import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
 import { serve, setup } from 'swagger-ui-express'
@@ -81,6 +81,26 @@ export default class ExpressAdapter implements App.Http {
         res.status(httpResponse.statusCode).json(httpResponse.data)
       } catch (error) {
         res.status(500).json({ message: 'Server erro', code: error.name })
+      }
+    }
+  }
+
+  useCaseToResolver(useCase: Domain.UseCase): any {
+    return async (parent, args, context, info) => {
+      try {
+        const { query = {}, params = {}, body = {}, headers = {} } = args
+        const httpRequest: Domain.Request = { query, params, body, headers }
+
+        const result = await useCase.execute(httpRequest)
+
+        if (result.statusCode < 400) {
+          return result.data
+        }
+
+        return new ApolloError(result.data.message, result.data.type)
+      } catch (error) {
+        console.error(error.stack)
+        return new ApolloError('Server error', error.name)
       }
     }
   }
