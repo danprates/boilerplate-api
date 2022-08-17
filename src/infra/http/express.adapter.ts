@@ -1,4 +1,4 @@
-import { App, Domain } from '@/application/protocols'
+import { App, Dependencies, Domain } from '@/application/protocols'
 import { ApolloError, ApolloServer } from 'apollo-server-express'
 import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
@@ -12,7 +12,7 @@ export default class ExpressAdapter implements App.Http {
   server: http.Server
   resolvers: any[] = []
 
-  constructor() {
+  constructor(private readonly container: Dependencies.Container) {
     this.app = express()
     this.app.disable('x-powered-by')
     this.app.use(json())

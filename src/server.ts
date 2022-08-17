@@ -28,8 +28,8 @@ process.on('uncaughtException', (error) => {
 
 const main = async (): Promise<void> => {
   try {
-    const http = new ExpressAdapter()
     const container = await Container.init()
+    const http = new ExpressAdapter(container.dependencies)
     const app = await Application.init(http, container.dependencies)
 
     app.listen(Number(PORT), () =>
