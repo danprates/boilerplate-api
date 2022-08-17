@@ -14,8 +14,12 @@ class TestSchema extends BaseSchema {
 }
 
 describe('JoiAdapter', () => {
-  const sut = new JoiAdapter()
-  sut.addSchema(new TestSchema())
+  let sut: JoiAdapter
+
+  beforeAll(async () => {
+    sut = await JoiAdapter.init()
+    sut.addSchema(new TestSchema())
+  })
 
   it('should return a result ok when passed correct data', () => {
     const result = sut.check({ body: { foo: 123 } }, 'Test')

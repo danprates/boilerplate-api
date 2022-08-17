@@ -28,7 +28,7 @@ export class JoiAdapter implements Dependencies.Validator {
   }
 
   getSchema(name: string): Joi.Schema {
-    const schema = this.schemas.find((schema) => schema.name)
+    const schema = this.schemas.find((schema) => schema.name === name)
     if (!schema) throw new Error(`${name} schema not found`)
     return schema.getSchema()
   }
