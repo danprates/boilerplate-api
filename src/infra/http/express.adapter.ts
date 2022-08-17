@@ -1,7 +1,9 @@
 import { App, Dependencies, Domain } from '@/application/protocols'
 import { ApolloError, ApolloServer } from 'apollo-server-express'
 import express, { Express, json, Request, Response } from 'express'
+import { readdirSync } from 'fs'
 import http from 'http'
+import { join } from 'path'
 import { serve, setup } from 'swagger-ui-express'
 import { API_VERSION } from '../config/env.config'
 import typeDefs from '../graphql'
@@ -11,14 +13,25 @@ export default class ExpressAdapter implements App.Http {
   app: Express
   server: http.Server
   resolvers: any[] = []
+  useCases: Domain.UseCase[] = []
 
-  constructor(private readonly container: Dependencies.Container) {
+  private constructor(private readonly container: Dependencies.Container) {
     this.app = express()
     this.app.disable('x-powered-by')
     this.app.use(json())
     this.cors('*')
     this.addSwagger('/docs')
     this.contentType('json')
+  }
+
+  static async init(
+    container: Dependencies.Container
+  ): Promise<ExpressAdapter> {
+    const app = new ExpressAdapter(container)
+    await app.initUseCases()
+    app.setupRest()
+    app.setupGraphql()
+    return app
   }
 
   addRoute(method: string, url: string, useCase: Domain.UseCase): void {
@@ -34,7 +47,22 @@ export default class ExpressAdapter implements App.Http {
     })
   }
 
+  setupRest(): void {
+    this.container.logger.debug('REST endpoints')
+    this.useCases.forEach((useCase) => {
+      const { method, route, description } = useCase.getMetaData()
+
+      const url = `/api/v1${route}`
+
+      this.container.logger.debug(`${method} ${url} -> ${description}`)
+      this.addRoute(method, url, useCase)
+    })
+  }
+
   setupGraphql(): void {
+    this.container.logger.debug('GraphQL endpoint -> /graphql')
+    this.useCases.forEach((useCase) => this.addResolver(useCase))
+
     const server = new ApolloServer({
       resolvers: this.resolvers,
       typeDefs
@@ -47,7 +75,6 @@ export default class ExpressAdapter implements App.Http {
 
   listen(port: number, callback?: any): void {
     this.server = this.app.listen(port)
-    this.setupGraphql()
     if (callback) callback()
   }
 
@@ -122,5 +149,20 @@ export default class ExpressAdapter implements App.Http {
     res.set('expires', '0')
     res.set('surrogate-control', 'no-store')
     next()
+  }
+
+  async initUseCases(): Promise<void> {
+    const path = join(__dirname, '../../application/use-cases')
+
+    readdirSync(path).forEach(async (file) => {
+      const validFile = !file.endsWith('.map')
+
+      if (validFile) {
+        const UseCase = (await import(`${path}/${file}`)).default
+        this.useCases.push(new UseCase(this.container))
+      }
+    })
+
+    return Promise.resolve()
   }
 }
