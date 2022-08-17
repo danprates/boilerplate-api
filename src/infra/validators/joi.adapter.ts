@@ -18,7 +18,10 @@ export class JoiAdapter implements Dependencies.Validator {
 
   check(data: Domain.Request, schemaName: string): Result<Domain.Request> {
     const schema = this.getSchema(schemaName)
-    const { error, value } = schema.validate(data, { convert: true })
+    const { error, value } = schema.validate(data, {
+      convert: true,
+      allowUnknown: true
+    })
 
     if (error) {
       return Result.fail(ErrorModel.invalidParams(error.message))
