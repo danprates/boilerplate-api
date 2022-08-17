@@ -109,12 +109,15 @@ export default class ExpressAdapter implements App.Http {
         const { name } = useCase.getMetaData()
 
         const validation = this.container.validation.check(req, name)
-        if (validation.isFailure) return res.status(400).json(validation.error)
+        if (validation.isFailure) {
+          return res.status(400).json(validation.error)
+        }
 
         const request = validation.getValue() ?? {}
 
-        if (!useCase.isAuthorized(request))
+        if (!useCase.isAuthorized(request)) {
           return res.status(403).json({ message: 'Unauthorized' })
+        }
 
         const httpResponse = await useCase.execute(request)
 
