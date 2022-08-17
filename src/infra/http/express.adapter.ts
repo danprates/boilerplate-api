@@ -4,13 +4,13 @@ import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
 import { serve, setup } from 'swagger-ui-express'
 import { API_VERSION } from '../config/env.config'
-import resolvers from '../graphql/resolvers'
 import typeDefs from '../graphql/typedefs'
 import { docs } from '../swagger'
 
 export default class ExpressAdapter implements App.Http {
   app: Express
   server: http.Server
+  resolvers: any[] = []
 
   constructor() {
     this.app = express()
@@ -27,9 +27,18 @@ export default class ExpressAdapter implements App.Http {
     this.app[method.toLocaleLowerCase()](url, this.useCaseToRoute(useCase))
   }
 
+  addResolver(useCase: Domain.UseCase): void {
+    const { name, type } = useCase.getMetaData()
+    this.resolvers.push({
+      [type]: {
+        [name]: this.useCaseToResolver(useCase)
+      }
+    })
+  }
+
   setupGraphql(): void {
     const server = new ApolloServer({
-      resolvers,
+      resolvers: this.resolvers,
       typeDefs
     })
 
