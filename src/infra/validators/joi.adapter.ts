@@ -1,5 +1,5 @@
-import { ErrorModel, Result } from '@/application/models'
-import { Dependencies, Domain } from '@/application/protocols'
+import { ErrorModel, Result } from '@/domain/models'
+import { Dependencies, Domain } from '@/domain/protocols'
 import { readdirSync } from 'fs'
 import Joi from 'joi'
 import { join } from 'path'

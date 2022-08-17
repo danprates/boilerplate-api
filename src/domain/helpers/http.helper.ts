@@ -1,5 +1,5 @@
-import { ErrorModel } from '@/application/models'
-import { Domain } from '@/application/protocols'
+import { ErrorModel } from '@/domain/models'
+import { Domain } from '@/domain/protocols'
 
 export const ok = (data: any): Domain.Response => ({
   statusCode: 200,

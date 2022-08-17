@@ -1,7 +1,7 @@
-import { created, serverError } from '@/application/helpers'
-import { Result } from '@/application/models'
-import { Domain } from '@/application/protocols'
-import CreateUser from '@/application/use-cases/create-user'
+import { created, serverError } from '@/domain/helpers'
+import { Result } from '@/domain/models'
+import { Domain } from '@/domain/protocols'
+import CreateUser from '@/domain/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 

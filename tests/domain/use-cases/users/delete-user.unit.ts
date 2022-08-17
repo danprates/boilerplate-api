@@ -1,11 +1,7 @@
-import {
-  noContent,
-  resultErrorHandler,
-  serverError
-} from '@/application/helpers'
-import { ErrorModel, Result } from '@/application/models'
-import { Domain } from '@/application/protocols'
-import DeleteUser from '@/application/use-cases/delete-user'
+import { noContent, resultErrorHandler, serverError } from '@/domain/helpers'
+import { ErrorModel, Result } from '@/domain/models'
+import { Domain } from '@/domain/protocols'
+import DeleteUser from '@/domain/use-cases/delete-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 
 describe('DeleteUser Controller', () => {

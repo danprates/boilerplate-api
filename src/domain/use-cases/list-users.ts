@@ -1,14 +1,15 @@
-import { ok, resultErrorHandler, serverError } from '@/application/helpers'
-import { Dependencies, Domain } from '@/application/protocols'
+import { ok, resultErrorHandler, serverError } from '@/domain/helpers'
+import { Dependencies, Domain } from '@/domain/protocols'
 
-export default class FindUser implements Domain.UseCase {
+export default class ListUsers implements Domain.UseCase {
   constructor(private readonly container: Dependencies.Container) {}
+
   getMetaData(): Domain.MetaData {
     return {
-      name: 'FindUser',
-      description: 'Find user by id',
+      name: 'ListUsers',
+      description: 'List users',
       method: 'GET',
-      route: '/users/:id',
+      route: '/users',
       type: 'Query'
     }
   }
@@ -22,7 +23,7 @@ export default class FindUser implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const result = await this.container.repository.find(request.params.id)
+      const result = await this.container.repository.list(request.query)
       if (result.isFailure) {
         this.container.logger.warn('Repository returned an error')
         return resultErrorHandler(result.error)

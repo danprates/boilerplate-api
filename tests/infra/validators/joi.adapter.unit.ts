@@ -1,4 +1,4 @@
-import { ErrorModel } from '@/application/models'
+import { ErrorModel } from '@/domain/models'
 import BaseSchema from '@/infra/validators/base-schema'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
 import Joi from 'joi'

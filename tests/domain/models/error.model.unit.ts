@@ -1,5 +1,5 @@
-import { ErrorModel } from '@/application/models'
-import { ErrorCode, ErrorMessages } from '@/application/models/error.model'
+import { ErrorModel } from '@/domain/models'
+import { ErrorCode, ErrorMessages } from '@/domain/models/error.model'
 
 describe('Error model', () => {
   it('should return notFound error', () => {

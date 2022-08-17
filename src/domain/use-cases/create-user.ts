@@ -1,19 +1,14 @@
-import {
-  noContent,
-  resultErrorHandler,
-  serverError
-} from '@/application/helpers'
-import { ErrorModel } from '@/application/models'
-import { Dependencies, Domain } from '@/application/protocols'
+import { created, resultErrorHandler, serverError } from '@/domain/helpers'
+import { Dependencies, Domain } from '@/domain/protocols'
 
-export default class DeleteUser implements Domain.UseCase {
+export default class CreateUser implements Domain.UseCase {
   constructor(private readonly container: Dependencies.Container) {}
   getMetaData(): Domain.MetaData {
     return {
-      name: 'DeleteUser',
-      description: 'Delete a user',
-      method: 'DELETE',
-      route: '/users/:id',
+      name: 'CreateUser',
+      description: 'Create a new user',
+      method: 'POST',
+      route: '/users',
       type: 'Mutation'
     }
   }
@@ -27,16 +22,14 @@ export default class DeleteUser implements Domain.UseCase {
       this.container.logger.info('Started')
       this.container.logger.debug('Request data:', request)
 
-      const wasDeleted = await this.container.repository.softDelete(
-        request.params.id
-      )
-      if (wasDeleted.isFailure) {
+      const result = await this.container.repository.create(request.body)
+      if (result.isFailure) {
         this.container.logger.warn('Repository returned an error')
-        return resultErrorHandler(ErrorModel.notFound())
+        return resultErrorHandler(result.error)
       }
 
       this.container.logger.info('Finished')
-      return noContent()
+      return created(result.getValue())
     } catch (error) {
       this.container.logger.error(error.message, error)
       return serverError()

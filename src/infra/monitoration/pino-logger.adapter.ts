@@ -1,4 +1,4 @@
-import { Dependencies } from '@/application/protocols'
+import { Dependencies } from '@/domain/protocols'
 import { APP_NAME, LOG_LEVEL } from '@/infra/config/env.config'
 import { pino } from 'pino'
 

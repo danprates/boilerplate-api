@@ -1,12 +1,8 @@
-import {
-  noContent,
-  resultErrorHandler,
-  serverError
-} from '@/application/helpers'
-import { ErrorModel, Result } from '@/application/models'
-import { UserModel } from '@/application/models/user.model'
-import { Domain } from '@/application/protocols'
-import UpdateUser from '@/application/use-cases/update-user'
+import { noContent, resultErrorHandler, serverError } from '@/domain/helpers'
+import { ErrorModel, Result } from '@/domain/models'
+import { UserModel } from '@/domain/models/user.model'
+import { Domain } from '@/domain/protocols'
+import UpdateUser from '@/domain/use-cases/update-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 

@@ -1,4 +1,4 @@
-import { AuthModel } from '@/application/models'
+import { AuthModel } from '@/domain/models'
 import { faker } from '@faker-js/faker'
 import { BaseModelFixture } from './base.model.fixture'
 

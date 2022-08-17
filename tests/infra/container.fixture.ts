@@ -1,4 +1,4 @@
-import { Dependencies } from '@/application/protocols'
+import { Dependencies } from '@/domain/protocols'
 
 export const containerFixture: Dependencies.Container = {
   logger: {

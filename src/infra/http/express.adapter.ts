@@ -1,4 +1,4 @@
-import { App, Dependencies, Domain } from '@/application/protocols'
+import { App, Dependencies, Domain } from '@/domain/protocols'
 import { ApolloError, ApolloServer } from 'apollo-server-express'
 import express, { Express, json, Request, Response } from 'express'
 import { readdirSync } from 'fs'
@@ -160,7 +160,7 @@ export default class ExpressAdapter implements App.Http {
   }
 
   async initUseCases(): Promise<void> {
-    const path = join(__dirname, '../../application/use-cases')
+    const path = join(__dirname, '../../domain/use-cases')
 
     readdirSync(path).forEach(async (file) => {
       const validFile = !file.endsWith('.map')

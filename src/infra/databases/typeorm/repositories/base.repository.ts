@@ -1,9 +1,5 @@
-import { BaseModel, ErrorModel, Result } from '@/application/models'
-import {
-  Dependencies,
-  Pagination,
-  PaginationOptions
-} from '@/application/protocols'
+import { BaseModel, ErrorModel, Result } from '@/domain/models'
+import { Dependencies, Pagination, PaginationOptions } from '@/domain/protocols'
 import { UserEntity } from '../entities'
 import { TypeormHelper } from '../typeorm-helper'
 

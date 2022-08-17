@@ -1,8 +1,8 @@
-import { ok, resultErrorHandler, serverError } from '@/application/helpers'
-import { ErrorModel, Result } from '@/application/models'
-import { UserModel } from '@/application/models/user.model'
-import { Domain } from '@/application/protocols'
-import FindUser from '@/application/use-cases/find-user'
+import { ok, resultErrorHandler, serverError } from '@/domain/helpers'
+import { ErrorModel, Result } from '@/domain/models'
+import { UserModel } from '@/domain/models/user.model'
+import { Domain } from '@/domain/protocols'
+import FindUser from '@/domain/use-cases/find-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 

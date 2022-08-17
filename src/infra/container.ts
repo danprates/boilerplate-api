@@ -1,4 +1,4 @@
-import { Dependencies } from '@/application/protocols'
+import { Dependencies } from '@/domain/protocols'
 import { BaseRepository } from './databases/typeorm/repositories'
 import { PinoLoggerAdapter } from './monitoration/pino-logger.adapter'
 import { JoiAdapter } from './validators/joi.adapter'

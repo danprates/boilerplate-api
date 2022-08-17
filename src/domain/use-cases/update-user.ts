@@ -1,9 +1,5 @@
-import {
-  noContent,
-  resultErrorHandler,
-  serverError
-} from '@/application/helpers'
-import { Dependencies, Domain } from '@/application/protocols'
+import { noContent, resultErrorHandler, serverError } from '@/domain/helpers'
+import { Dependencies, Domain } from '@/domain/protocols'
 
 export default class UpdateUser implements Domain.UseCase {
   constructor(private readonly container: Dependencies.Container) {}
