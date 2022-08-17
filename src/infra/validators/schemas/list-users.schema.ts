@@ -8,10 +8,8 @@ export default class ListUsersSchema extends BaseSchema {
 
   getSchema(): Joi.ObjectSchema {
     return Joi.object({
-      params: Joi.allow(),
-      body: Joi.allow(),
       query: Joi.object({
-        take: Joi.number().optional().default(10).min(1),
+        take: Joi.number().optional().default(10).min(1).max(50),
         skip: Joi.number().optional().default(0).min(0)
       })
     })

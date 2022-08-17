@@ -8,7 +8,6 @@ export default class UpdateUserSchema extends BaseSchema {
 
   getSchema(): Joi.Schema {
     return Joi.object({
-      query: Joi.allow(),
       params: Joi.object({
         id: Joi.string().uuid().trim().required()
       }),

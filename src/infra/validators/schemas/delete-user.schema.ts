@@ -8,8 +8,6 @@ export default class DeleteUserSchema extends BaseSchema {
 
   getSchema(): Joi.ObjectSchema {
     return Joi.object({
-      body: Joi.allow(),
-      query: Joi.allow(),
       params: Joi.object({
         id: Joi.string().uuid().trim().required()
       })

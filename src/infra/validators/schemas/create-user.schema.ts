@@ -8,8 +8,6 @@ export default class CreateUserSchema extends BaseSchema {
 
   getSchema(): Joi.ObjectSchema {
     return Joi.object({
-      params: Joi.object().allow(),
-      query: Joi.object().allow(),
       body: Joi.object({
         name: Joi.string().required().trim().min(2).max(50),
         email: Joi.string().required().email().lowercase(),
