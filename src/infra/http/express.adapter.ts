@@ -4,7 +4,7 @@ import express, { Express, json, Request, Response } from 'express'
 import http from 'http'
 import { serve, setup } from 'swagger-ui-express'
 import { API_VERSION } from '../config/env.config'
-import typeDefs from '../graphql/typedefs'
+import typeDefs from '../graphql'
 import { docs } from '../swagger'
 
 export default class ExpressAdapter implements App.Http {
@@ -19,8 +19,6 @@ export default class ExpressAdapter implements App.Http {
     this.cors('*')
     this.addSwagger('/docs')
     this.contentType('json')
-    this.setupGraphql()
-    // routesConfig(this)
   }
 
   addRoute(method: string, url: string, useCase: Domain.UseCase): void {
@@ -49,6 +47,7 @@ export default class ExpressAdapter implements App.Http {
 
   listen(port: number, callback?: any): void {
     this.server = this.app.listen(port)
+    this.setupGraphql()
     if (callback) callback()
   }
 
