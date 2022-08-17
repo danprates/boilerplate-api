@@ -1,4 +1,4 @@
-import { ErrorModel } from '@/domain/models'
+import { ErrorEntity } from '@/domain/entities'
 import { Domain } from '@/domain/protocols'
 
 export const ok = (data: any): Domain.Response => ({
@@ -21,7 +21,7 @@ export const serverError = (): Domain.Response => ({
   data: { message: 'Server error' }
 })
 
-export const resultErrorHandler = (err?: ErrorModel): Domain.Response => ({
+export const resultErrorHandler = (err?: ErrorEntity): Domain.Response => ({
   data: { message: err?.message ?? 'Unexpected error' },
   statusCode: err?.code ?? 500
 })

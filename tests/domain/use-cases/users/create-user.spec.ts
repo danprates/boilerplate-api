@@ -1,5 +1,5 @@
+import { Result } from '@/domain/entities'
 import { created, serverError } from '@/domain/helpers'
-import { Result } from '@/domain/models'
 import { Domain } from '@/domain/protocols'
 import CreateUser from '@/domain/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'

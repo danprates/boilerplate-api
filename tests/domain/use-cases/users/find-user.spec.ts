@@ -1,13 +1,13 @@
+import { ErrorEntity, Result } from '@/domain/entities'
+import { User } from '@/domain/entities/user'
 import { ok, resultErrorHandler, serverError } from '@/domain/helpers'
-import { ErrorModel, Result } from '@/domain/models'
-import { UserModel } from '@/domain/models/user.model'
 import { Domain } from '@/domain/protocols'
 import FindUser from '@/domain/use-cases/find-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('FindUser Controller', () => {
-  let userModel: UserModel
+  let userModel: User
   let httpRequest: Domain.Request
   let sut: FindUser
 
@@ -29,7 +29,7 @@ describe('FindUser Controller', () => {
   })
 
   it('Should return status code 404 if data was not found', async () => {
-    const err = ErrorModel.notFound()
+    const err = ErrorEntity.notFound()
     jest
       .spyOn(containerFixture.repository, 'find')
       .mockResolvedValueOnce(Result.fail(err))

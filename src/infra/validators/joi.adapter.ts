@@ -1,4 +1,4 @@
-import { ErrorModel, Result } from '@/domain/models'
+import { ErrorEntity, Result } from '@/domain/entities'
 import { Dependencies, Domain } from '@/domain/protocols'
 import { readdirSync } from 'fs'
 import Joi from 'joi'
@@ -24,7 +24,7 @@ export class JoiAdapter implements Dependencies.Validator {
     })
 
     if (error) {
-      return Result.fail(ErrorModel.invalidParams(error.message))
+      return Result.fail(ErrorEntity.invalidParams(error.message))
     }
 
     return Result.ok(value)

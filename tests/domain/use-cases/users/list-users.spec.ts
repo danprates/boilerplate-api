@@ -1,13 +1,13 @@
+import { Result } from '@/domain/entities'
+import { User } from '@/domain/entities/user'
 import { ok, serverError } from '@/domain/helpers'
-import { Result } from '@/domain/models'
-import { UserModel } from '@/domain/models/user.model'
 import { Domain } from '@/domain/protocols'
 import ListUsers from '@/domain/use-cases/list-users'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('ListUsers Controller', () => {
-  let userModel: UserModel
+  let userModel: User
   const httpRequest: Domain.Request = {}
   let sut = new ListUsers(containerFixture)
 

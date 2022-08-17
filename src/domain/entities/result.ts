@@ -1,12 +1,12 @@
-import { ErrorModel } from './error.model'
+import { ErrorEntity } from './error'
 
 export class Result<T = any> {
   public isSuccess: boolean
   public isFailure: boolean
-  public error?: ErrorModel
+  public error?: ErrorEntity
   private readonly _value?: T
 
-  private constructor(isSuccess: boolean, error?: ErrorModel, value?: T) {
+  private constructor(isSuccess: boolean, error?: ErrorEntity, value?: T) {
     if (isSuccess && error) {
       throw new Error(
         'InvalidOperation: A result cannot be successful and contain an error'
@@ -30,7 +30,7 @@ export class Result<T = any> {
     return new Result<U>(true, undefined, value)
   }
 
-  public static fail<U>(error: ErrorModel): Result<U> {
+  public static fail<U>(error: ErrorEntity): Result<U> {
     return new Result<U>(false, error)
   }
 

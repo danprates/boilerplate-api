@@ -1,5 +1,5 @@
+import { ErrorEntity } from '@/domain/entities'
 import { noContent, resultErrorHandler, serverError } from '@/domain/helpers'
-import { ErrorModel } from '@/domain/models'
 import { Dependencies, Domain } from '@/domain/protocols'
 
 export default class DeleteUser implements Domain.UseCase {
@@ -28,7 +28,7 @@ export default class DeleteUser implements Domain.UseCase {
       )
       if (wasDeleted.isFailure) {
         this.container.logger.warn('Repository returned an error')
-        return resultErrorHandler(ErrorModel.notFound())
+        return resultErrorHandler(ErrorEntity.notFound())
       }
 
       this.container.logger.info('Finished')

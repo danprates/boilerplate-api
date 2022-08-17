@@ -1,4 +1,4 @@
-import { BaseModel, Result } from '../models'
+import { BaseModel, Result } from '../entities'
 import { Domain } from './domain.protocol'
 import { Pagination, PaginationOptions } from './pagination.protocol'
 

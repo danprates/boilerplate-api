@@ -1,4 +1,4 @@
-import { ErrorModel } from '@/domain/models'
+import { ErrorEntity } from '@/domain/entities'
 import BaseSchema from '@/infra/validators/base-schema'
 import { JoiAdapter } from '@/infra/validators/joi.adapter'
 import Joi from 'joi'
@@ -37,7 +37,7 @@ describe('JoiAdapter', () => {
     const result = sut.check({ body: { foo: undefined } }, 'Test')
     expect(result.isSuccess).toBeFalsy()
     expect(result.error).toEqual(
-      ErrorModel.invalidParams('"body.foo" is required')
+      ErrorEntity.invalidParams('"body.foo" is required')
     )
   })
 })

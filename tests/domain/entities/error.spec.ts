@@ -1,38 +1,37 @@
-import { ErrorModel } from '@/domain/models'
-import { ErrorCode, ErrorMessages } from '@/domain/models/error.model'
+import { ErrorCode, ErrorEntity, ErrorMessages } from '@/domain/entities/error'
 
 describe('Error model', () => {
   it('should return notFound error', () => {
-    expect(ErrorModel.notFound()).toEqual({
+    expect(ErrorEntity.notFound()).toEqual({
       code: ErrorCode.NOT_FOUND,
       message: ErrorMessages.NOT_FOUND
     })
 
-    expect(ErrorModel.notFound('any_message')).toEqual({
+    expect(ErrorEntity.notFound('any_message')).toEqual({
       code: ErrorCode.NOT_FOUND,
       message: 'any_message'
     })
   })
 
   it('should return invalidParams error', () => {
-    expect(ErrorModel.invalidParams()).toEqual({
+    expect(ErrorEntity.invalidParams()).toEqual({
       code: ErrorCode.BAD_REQUEST,
       message: ErrorMessages.INVALID_PARAMS
     })
 
-    expect(ErrorModel.invalidParams('any_message')).toEqual({
+    expect(ErrorEntity.invalidParams('any_message')).toEqual({
       code: ErrorCode.BAD_REQUEST,
       message: 'any_message'
     })
   })
 
   it('should return unauthorized error', () => {
-    expect(ErrorModel.unauthorized()).toEqual({
+    expect(ErrorEntity.unauthorized()).toEqual({
       code: ErrorCode.UNAUTHORIZED,
       message: ErrorMessages.UNAUTHORIZED
     })
 
-    expect(ErrorModel.unauthorized('any_message')).toEqual({
+    expect(ErrorEntity.unauthorized('any_message')).toEqual({
       code: ErrorCode.UNAUTHORIZED,
       message: 'any_message'
     })

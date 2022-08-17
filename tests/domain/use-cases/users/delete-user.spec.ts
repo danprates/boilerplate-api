@@ -1,5 +1,5 @@
+import { ErrorEntity, Result } from '@/domain/entities'
 import { noContent, resultErrorHandler, serverError } from '@/domain/helpers'
-import { ErrorModel, Result } from '@/domain/models'
 import { Domain } from '@/domain/protocols'
 import DeleteUser from '@/domain/use-cases/delete-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -24,7 +24,7 @@ describe('DeleteUser Controller', () => {
   })
 
   it('Should return status code 404 if data was not found', async () => {
-    const err = ErrorModel.notFound()
+    const err = ErrorEntity.notFound()
     jest
       .spyOn(containerFixture.repository, 'softDelete')
       .mockResolvedValueOnce(Result.fail(err))

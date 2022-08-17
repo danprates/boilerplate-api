@@ -10,28 +10,28 @@ export enum ErrorMessages {
   UNAUTHORIZED = 'Request unauthorized'
 }
 
-export class ErrorModel {
+export class ErrorEntity {
   private constructor(
     public readonly message: string,
     public readonly code: number
   ) {}
 
-  public static notFound(message?: string): ErrorModel {
-    return new ErrorModel(
+  public static notFound(message?: string): ErrorEntity {
+    return new ErrorEntity(
       message ?? ErrorMessages.NOT_FOUND,
       ErrorCode.NOT_FOUND
     )
   }
 
-  public static invalidParams(message?: string): ErrorModel {
-    return new ErrorModel(
+  public static invalidParams(message?: string): ErrorEntity {
+    return new ErrorEntity(
       message ?? ErrorMessages.INVALID_PARAMS,
       ErrorCode.BAD_REQUEST
     )
   }
 
-  public static unauthorized(message?: string): ErrorModel {
-    return new ErrorModel(
+  public static unauthorized(message?: string): ErrorEntity {
+    return new ErrorEntity(
       message ?? ErrorMessages.UNAUTHORIZED,
       ErrorCode.UNAUTHORIZED
     )

@@ -1,4 +1,4 @@
-import { ErrorModel, Result } from '@/domain/models'
+import { ErrorEntity, Result } from '@/domain/entities'
 
 describe('Result model', () => {
   it('should return a success return when ok is called', () => {
@@ -9,14 +9,14 @@ describe('Result model', () => {
   })
 
   it('should return a failed return when fail is called', () => {
-    const result = Result.fail(ErrorModel.invalidParams('failed'))
+    const result = Result.fail(ErrorEntity.invalidParams('failed'))
     expect(result.isFailure).toBeTruthy()
     expect(result.isSuccess).toBeFalsy()
-    expect(result.error).toEqual(ErrorModel.invalidParams('failed'))
+    expect(result.error).toEqual(ErrorEntity.invalidParams('failed'))
   })
 
   it('should throw a error when call getValue from a failed result', () => {
-    const result = Result.fail(ErrorModel.invalidParams('failed'))
+    const result = Result.fail(ErrorEntity.invalidParams('failed'))
     expect(result.isFailure).toBeTruthy()
     expect(() => result.getValue()).toThrow(
       'Cant retrieve the value from a failed result.'
@@ -28,7 +28,7 @@ describe('Result model', () => {
       // @ts-expect-error
       return new Result(true, error)
     })
-    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow(
+    expect(() => Result.fail(ErrorEntity.invalidParams('some error'))).toThrow(
       'InvalidOperation: A result cannot be successful and contain an error'
     )
   })
@@ -38,7 +38,7 @@ describe('Result model', () => {
       // @ts-expect-error
       return new Result(undefined, undefined)
     })
-    expect(() => Result.fail(ErrorModel.invalidParams('some error'))).toThrow(
+    expect(() => Result.fail(ErrorEntity.invalidParams('some error'))).toThrow(
       'InvalidOperation: A failing result needs to contain an error message'
     )
   })
