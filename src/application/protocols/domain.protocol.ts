@@ -17,6 +17,7 @@ export declare namespace Domain {
     description: string
     route: string
     method: 'GET' | 'POST' | 'PUT' | 'DELETE'
+    type: 'Query' | 'Mutation'
   }
 
   export interface UseCase {
