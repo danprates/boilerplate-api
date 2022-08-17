@@ -1,6 +1,5 @@
 import { NODE_ENV, PORT } from '@/infra/config/env.config'
 import ExpressAdapter from '@/infra/http/express.adapter'
-import { Application } from './application/application'
 import Container from './infra/container'
 import { PinoLoggerAdapter } from './infra/monitoration/pino-logger.adapter'
 
@@ -29,8 +28,7 @@ process.on('uncaughtException', (error) => {
 const main = async (): Promise<void> => {
   try {
     const container = await Container.init()
-    const http = new ExpressAdapter(container.dependencies)
-    const app = await Application.init(http, container.dependencies)
+    const app = await ExpressAdapter.init(container.dependencies)
 
     app.listen(Number(PORT), () =>
       logger.info(
@@ -41,7 +39,7 @@ const main = async (): Promise<void> => {
     for (const exitSignal of exitSignals) {
       process.on(exitSignal, async () => {
         try {
-          http.close()
+          app.close()
           logger.info('App exited with success')
           process.exit(ExitStatus.Success)
         } catch (error) {
