@@ -104,9 +104,14 @@ export default class ExpressAdapter implements App.Http {
   }
 
   useCaseToRoute(useCase: Domain.UseCase): any {
-    return async ({ body, query, params, headers }: Request, res: Response) => {
+    return async (req: Request, res: Response) => {
       try {
-        const request: Domain.Request = { body, query, params, headers }
+        const { name } = useCase.getMetaData()
+
+        const validation = this.container.validation.check(req, name)
+        if (validation.isFailure) return res.status(400).json(validation.error)
+
+        const request = validation.getValue() ?? {}
 
         if (!useCase.isAuthorized(request))
           return res.status(403).json({ message: 'Unauthorized' })
