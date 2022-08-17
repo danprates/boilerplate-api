@@ -1,11 +1,8 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts',
-    '!<rootDir>/src/server.ts',
-    '!<rootDir>/src/**/index.ts',
-    '!<rootDir>/src/infra/http/**/*',
-    '!<rootDir>/src/infra/graphql/*.adapter.ts'
+    '<rootDir>/src/domain/**/*.ts',
+    '!<rootDir>/src/domain/**/index.ts'
   ],
   coverageDirectory: 'coverage',
   testResultsProcessor: 'jest-sonar-reporter',
