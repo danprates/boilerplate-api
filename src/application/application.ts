@@ -16,6 +16,7 @@ export class Application {
     const app = new Application(http, container)
     await app.initUseCases()
     app.setupRest()
+    app.setupGraphql()
     return app
   }
 
@@ -29,6 +30,11 @@ export class Application {
       this.container.logger.debug(`${method} ${url} -> ${description}`)
       this.http.addRoute(method, url, useCase)
     })
+  }
+
+  setupGraphql(): void {
+    this.container.logger.debug('GraphQL endpoint -> /graphql')
+    this.useCases.forEach((useCase) => this.http.addResolver(useCase))
   }
 
   listen(port: number, callback: any): void {
