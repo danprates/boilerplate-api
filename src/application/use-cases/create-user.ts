@@ -8,7 +8,8 @@ export default class CreateUser implements Domain.UseCase {
       name: 'CreateUser',
       description: 'Create a new user',
       method: 'POST',
-      route: '/users'
+      route: '/users',
+      type: 'Mutation'
     }
   }
 

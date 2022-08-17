@@ -8,7 +8,8 @@ export default class FindUser implements Domain.UseCase {
       name: 'FindUser',
       description: 'Find user by id',
       method: 'GET',
-      route: '/users/:id'
+      route: '/users/:id',
+      type: 'Query'
     }
   }
 

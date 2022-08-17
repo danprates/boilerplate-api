@@ -13,7 +13,8 @@ export default class UpdateUser implements Domain.UseCase {
       name: 'UpdateUser',
       description: 'Update user by id',
       method: 'PUT',
-      route: '/users/:id'
+      route: '/users/:id',
+      type: 'Mutation'
     }
   }
 

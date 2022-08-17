@@ -9,7 +9,8 @@ export default class ListUsers implements Domain.UseCase {
       name: 'ListUsers',
       description: 'List users',
       method: 'GET',
-      route: '/users'
+      route: '/users',
+      type: 'Query'
     }
   }
 

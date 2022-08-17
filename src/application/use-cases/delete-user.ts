@@ -13,7 +13,8 @@ export default class DeleteUser implements Domain.UseCase {
       name: 'DeleteUser',
       description: 'Delete a user',
       method: 'DELETE',
-      route: '/users/:id'
+      route: '/users/:id',
+      type: 'Mutation'
     }
   }
 
