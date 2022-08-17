@@ -2,14 +2,14 @@ import { gql } from 'apollo-server-core'
 
 export default gql`
   extend type Query {
-    listUsers(pagination: PaginationInput): ListUserResult!
-    findUser(params: ParamsInput!): User!
+    ListUsers(pagination: PaginationInput): ListUserResult!
+    FindUser(params: ParamsInput!): User!
   }
 
   extend type Mutation {
-    createUser(body: CreateUserInput!): User!
-    updateUser(params: ParamsInput!, body: UpdateUserInput!): Void
-    deleteUser(params: ParamsInput!): Void
+    CreateUser(body: CreateUserInput!): User!
+    UpdateUser(params: ParamsInput!, body: UpdateUserInput!): Void
+    DeleteUser(params: ParamsInput!): Void
   }
 
   type ListUserResult {
