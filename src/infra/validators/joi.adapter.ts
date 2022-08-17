@@ -8,6 +8,14 @@ import BaseSchema from './base-schema'
 export class JoiAdapter implements Dependencies.Validator {
   private readonly schemas: BaseSchema[] = []
 
+  private constructor() {}
+
+  static async init(): Promise<JoiAdapter> {
+    const joiAdapter = new JoiAdapter()
+    await joiAdapter.initSchemas()
+    return joiAdapter
+  }
+
   check(data: Domain.Request, schemaName: string): Result<Domain.Request> {
     const schema = this.getSchema(schemaName)
     const { error, value } = schema.validate(data, { convert: true })
@@ -29,7 +37,7 @@ export class JoiAdapter implements Dependencies.Validator {
     this.schemas.push(schema)
   }
 
-  async initSchemas(): Promise<void> {
+  private async initSchemas(): Promise<void> {
     const path = join(__dirname, './schemas')
 
     readdirSync(path).forEach(async (file) => {
