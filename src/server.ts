@@ -1,8 +1,10 @@
 import { NODE_ENV, PORT } from '@/infra/config/env.config'
 import ExpressAdapter from '@/infra/http/express.adapter'
 import { Application } from './application/application'
-import { container } from './infra/container'
+import Container from './infra/container'
+import { PinoLoggerAdapter } from './infra/monitoration/pino-logger.adapter'
 
+const logger = new PinoLoggerAdapter()
 enum ExitStatus {
   Failure = 1,
   Success = 0
@@ -11,7 +13,7 @@ enum ExitStatus {
 const exitSignals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM', 'SIGQUIT']
 
 process.on('unhandledRejection', (reason, promise) => {
-  container.logger.error('App exiting due to an unhandled promise', {
+  logger.error('App exiting due to an unhandled promise', {
     reason,
     promise
   })
@@ -20,17 +22,18 @@ process.on('unhandledRejection', (reason, promise) => {
 })
 
 process.on('uncaughtException', (error) => {
-  container.logger.fatal('App exiting due to an uncaught exception', error)
+  logger.fatal('App exiting due to an uncaught exception', error)
   process.exit(ExitStatus.Failure)
 })
 
 const main = async (): Promise<void> => {
   try {
     const http = new ExpressAdapter()
-    const app = await Application.init(http, container)
+    const container = await Container.init()
+    const app = await Application.init(http, container.dependencies)
 
     app.listen(Number(PORT), () =>
-      container.logger.info(
+      logger.info(
         `Server running in ${NODE_ENV} mode at http://localhost:${PORT}`
       )
     )
@@ -39,16 +42,16 @@ const main = async (): Promise<void> => {
       process.on(exitSignal, async () => {
         try {
           http.close()
-          container.logger.info('App exited with success')
+          logger.info('App exited with success')
           process.exit(ExitStatus.Success)
         } catch (error) {
-          container.logger.error('App exited with error', error)
+          logger.error('App exited with error', error)
           process.exit(ExitStatus.Failure)
         }
       })
     }
   } catch (error) {
-    container.logger.fatal('App exited with error', error)
+    logger.fatal('App exited with error', error)
     process.exit(ExitStatus.Failure)
   }
 }
