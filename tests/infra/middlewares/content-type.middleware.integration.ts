@@ -1,8 +1,13 @@
 import ExpressAdapter from '@/infra/http/express.adapter'
 import request from 'supertest'
+import { containerFixture } from '../container.fixture'
 
 describe('Content Type middleware', () => {
-  const http = new ExpressAdapter()
+  let http: ExpressAdapter
+
+  beforeAll(async () => {
+    http = await ExpressAdapter.init(containerFixture)
+  })
 
   it('should return default content type as json', async () => {
     http.app.get('/test_content_type', (req, res) => {

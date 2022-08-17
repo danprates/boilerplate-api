@@ -1,9 +1,15 @@
 import ExpressAdapter from '@/infra/http/express.adapter'
 import request from 'supertest'
+import { containerFixture } from '../container.fixture'
 
 describe('CORS middleware', () => {
+  let http: ExpressAdapter
+
+  beforeAll(async () => {
+    http = await ExpressAdapter.init(containerFixture)
+  })
+
   it('should enable CORS', async () => {
-    const http = new ExpressAdapter()
     http.app.get('/test_cors', (req, res) => {
       res.send()
     })

@@ -1,8 +1,13 @@
 import ExpressAdapter from '@/infra/http/express.adapter'
 import request from 'supertest'
+import { containerFixture } from '../container.fixture'
 
 describe('express headers middleware', () => {
-  const http = new ExpressAdapter()
+  let http: ExpressAdapter
+
+  beforeAll(async () => {
+    http = await ExpressAdapter.init(containerFixture)
+  })
 
   it('should no allow x-powered-by express in headers', async () => {
     http.app.post('/x-powered-by', (req, res) => {
