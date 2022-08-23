@@ -132,7 +132,19 @@ export default class ExpressAdapter implements App.Http {
     return async (parent, args, context, info) => {
       try {
         const { query = {}, params = {}, body = {}, headers = {} } = args
+        const { name } = useCase.getMetaData()
         const httpRequest: Domain.Request = { query, params, body, headers }
+
+        const validation = this.container.validation.check(args, name)
+        if (validation.isFailure && validation.error) {
+          return new ApolloError(validation.error?.message, 'BAD_REQUEST')
+        }
+
+        const request = validation.getValue() ?? {}
+
+        if (!useCase.isAuthorized(request)) {
+          return new ApolloError('Unauthorized', 'UNAUTHORIZED')
+        }
 
         const result = await useCase.execute(httpRequest)
 

@@ -22,7 +22,6 @@ export declare namespace Domain {
 
   export interface UseCase {
     getMetaData: () => MetaData
-
     isAuthorized: (request: Request) => boolean
     execute: (request: Request) => Promise<Response>
   }
