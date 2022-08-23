@@ -105,17 +105,27 @@ export default class ExpressAdapter implements App.Http {
 
   useCaseToRoute(useCase: Domain.UseCase): any {
     return async (req: Request, res: Response) => {
-      try {
-        const { name } = useCase.getMetaData()
+      const { name } = useCase.getMetaData()
 
+      try {
         const validation = this.container.validation.check(req, name)
         if (validation.isFailure) {
+          this.container.logger.warn(
+            'Invalid request data',
+            validation.error,
+            name
+          )
           return res.status(400).json(validation.error)
         }
 
         const request = validation.getValue() ?? {}
 
         if (!useCase.isAuthorized(request)) {
+          this.container.logger.warn(
+            'Request unauthorized',
+            validation.error,
+            name
+          )
           return res.status(403).json({ message: 'Unauthorized' })
         }
 
@@ -130,19 +140,30 @@ export default class ExpressAdapter implements App.Http {
 
   useCaseToResolver(useCase: Domain.UseCase): any {
     return async (parent, args, context, info) => {
+      const { name } = useCase.getMetaData()
+
       try {
         const { query = {}, params = {}, body = {}, headers = {} } = args
-        const { name } = useCase.getMetaData()
         const httpRequest: Domain.Request = { query, params, body, headers }
 
         const validation = this.container.validation.check(args, name)
         if (validation.isFailure && validation.error) {
+          this.container.logger.warn(
+            'Invalid request data',
+            validation.error,
+            name
+          )
           return new ApolloError(validation.error?.message, 'BAD_REQUEST')
         }
 
         const request = validation.getValue() ?? {}
 
         if (!useCase.isAuthorized(request)) {
+          this.container.logger.warn(
+            'Request unauthorized',
+            validation.error,
+            name
+          )
           return new ApolloError('Unauthorized', 'UNAUTHORIZED')
         }
 
@@ -154,7 +175,7 @@ export default class ExpressAdapter implements App.Http {
 
         return new ApolloError(result.data.message, result.data.type)
       } catch (error) {
-        console.error(error.stack)
+        this.container.logger.error('Error at useCaseToResolver', error, name)
         return new ApolloError('Server error', error.name)
       }
     }
