@@ -12,23 +12,23 @@ export class PinoLoggerAdapter implements Dependencies.Logger {
     })
   }
 
-  debug(message: string, object: any = {}): void {
-    this.logger.debug(object, message)
+  debug(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.debug(values, `[${useCaseName}]: ${message}`)
   }
 
-  info(message: string, object: any = {}): void {
-    this.logger.info(object, message)
+  info(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.info(values, `[${useCaseName}]: ${message}`)
   }
 
-  warn(message: string, object: any = {}): void {
-    this.logger.warn(object, message)
+  warn(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.warn(values, `[${useCaseName}]: ${message}`)
   }
 
-  error(message: string, object: any = {}): void {
-    this.logger.error(object, message)
+  error(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.error(values, `[${useCaseName}]: ${message}`)
   }
 
-  fatal(message: string, object: any = {}): void {
-    this.logger.fatal(object, message)
+  fatal(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.fatal(values, `[${useCaseName}]: ${message}`)
   }
 }
