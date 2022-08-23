@@ -4,11 +4,11 @@ import { Pagination, PaginationOptions } from './pagination.protocol'
 
 export declare namespace Dependencies {
   export interface Logger {
-    debug: (message: string, values?: any) => void
-    info: (message: string, values?: any) => void
-    warn: (message: string, object?: any) => void
-    error: (message: string, object?: any) => void
-    fatal: (message: string, object?: any) => void
+    debug: (message: string, values?: any, useCaseName?: string) => void
+    info: (message: string, values?: any, useCaseName?: string) => void
+    warn: (message: string, values?: any, useCaseName?: string) => void
+    error: (message: string, values?: any, useCaseName?: string) => void
+    fatal: (message: string, values?: any, useCaseName?: string) => void
   }
 
   export interface Repository {
