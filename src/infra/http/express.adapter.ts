@@ -34,10 +34,6 @@ export default class ExpressAdapter implements App.Http {
     return app
   }
 
-  addRoute(method: string, url: string, useCase: Domain.UseCase): void {
-    this.app[method.toLocaleLowerCase()](url, this.useCaseToRoute(useCase))
-  }
-
   addResolver(useCase: Domain.UseCase): void {
     const { name, type } = useCase.getMetaData()
     this.resolvers.push({
@@ -55,7 +51,7 @@ export default class ExpressAdapter implements App.Http {
       const url = `/api/v1${route}`
 
       this.container.logger.debug(`${method} ${url} -> ${description}`)
-      this.addRoute(method, url, useCase)
+      this.app[method.toLocaleLowerCase()](url, this.useCaseToRoute(useCase))
     })
   }
 
