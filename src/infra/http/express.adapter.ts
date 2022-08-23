@@ -34,20 +34,10 @@ export default class ExpressAdapter implements App.Http {
     return app
   }
 
-  addResolver(useCase: Domain.UseCase): void {
-    const { name, type } = useCase.getMetaData()
-    this.resolvers.push({
-      [type]: {
-        [name]: this.useCaseToResolver(useCase)
-      }
-    })
-  }
-
   setupRest(): void {
     this.container.logger.debug('REST endpoints')
     this.useCases.forEach((useCase) => {
       const { method, route, description } = useCase.getMetaData()
-
       const url = `/api/v1${route}`
 
       this.container.logger.debug(`${method} ${url} -> ${description}`)
@@ -57,7 +47,14 @@ export default class ExpressAdapter implements App.Http {
 
   setupGraphql(): void {
     this.container.logger.debug('GraphQL endpoint -> /graphql')
-    this.useCases.forEach((useCase) => this.addResolver(useCase))
+    this.useCases.forEach((useCase) => {
+      const { name, type } = useCase.getMetaData()
+      this.resolvers.push({
+        [type]: {
+          [name]: this.useCaseToResolver(useCase)
+        }
+      })
+    })
 
     const server = new ApolloServer({
       resolvers: this.resolvers,
