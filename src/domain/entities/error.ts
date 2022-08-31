@@ -1,13 +1,19 @@
 export enum ErrorCode {
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
-  NOT_FOUND = 404
+  NOT_FOUND = 404,
+  CONFLICT = 409,
+  UNPROCESSABLE_ENTITY = 422,
+  SERVER_ERROR = 500
 }
 
 export enum ErrorMessages {
   NOT_FOUND = 'Resource Not found',
   INVALID_PARAMS = 'Invalid params are provided',
-  UNAUTHORIZED = 'Request unauthorized'
+  UNAUTHORIZED = 'Request unauthorized',
+  CONFLICT = 'Conflict',
+  UNPROCESSABLE_ENTITY = 'Unprocessable entity',
+  SERVER_ERROR = 'Server error'
 }
 
 export class ErrorEntity {
@@ -35,5 +41,10 @@ export class ErrorEntity {
       message ?? ErrorMessages.UNAUTHORIZED,
       ErrorCode.UNAUTHORIZED
     )
+  }
+
+  public static fromStatusCode(status = 500, message?: string): ErrorEntity {
+    const code = ErrorCode[status] ?? 'SERVER_ERROR'
+    return new ErrorEntity(message ?? ErrorMessages[code], ErrorCode[code])
   }
 }
