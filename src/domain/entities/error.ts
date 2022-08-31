@@ -47,4 +47,11 @@ export class ErrorEntity {
     const code = ErrorCode[status] ?? 'SERVER_ERROR'
     return new ErrorEntity(message ?? ErrorMessages[code], ErrorCode[code])
   }
+
+  public static fromError(err: Error): ErrorEntity {
+    return new ErrorEntity(
+      err.message || ErrorMessages.SERVER_ERROR,
+      ErrorCode.SERVER_ERROR
+    )
+  }
 }
