@@ -1,6 +1,6 @@
 import { Result } from '@/domain/entities'
 import { User } from '@/domain/entities/user'
-import { ok, serverError } from '@/domain/helpers'
+import { ok } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import ListUsers from '@/domain/use-cases/list-users'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -30,12 +30,5 @@ describe('ListUsers Controller', () => {
   it('Should return status code 200 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
     expect(result).toEqual(ok({ data: [userModel], total: 1 }))
-  })
-
-  it('Should return status code 500 if any dependency throws', async () => {
-    const error = new Error('any_error')
-
-    jest.spyOn(containerFixture.repository, 'list').mockRejectedValueOnce(error)
-    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })

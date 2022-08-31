@@ -1,5 +1,5 @@
 import { Result } from '@/domain/entities'
-import { created, serverError } from '@/domain/helpers'
+import { created } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import CreateUser from '@/domain/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -36,14 +36,5 @@ describe('CreateUser Controller', () => {
   it('Should return status code 201 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
     expect(result).toEqual(created(userModel))
-  })
-
-  it('Should return status code 500 if any dependency throws', async () => {
-    const error = new Error('any_error')
-
-    jest
-      .spyOn(containerFixture.repository, 'create')
-      .mockRejectedValueOnce(error)
-    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })

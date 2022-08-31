@@ -160,7 +160,6 @@ export default class ExpressAdapter implements App.Http {
 
         const request = validation.getValue() ?? {}
         this.container.logger.debug('Request data:', httpRequest, name)
-        this.container.logger.debug('Context data:', context, name)
 
         if (!useCase.isAuthorized(request)) {
           this.container.logger.warn(

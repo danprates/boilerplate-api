@@ -1,6 +1,6 @@
 import { ErrorEntity, Result } from '@/domain/entities'
 import { User } from '@/domain/entities/user'
-import { noContent, resultErrorHandler, serverError } from '@/domain/helpers'
+import { noContent, resultErrorHandler } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import UpdateUser from '@/domain/use-cases/update-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -44,14 +44,5 @@ describe('UpdateUser Controller', () => {
   it('Should return status code 204 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
     expect(result).toEqual(noContent())
-  })
-
-  it('Should return status code 500 if any dependency throws', async () => {
-    const error = new Error('any_error')
-
-    jest
-      .spyOn(containerFixture.repository, 'update')
-      .mockRejectedValueOnce(error)
-    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })

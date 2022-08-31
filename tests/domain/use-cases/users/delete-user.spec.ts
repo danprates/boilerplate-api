@@ -1,5 +1,5 @@
 import { ErrorEntity, Result } from '@/domain/entities'
-import { noContent, resultErrorHandler, serverError } from '@/domain/helpers'
+import { noContent, resultErrorHandler } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import DeleteUser from '@/domain/use-cases/delete-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -35,14 +35,5 @@ describe('DeleteUser Controller', () => {
   it('Should return status code 204 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
     expect(result).toEqual(noContent())
-  })
-
-  it('Should return status code 500 if any dependency throws', async () => {
-    const error = new Error('any_error')
-
-    jest
-      .spyOn(containerFixture.repository, 'softDelete')
-      .mockRejectedValueOnce(error)
-    expect(await sut.execute(httpRequest)).toEqual(serverError())
   })
 })
