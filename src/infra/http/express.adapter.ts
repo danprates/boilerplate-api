@@ -58,7 +58,8 @@ export default class ExpressAdapter implements App.Http {
 
     const server = new ApolloServer({
       resolvers: this.resolvers,
-      typeDefs
+      typeDefs,
+      context: ({ req }) => req
     })
 
     server.start().then(() => {
@@ -142,7 +143,8 @@ export default class ExpressAdapter implements App.Http {
       try {
         this.container.logger.info('Started', null, name)
 
-        const { query = {}, params = {}, body = {}, headers = {} } = args
+        const { headers = {} } = context
+        const { query = {}, params = {}, body = {} } = args
         const httpRequest: Domain.Request = { query, params, body, headers }
 
         const validation = this.container.validation.check(args, name)
