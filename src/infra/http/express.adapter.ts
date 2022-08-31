@@ -59,6 +59,7 @@ export default class ExpressAdapter implements App.Http {
     const server = new ApolloServer({
       resolvers: this.resolvers,
       typeDefs,
+      cache: 'bounded',
       context: ({ req }) => req
     })
 
