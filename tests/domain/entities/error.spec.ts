@@ -36,4 +36,21 @@ describe('Error model', () => {
       message: 'any_message'
     })
   })
+
+  it('should return correct error from status code', () => {
+    expect(ErrorEntity.fromStatusCode(404, 'Resource not found')).toEqual({
+      code: ErrorCode.NOT_FOUND,
+      message: 'Resource not found'
+    })
+
+    expect(ErrorEntity.fromStatusCode(undefined)).toEqual({
+      code: ErrorCode.SERVER_ERROR,
+      message: ErrorMessages.SERVER_ERROR
+    })
+
+    expect(ErrorEntity.fromStatusCode(1321321321321)).toEqual({
+      code: ErrorCode.SERVER_ERROR,
+      message: ErrorMessages.SERVER_ERROR
+    })
+  })
 })
