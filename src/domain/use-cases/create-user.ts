@@ -1,20 +1,16 @@
 import { created, resultErrorHandler, serverError } from '@/domain/helpers'
 import { Dependencies, Domain } from '@/domain/protocols'
+import { UseCase } from '../protocols/use-case'
 
-export default class CreateUser implements Domain.UseCase {
-  constructor(private readonly container: Dependencies.Container) {}
-  getMetaData(): Domain.MetaData {
-    return {
+export default class CreateUser extends UseCase {
+  constructor(private readonly container: Dependencies.Container) {
+    super({
       name: 'CreateUser',
       description: 'Create a new user',
       method: 'POST',
       route: '/users',
       type: 'Mutation'
-    }
-  }
-
-  isAuthorized(request: Domain.Request): boolean {
-    return true
+    })
   }
 
   async execute(request: Domain.Request): Promise<Domain.Response> {

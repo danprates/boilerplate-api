@@ -1,21 +1,16 @@
 import { ok, resultErrorHandler, serverError } from '@/domain/helpers'
 import { Dependencies, Domain } from '@/domain/protocols'
+import { UseCase } from '../protocols/use-case'
 
-export default class ListUsers implements Domain.UseCase {
-  constructor(private readonly container: Dependencies.Container) {}
-
-  getMetaData(): Domain.MetaData {
-    return {
+export default class ListUsers extends UseCase {
+  constructor(private readonly container: Dependencies.Container) {
+    super({
       name: 'ListUsers',
       description: 'List users',
       method: 'GET',
       route: '/users',
       type: 'Query'
-    }
-  }
-
-  isAuthorized(request: Domain.Request): boolean {
-    return true
+    })
   }
 
   async execute(request: Domain.Request): Promise<Domain.Response> {
