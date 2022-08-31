@@ -16,9 +16,6 @@ export default class DeleteUser extends UseCase {
 
   async execute(request: Domain.Request): Promise<Domain.Response> {
     try {
-      this.container.logger.info('Started')
-      this.container.logger.debug('Request data:', request)
-
       const wasDeleted = await this.container.repository.softDelete(
         request.params.id
       )
@@ -27,7 +24,6 @@ export default class DeleteUser extends UseCase {
         return resultErrorHandler(ErrorEntity.notFound())
       }
 
-      this.container.logger.info('Finished')
       return noContent()
     } catch (error) {
       this.container.logger.error(error.message, error)

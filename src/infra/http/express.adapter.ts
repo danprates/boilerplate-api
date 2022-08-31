@@ -101,6 +101,8 @@ export default class ExpressAdapter implements App.Http {
       const { name } = useCase.getMetaData()
 
       try {
+        this.container.logger.info('Started', null, name)
+
         const validation = this.container.validation.check(req, name)
         if (validation.isFailure) {
           this.container.logger.warn(
@@ -112,6 +114,7 @@ export default class ExpressAdapter implements App.Http {
         }
 
         const request = validation.getValue() ?? {}
+        this.container.logger.debug('Request data:', request, name)
 
         if (!useCase.isAuthorized(request)) {
           this.container.logger.warn(
@@ -124,6 +127,7 @@ export default class ExpressAdapter implements App.Http {
 
         const httpResponse = await useCase.execute(request)
 
+        this.container.logger.info('Finished', null, name)
         res.status(httpResponse.statusCode).json(httpResponse.data)
       } catch (error) {
         res.status(500).json({ message: 'Server erro', code: error.name })
@@ -136,6 +140,8 @@ export default class ExpressAdapter implements App.Http {
       const { name } = useCase.getMetaData()
 
       try {
+        this.container.logger.info('Started', null, name)
+
         const { query = {}, params = {}, body = {}, headers = {} } = args
         const httpRequest: Domain.Request = { query, params, body, headers }
 
@@ -150,6 +156,8 @@ export default class ExpressAdapter implements App.Http {
         }
 
         const request = validation.getValue() ?? {}
+        this.container.logger.debug('Request data:', httpRequest, name)
+        this.container.logger.debug('Context data:', context, name)
 
         if (!useCase.isAuthorized(request)) {
           this.container.logger.warn(
@@ -166,6 +174,7 @@ export default class ExpressAdapter implements App.Http {
           return result.data
         }
 
+        this.container.logger.info('Finished', null, name)
         return new ApolloError(result.data.message, result.data.type)
       } catch (error) {
         this.container.logger.error('Error at useCaseToResolver', error, name)
