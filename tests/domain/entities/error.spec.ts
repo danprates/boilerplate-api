@@ -53,4 +53,16 @@ describe('Error model', () => {
       message: ErrorMessages.SERVER_ERROR
     })
   })
+
+  it('should return correct ErrorEntity from Error', () => {
+    expect(ErrorEntity.fromError(new Error('some error'))).toEqual({
+      code: ErrorCode.SERVER_ERROR,
+      message: 'some error'
+    })
+
+    expect(ErrorEntity.fromError(new Error())).toEqual({
+      code: ErrorCode.SERVER_ERROR,
+      message: ErrorMessages.SERVER_ERROR
+    })
+  })
 })
