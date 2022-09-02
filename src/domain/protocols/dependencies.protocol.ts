@@ -21,7 +21,7 @@ export declare namespace Dependencies {
   }
 
   export interface Validator {
-    check: (data: Domain.Request, schemaName: string) => Result<Domain.Request>
+    check: (data: Domain.Request, schemaName: string) => Domain.Request
   }
 
   export interface Container {
