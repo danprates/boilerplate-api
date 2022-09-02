@@ -1,4 +1,4 @@
-import { ErrorEntity, Result } from '@/domain/entities'
+import { ErrorEntity } from '@/domain/entities'
 import { Dependencies, Domain } from '@/domain/protocols'
 import { readdirSync } from 'fs'
 import Joi from 'joi'
@@ -16,7 +16,7 @@ export class JoiAdapter implements Dependencies.Validator {
     return joiAdapter
   }
 
-  check(data: Domain.Request, schemaName: string): Result<Domain.Request> {
+  check(data: Domain.Request, schemaName: string): Domain.Request {
     const schema = this.getSchema(schemaName)
     const { error, value } = schema.validate(data, {
       convert: true,
@@ -24,10 +24,10 @@ export class JoiAdapter implements Dependencies.Validator {
     })
 
     if (error) {
-      return Result.fail(ErrorEntity.invalidParams(error.message))
+      throw ErrorEntity.invalidParams(error.message)
     }
 
-    return Result.ok(value)
+    return value
   }
 
   getSchema(name: string): Joi.Schema {
