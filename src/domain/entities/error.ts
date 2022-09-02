@@ -16,42 +16,37 @@ export enum ErrorMessages {
   SERVER_ERROR = 'Server error'
 }
 
-export class ErrorEntity {
+export class ErrorEntity extends Error {
   private constructor(
-    public readonly message: string,
-    public readonly code: number
-  ) {}
+    readonly message: string = 'Server error',
+    readonly code: number = 500
+  ) {
+    super(message)
+  }
 
-  public static notFound(message?: string): ErrorEntity {
+  static notFound(message?: string): ErrorEntity {
     return new ErrorEntity(
       message ?? ErrorMessages.NOT_FOUND,
       ErrorCode.NOT_FOUND
     )
   }
 
-  public static invalidParams(message?: string): ErrorEntity {
+  static invalidParams(message?: string): ErrorEntity {
     return new ErrorEntity(
       message ?? ErrorMessages.INVALID_PARAMS,
       ErrorCode.BAD_REQUEST
     )
   }
 
-  public static unauthorized(message?: string): ErrorEntity {
+  static unauthorized(message?: string): ErrorEntity {
     return new ErrorEntity(
       message ?? ErrorMessages.UNAUTHORIZED,
       ErrorCode.UNAUTHORIZED
     )
   }
 
-  public static fromStatusCode(status = 500, message?: string): ErrorEntity {
+  static fromStatusCode(status = 500, message?: string): ErrorEntity {
     const code = ErrorCode[status] ?? 'SERVER_ERROR'
     return new ErrorEntity(message ?? ErrorMessages[code], ErrorCode[code])
-  }
-
-  public static fromError(err: Error): ErrorEntity {
-    return new ErrorEntity(
-      err.message || ErrorMessages.SERVER_ERROR,
-      ErrorCode.SERVER_ERROR
-    )
   }
 }
