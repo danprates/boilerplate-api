@@ -23,21 +23,18 @@ describe('JoiAdapter', () => {
 
   it('should return a result ok when passed correct data', () => {
     const result = sut.check({ body: { foo: 123 } }, 'Test')
-    expect(result.isSuccess).toBeTruthy()
-    expect(result.getValue()).toEqual({ body: { foo: 123 } })
+    expect(result).toEqual({ body: { foo: 123 } })
   })
 
   it('should convert data when its possible', () => {
     const result = sut.check({ body: { foo: '123' } }, 'Test')
-    expect(result.isSuccess).toBeTruthy()
-    expect(result.getValue()).toEqual({ body: { foo: 123 } })
+    expect(result).toEqual({ body: { foo: 123 } })
   })
 
   it('should return a result fail when passed incorrect data', () => {
-    const result = sut.check({ body: { foo: undefined } }, 'Test')
-    expect(result.isSuccess).toBeFalsy()
-    expect(result.error).toEqual(
-      ErrorEntity.invalidParams('"body.foo" is required')
+    const err = ErrorEntity.invalidParams('"body.foo" is required')
+    expect(() => sut.check({ body: { foo: undefined } }, 'Test')).toThrowError(
+      err
     )
   })
 })
