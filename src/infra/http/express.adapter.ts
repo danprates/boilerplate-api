@@ -5,15 +5,15 @@ import { readdirSync } from 'fs'
 import http from 'http'
 import { join } from 'path'
 import { serve, setup } from 'swagger-ui-express'
-import { API_VERSION } from '../config/env.config'
+import { API_VERSION, NODE_ENV, PORT } from '../config/env.config'
 import typeDefs from '../graphql'
 import { docs } from '../swagger'
 
 export default class ExpressAdapter implements App.Http {
   app: Express
   server: http.Server
-  resolvers: any[] = []
-  useCases: Domain.UseCase[] = []
+  private readonly resolvers: any[] = []
+  private readonly useCases: Domain.UseCase[] = []
 
   private constructor(private readonly container: Dependencies.Container) {
     this.app = express()
@@ -34,7 +34,7 @@ export default class ExpressAdapter implements App.Http {
     return app
   }
 
-  setupRest(): void {
+  private setupRest(): void {
     this.container.logger.debug('REST endpoints')
     this.useCases.forEach((useCase) => {
       const { method, route, description } = useCase.getMetaData()
@@ -45,7 +45,7 @@ export default class ExpressAdapter implements App.Http {
     })
   }
 
-  setupGraphql(): void {
+  private setupGraphql(): void {
     this.container.logger.debug('GraphQL endpoint -> /graphql')
     this.useCases.forEach((useCase) => {
       const { name, type } = useCase.getMetaData()
@@ -68,17 +68,19 @@ export default class ExpressAdapter implements App.Http {
     })
   }
 
-  listen(port: number, callback?: any): void {
-    this.server = this.app.listen(port)
-    if (callback) callback()
+  listen(): void {
+    this.server = this.app.listen(PORT)
+    this.container.logger.info(
+      `Server running in ${NODE_ENV} mode at http://localhost:${PORT}`
+    )
   }
 
-  close(callback?: any): void {
+  close(): void {
     this.server.close()
-    if (callback) callback()
+    this.container.logger.info('Server closed')
   }
 
-  cors(origin: string): void {
+  private cors(origin: string): void {
     this.app.use((req, res, next) => {
       res.set('access-control-allow-origin', origin)
       res.set('access-control-allow-headers', origin)
@@ -87,18 +89,18 @@ export default class ExpressAdapter implements App.Http {
     })
   }
 
-  contentType(type: string): void {
+  private contentType(type: string): void {
     this.app.use((req, res, next) => {
       res.type(type)
       next()
     })
   }
 
-  addSwagger(path: string): void {
+  private addSwagger(path: string): void {
     this.app.use(`/api/${API_VERSION}${path}`, this.noCache, serve, setup(docs))
   }
 
-  useCaseToRoute(useCase: Domain.UseCase): any {
+  private useCaseToRoute(useCase: Domain.UseCase): any {
     return async (req: Request, res: Response) => {
       const { name } = useCase.getMetaData()
 
@@ -122,7 +124,7 @@ export default class ExpressAdapter implements App.Http {
     }
   }
 
-  useCaseToResolver(useCase: Domain.UseCase): any {
+  private useCaseToResolver(useCase: Domain.UseCase): any {
     return async (parent, args, context, info) => {
       const { name } = useCase.getMetaData()
 
@@ -164,7 +166,7 @@ export default class ExpressAdapter implements App.Http {
     next()
   }
 
-  async initUseCases(): Promise<void> {
+  private async initUseCases(): Promise<void> {
     const path = join(__dirname, '../../domain/use-cases')
 
     readdirSync(path).forEach(async (file) => {

@@ -1,4 +1,3 @@
-import { NODE_ENV, PORT } from '@/infra/config/env.config'
 import ExpressAdapter from '@/infra/http/express.adapter'
 import Container from './infra/container'
 import { PinoLoggerAdapter } from './infra/monitoration/pino-logger.adapter'
@@ -30,11 +29,7 @@ const main = async (): Promise<void> => {
     const container = await Container.init()
     const app = await ExpressAdapter.init(container.dependencies)
 
-    app.listen(Number(PORT), () =>
-      logger.info(
-        `Server running in ${NODE_ENV} mode at http://localhost:${PORT}`
-      )
-    )
+    app.listen()
 
     for (const exitSignal of exitSignals) {
       process.on(exitSignal, async () => {
