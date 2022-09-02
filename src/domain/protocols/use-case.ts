@@ -6,9 +6,7 @@ export abstract class UseCase implements Domain.UseCase {
     return this.props
   }
 
-  isAuthorized(request: Domain.Request): boolean {
-    return true
-  }
+  isAuthorized(request: Domain.Request): void {}
 
   async execute(request: Domain.Request): Promise<Domain.Response> {
     throw new Error('Method not implemented')
