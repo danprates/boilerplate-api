@@ -1,5 +1,6 @@
 export declare namespace App {
   export interface Http {
-    listen: (port: number, callback: any) => void
+    listen: () => void
+    close: () => void
   }
 }
