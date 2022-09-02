@@ -105,34 +105,19 @@ export default class ExpressAdapter implements App.Http {
       try {
         this.container.logger.info('Started', null, name)
 
-        const validation = this.container.validation.check(req, name)
-        if (validation.isFailure) {
-          this.container.logger.warn(
-            'Invalid request data',
-            validation.error,
-            name
-          )
-          return res.status(400).json(validation.error)
-        }
+        const request = this.container.validation.check(req, name)
+        useCase.isAuthorized(request)
 
-        const request = validation.getValue() ?? {}
         this.container.logger.debug('Request data:', request, name)
-
-        if (!useCase.isAuthorized(request)) {
-          this.container.logger.warn(
-            'Request unauthorized',
-            validation.error,
-            name
-          )
-          return res.status(403).json({ message: 'Unauthorized' })
-        }
-
         const httpResponse = await useCase.execute(request)
 
         this.container.logger.info('Finished', null, name)
         res.status(httpResponse.statusCode).json(httpResponse.data)
       } catch (error) {
-        res.status(500).json({ message: 'Server erro', code: error.name })
+        const message = error.message || 'Server error'
+        const status = error.code || 500
+        this.container.logger.error(message, error, name)
+        res.status(status).json({ message })
       }
     }
   }
@@ -143,34 +128,15 @@ export default class ExpressAdapter implements App.Http {
 
       try {
         this.container.logger.info('Started', null, name)
-
         const { headers = {} } = context
         const { query = {}, params = {}, body = {} } = args
         const httpRequest: Domain.Request = { query, params, body, headers }
 
-        const validation = this.container.validation.check(args, name)
-        if (validation.isFailure && validation.error) {
-          this.container.logger.warn(
-            'Invalid request data',
-            validation.error,
-            name
-          )
-          return new ApolloError(validation.error?.message, 'BAD_REQUEST')
-        }
+        const request = this.container.validation.check(args, name)
+        useCase.isAuthorized(request)
 
-        const request = validation.getValue() ?? {}
         this.container.logger.debug('Request data:', httpRequest, name)
-
-        if (!useCase.isAuthorized(request)) {
-          this.container.logger.warn(
-            'Request unauthorized',
-            validation.error,
-            name
-          )
-          return new ApolloError('Unauthorized', 'UNAUTHORIZED')
-        }
-
-        const result = await useCase.execute(httpRequest)
+        const result = await useCase.execute(request)
 
         if (result.statusCode < 400) {
           return result.data
@@ -179,8 +145,10 @@ export default class ExpressAdapter implements App.Http {
         this.container.logger.info('Finished', null, name)
         return new ApolloError(result.data.message, result.data.type)
       } catch (error) {
-        this.container.logger.error('Error at useCaseToResolver', error, name)
-        return new ApolloError('Server error', error.name)
+        const message = error.message || 'Server error'
+        const code = error.name || 'SERVER_ERROR'
+        this.container.logger.error(message, error, name)
+        return new ApolloError(message, code)
       }
     }
   }
