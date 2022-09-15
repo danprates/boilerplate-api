@@ -1,4 +1,3 @@
-import { Result } from '@/domain/entities'
 import { created } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import CreateUser from '@/domain/use-cases/create-user'
@@ -21,7 +20,7 @@ describe('CreateUser Controller', () => {
     }
     jest
       .spyOn(containerFixture.repository, 'create')
-      .mockResolvedValue(Result.ok(userModel))
+      .mockResolvedValue(userModel)
     sut = new CreateUser(containerFixture)
   })
 

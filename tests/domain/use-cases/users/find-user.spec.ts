@@ -1,6 +1,6 @@
-import { ErrorEntity, Result } from '@/domain/entities'
+import { ErrorEntity } from '@/domain/entities'
 import { User } from '@/domain/entities/user'
-import { ok, resultErrorHandler } from '@/domain/helpers'
+import { ok } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import FindUser from '@/domain/use-cases/find-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -14,9 +14,7 @@ describe('FindUser Controller', () => {
   beforeEach(() => {
     userModel = UserModelFixture()
     httpRequest = { params: { id: userModel.id } }
-    jest
-      .spyOn(containerFixture.repository, 'find')
-      .mockResolvedValue(Result.ok(userModel))
+    jest.spyOn(containerFixture.repository, 'find').mockResolvedValue(userModel)
     sut = new FindUser(containerFixture)
   })
 
@@ -28,13 +26,11 @@ describe('FindUser Controller', () => {
     )
   })
 
-  it('Should return status code 404 if data was not found', async () => {
-    const err = ErrorEntity.notFound()
-    jest
-      .spyOn(containerFixture.repository, 'find')
-      .mockResolvedValueOnce(Result.fail(err))
-    const result = await sut.execute(httpRequest)
-    expect(result).toEqual(resultErrorHandler(err))
+  it('Should throw not found error if data was not found', async () => {
+    jest.spyOn(containerFixture.repository, 'find').mockResolvedValueOnce(null)
+    await expect(sut.execute(httpRequest)).rejects.toThrowError(
+      ErrorEntity.notFound('User not found')
+    )
   })
 
   it('Should return status code 200 when correct params are provided', async () => {

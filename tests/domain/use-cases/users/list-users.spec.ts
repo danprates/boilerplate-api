@@ -1,4 +1,3 @@
-import { Result } from '@/domain/entities'
 import { User } from '@/domain/entities/user'
 import { ok } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
@@ -15,7 +14,7 @@ describe('ListUsers Controller', () => {
     userModel = UserModelFixture()
     jest
       .spyOn(containerFixture.repository, 'list')
-      .mockResolvedValue(Result.ok({ data: [userModel], total: 1 }) as any)
+      .mockResolvedValue({ data: [userModel], total: 1 } as any)
     sut = new ListUsers(containerFixture)
   })
 
