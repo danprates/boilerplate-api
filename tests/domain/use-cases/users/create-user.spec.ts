@@ -1,4 +1,4 @@
-import Response from '@/domain/entities/response'
+import { Response } from '@/domain/entities/response'
 import { Domain } from '@/domain/protocols'
 import CreateUser from '@/domain/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'

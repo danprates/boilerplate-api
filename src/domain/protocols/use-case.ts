@@ -1,4 +1,4 @@
-import Response from '../entities/response'
+import { Response } from '../entities/response'
 import { Domain } from './domain.protocol'
 
 export abstract class UseCase implements Domain.UseCase {

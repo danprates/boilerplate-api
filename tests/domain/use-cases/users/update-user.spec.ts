@@ -1,4 +1,4 @@
-import Response from '@/domain/entities/response'
+import { Response } from '@/domain/entities/response'
 import { User } from '@/domain/entities/user'
 import { Domain } from '@/domain/protocols'
 import UpdateUser from '@/domain/use-cases/update-user'

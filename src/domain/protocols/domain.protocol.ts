@@ -1,4 +1,4 @@
-import Response from '../entities/response'
+import { Response } from '../entities/response'
 
 export declare namespace Domain {
   export type Request = {

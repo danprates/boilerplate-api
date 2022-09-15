@@ -1,5 +1,5 @@
 import { Dependencies, Domain } from '@/domain/protocols'
-import Response from '../entities/response'
+import { Response } from '../entities/response'
 import { UseCase } from '../protocols/use-case'
 
 export default class CreateUser extends UseCase {

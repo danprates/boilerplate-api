@@ -1,5 +1,5 @@
 import { ErrorEntity } from '@/domain/entities'
-import Response from '@/domain/entities/response'
+import { Response } from '@/domain/entities/response'
 import { User } from '@/domain/entities/user'
 import { Domain } from '@/domain/protocols'
 import FindUser from '@/domain/use-cases/find-user'

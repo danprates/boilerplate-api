@@ -1,4 +1,4 @@
-export default class Response {
+export class Response {
   private constructor(readonly statusCode: number, readonly data: any) {}
 
   static ok(data: any): Response {
