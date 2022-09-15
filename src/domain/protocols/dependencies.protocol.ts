@@ -1,4 +1,4 @@
-import { BaseModel, Result } from '../entities'
+import { BaseModel } from '../entities'
 import { Domain } from './domain.protocol'
 import { Pagination, PaginationOptions } from './pagination.protocol'
 
@@ -12,12 +12,12 @@ export declare namespace Dependencies {
   }
 
   export interface Repository {
-    create: (data: Partial<BaseModel>) => Promise<Result<BaseModel>>
-    list: (options: PaginationOptions) => Promise<Result<Pagination<BaseModel>>>
-    find: (id: string) => Promise<Result<BaseModel>>
-    update: (id: string, data: Partial<BaseModel>) => Promise<Result<boolean>>
-    softDelete: (id: string) => Promise<Result<boolean>>
-    hardDelete: (id: string) => Promise<Result<boolean>>
+    create: (data: Partial<BaseModel>) => Promise<BaseModel>
+    list: (options: PaginationOptions) => Promise<Pagination<BaseModel>>
+    find: (id: string) => Promise<BaseModel | null>
+    update: (id: string, data: Partial<BaseModel>) => Promise<boolean>
+    softDelete: (id: string) => Promise<boolean>
+    hardDelete: (id: string) => Promise<boolean>
   }
 
   export interface Validator {
