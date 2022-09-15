@@ -30,8 +30,8 @@ export class BaseRepository implements Dependencies.Repository {
   async update(id: string, data: Partial<BaseModel>): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const { affected } = await repo.update(id, data)
-    if (Number(affected) > 0) ErrorEntity.notFound()
-    return true
+    if (Number(affected) > 0) return true
+    throw ErrorEntity.notFound()
   }
 
   async softDelete(id: string): Promise<boolean> {
@@ -40,14 +40,14 @@ export class BaseRepository implements Dependencies.Repository {
       isActive: false,
       isDeleted: true
     })
-    if (Number(affected) > 0) ErrorEntity.notFound()
-    return true
+    if (Number(affected) > 0) return true
+    throw ErrorEntity.notFound()
   }
 
   async hardDelete(id: string): Promise<boolean> {
     const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const { affected } = await repo.delete(id)
-    if (Number(affected) > 0) ErrorEntity.notFound()
-    return true
+    if (Number(affected) > 0) return true
+    throw ErrorEntity.notFound()
   }
 }
