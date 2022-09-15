@@ -13,7 +13,7 @@ export default class CreateUser extends UseCase {
     })
   }
 
-  async execute(request: Domain.Request): Promise<Domain.Response> {
+  async execute(request: Domain.Request): Promise<Response> {
     const user = await this.container.repository.create(request.body)
     return Response.created(user)
   }

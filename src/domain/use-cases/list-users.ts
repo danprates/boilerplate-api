@@ -13,7 +13,7 @@ export default class ListUsers extends UseCase {
     })
   }
 
-  async execute(request: Domain.Request): Promise<Domain.Response> {
+  async execute(request: Domain.Request): Promise<Response> {
     const users = await this.container.repository.list(request.query)
     return Response.ok(users)
   }

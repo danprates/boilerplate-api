@@ -13,7 +13,7 @@ export default class DeleteUser extends UseCase {
     })
   }
 
-  async execute(request: Domain.Request): Promise<Domain.Response> {
+  async execute(request: Domain.Request): Promise<Response> {
     await this.container.repository.softDelete(request.params.id)
     return Response.noContent()
   }

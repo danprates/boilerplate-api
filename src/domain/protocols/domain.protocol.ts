@@ -1,3 +1,5 @@
+import Response from '../entities/response'
+
 export declare namespace Domain {
   export type Request = {
     headers?: any
@@ -5,11 +7,6 @@ export declare namespace Domain {
     params?: any
     body?: any
     user?: any
-  }
-
-  export type Response = {
-    statusCode: number
-    data: any
   }
 
   export type MetaData = {

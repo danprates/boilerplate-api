@@ -1,3 +1,4 @@
+import Response from '../entities/response'
 import { Domain } from './domain.protocol'
 
 export abstract class UseCase implements Domain.UseCase {
@@ -8,7 +9,7 @@ export abstract class UseCase implements Domain.UseCase {
 
   isAuthorized(request: Domain.Request): void {}
 
-  async execute(request: Domain.Request): Promise<Domain.Response> {
+  async execute(request: Domain.Request): Promise<Response> {
     throw new Error('Method not implemented')
   }
 }

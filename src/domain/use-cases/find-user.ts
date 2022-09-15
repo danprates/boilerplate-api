@@ -14,7 +14,7 @@ export default class FindUser extends UseCase {
     })
   }
 
-  async execute(request: Domain.Request): Promise<Domain.Response> {
+  async execute(request: Domain.Request): Promise<Response> {
     const user = await this.container.repository.find(request.params.id)
     if (!user) throw ErrorEntity.notFound('User not found')
     return Response.ok(user)

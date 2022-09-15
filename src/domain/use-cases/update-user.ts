@@ -13,7 +13,7 @@ export default class UpdateUser extends UseCase {
     })
   }
 
-  async execute(request: Domain.Request): Promise<Domain.Response> {
+  async execute(request: Domain.Request): Promise<Response> {
     await this.container.repository.update(request.params.id, request.body)
     return Response.noContent()
   }
