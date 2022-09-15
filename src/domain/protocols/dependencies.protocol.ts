@@ -1,6 +1,5 @@
 import { BaseModel } from '../entities'
 import { Domain } from './domain.protocol'
-import { Pagination, PaginationOptions } from './pagination.protocol'
 
 export declare namespace Dependencies {
   export interface Logger {
@@ -13,7 +12,9 @@ export declare namespace Dependencies {
 
   export interface Repository {
     create: (data: Partial<BaseModel>) => Promise<BaseModel>
-    list: (options: PaginationOptions) => Promise<Pagination<BaseModel>>
+    list: (
+      options: Domain.PaginationOptions
+    ) => Promise<Domain.Pagination<BaseModel>>
     find: (id: string) => Promise<BaseModel | null>
     update: (id: string, data: Partial<BaseModel>) => Promise<boolean>
     softDelete: (id: string) => Promise<boolean>

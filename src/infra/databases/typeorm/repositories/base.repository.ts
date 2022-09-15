@@ -1,5 +1,5 @@
 import { BaseModel, ErrorEntity } from '@/domain/entities'
-import { Dependencies, Pagination, PaginationOptions } from '@/domain/protocols'
+import { Dependencies, Domain } from '@/domain/protocols'
 import { UserEntity } from '../entities'
 import { TypeormHelper } from '../typeorm-helper'
 
@@ -9,7 +9,9 @@ export class BaseRepository implements Dependencies.Repository {
     return await repo.save(data)
   }
 
-  async list(options: PaginationOptions): Promise<Pagination<BaseModel>> {
+  async list(
+    options: Domain.PaginationOptions
+  ): Promise<Domain.Pagination<BaseModel>> {
     const repo = await TypeormHelper.getRepository<BaseModel>(UserEntity)
     const [data, total] = await repo.findAndCount({
       ...options

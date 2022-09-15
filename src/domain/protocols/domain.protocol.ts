@@ -25,4 +25,14 @@ export declare namespace Domain {
     isAuthorized: (request: Request) => void
     execute: (request: Request) => Promise<Response>
   }
+
+  export type Pagination<T = any> = PaginationOptions & {
+    total: number
+    data: T[]
+  }
+
+  export type PaginationOptions = {
+    skip: number
+    take: number
+  }
 }
