@@ -20,7 +20,8 @@ export class JoiAdapter implements Dependencies.Validator {
     const schema = this.getSchema(schemaName)
     const { error, value } = schema.validate(data, {
       convert: true,
-      allowUnknown: true
+      allowUnknown: true,
+      abortEarly: false
     })
 
     if (error) {
