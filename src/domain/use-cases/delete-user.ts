@@ -1,5 +1,5 @@
-import { noContent } from '@/domain/helpers'
 import { Dependencies, Domain } from '@/domain/protocols'
+import Response from '../entities/response'
 import { UseCase } from '../protocols/use-case'
 
 export default class DeleteUser extends UseCase {
@@ -15,6 +15,6 @@ export default class DeleteUser extends UseCase {
 
   async execute(request: Domain.Request): Promise<Domain.Response> {
     await this.container.repository.softDelete(request.params.id)
-    return noContent()
+    return Response.noContent()
   }
 }

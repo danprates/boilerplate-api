@@ -1,5 +1,5 @@
+import Response from '@/domain/entities/response'
 import { User } from '@/domain/entities/user'
-import { noContent } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import UpdateUser from '@/domain/use-cases/update-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -31,6 +31,6 @@ describe('UpdateUser Controller', () => {
 
   it('Should return status code 204 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
-    expect(result).toEqual(noContent())
+    expect(result).toEqual(Response.noContent())
   })
 })

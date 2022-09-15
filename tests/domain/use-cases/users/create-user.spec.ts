@@ -1,4 +1,4 @@
-import { created } from '@/domain/helpers'
+import Response from '@/domain/entities/response'
 import { Domain } from '@/domain/protocols'
 import CreateUser from '@/domain/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -34,6 +34,6 @@ describe('CreateUser Controller', () => {
 
   it('Should return status code 201 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
-    expect(result).toEqual(created(userModel))
+    expect(result).toEqual(Response.created(userModel))
   })
 })

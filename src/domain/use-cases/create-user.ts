@@ -1,5 +1,5 @@
-import { created } from '@/domain/helpers'
 import { Dependencies, Domain } from '@/domain/protocols'
+import Response from '../entities/response'
 import { UseCase } from '../protocols/use-case'
 
 export default class CreateUser extends UseCase {
@@ -15,6 +15,6 @@ export default class CreateUser extends UseCase {
 
   async execute(request: Domain.Request): Promise<Domain.Response> {
     const user = await this.container.repository.create(request.body)
-    return created(user)
+    return Response.created(user)
   }
 }

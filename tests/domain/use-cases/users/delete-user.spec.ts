@@ -1,4 +1,4 @@
-import { noContent } from '@/domain/helpers'
+import Response from '@/domain/entities/response'
 import { Domain } from '@/domain/protocols'
 import DeleteUser from '@/domain/use-cases/delete-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -24,6 +24,6 @@ describe('DeleteUser Controller', () => {
 
   it('Should return status code 204 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
-    expect(result).toEqual(noContent())
+    expect(result).toEqual(Response.noContent())
   })
 })

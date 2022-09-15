@@ -1,5 +1,5 @@
+import Response from '@/domain/entities/response'
 import { User } from '@/domain/entities/user'
-import { ok } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import ListUsers from '@/domain/use-cases/list-users'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -28,6 +28,6 @@ describe('ListUsers Controller', () => {
 
   it('Should return status code 200 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
-    expect(result).toEqual(ok({ data: [userModel], total: 1 }))
+    expect(result).toEqual(Response.ok({ data: [userModel], total: 1 }))
   })
 })

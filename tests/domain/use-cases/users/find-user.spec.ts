@@ -1,6 +1,6 @@
 import { ErrorEntity } from '@/domain/entities'
+import Response from '@/domain/entities/response'
 import { User } from '@/domain/entities/user'
-import { ok } from '@/domain/helpers'
 import { Domain } from '@/domain/protocols'
 import FindUser from '@/domain/use-cases/find-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
@@ -35,6 +35,6 @@ describe('FindUser Controller', () => {
 
   it('Should return status code 200 when correct params are provided', async () => {
     const result = await sut.execute(httpRequest)
-    expect(result).toEqual(ok(userModel))
+    expect(result).toEqual(Response.ok(userModel))
   })
 })
