@@ -7,7 +7,7 @@ export const UserModelFixture = (data?: Partial<User>): User => ({
   isDeleted: faker.datatype.boolean(),
   createdAt: faker.date.recent(10),
   updatedAt: new Date(),
-  name: faker.name.findName(),
+  name: faker.name.fullName(),
   email: faker.internet.email(),
   password: faker.internet.password(),
   passwordResetToken: faker.datatype.uuid(),

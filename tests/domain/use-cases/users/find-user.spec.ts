@@ -4,6 +4,7 @@ import { User } from '@/domain/entities/user'
 import { Domain } from '@/domain/protocols'
 import FindUser from '@/domain/use-cases/find-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
+import { vi } from 'vitest'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('FindUser use case', () => {
@@ -14,7 +15,7 @@ describe('FindUser use case', () => {
   beforeEach(() => {
     userModel = UserModelFixture()
     httpRequest = { params: { id: userModel.id } }
-    jest.spyOn(containerFixture.repository, 'find').mockResolvedValue(userModel)
+    vi.spyOn(containerFixture.repository, 'find').mockResolvedValue(userModel)
     sut = new FindUser(containerFixture)
   })
 
@@ -27,7 +28,7 @@ describe('FindUser use case', () => {
   })
 
   it('Should throw not found error if data was not found', async () => {
-    jest.spyOn(containerFixture.repository, 'find').mockResolvedValueOnce(null)
+    vi.spyOn(containerFixture.repository, 'find').mockResolvedValueOnce(null)
     await expect(sut.execute(httpRequest)).rejects.toThrowError(
       ErrorEntity.notFound('User not found')
     )

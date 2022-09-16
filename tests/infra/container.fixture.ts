@@ -1,22 +1,23 @@
 import { Dependencies } from '@/domain/protocols'
+import { vi } from 'vitest'
 
 export const containerFixture: Dependencies.Container = {
   logger: {
-    debug: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    fatal: jest.fn()
+    debug: vi.fn(),
+    info: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
+    fatal: vi.fn()
   },
   validation: {
-    check: jest.fn()
+    check: vi.fn()
   },
   repository: {
-    create: jest.fn(),
-    softDelete: jest.fn(),
-    hardDelete: jest.fn(),
-    find: jest.fn(),
-    list: jest.fn(),
-    update: jest.fn()
+    create: vi.fn(),
+    softDelete: vi.fn(),
+    hardDelete: vi.fn(),
+    find: vi.fn(),
+    list: vi.fn(),
+    update: vi.fn()
   }
 }

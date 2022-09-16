@@ -2,6 +2,7 @@ import { Response } from '@/domain/entities/response'
 import { Domain } from '@/domain/protocols'
 import CreateUser from '@/domain/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
+import { vi } from 'vitest'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('CreateUser use case', () => {
@@ -18,9 +19,7 @@ describe('CreateUser use case', () => {
         password: userModel.password
       }
     }
-    jest
-      .spyOn(containerFixture.repository, 'create')
-      .mockResolvedValue(userModel)
+    vi.spyOn(containerFixture.repository, 'create').mockResolvedValue(userModel)
     sut = new CreateUser(containerFixture)
   })
 
