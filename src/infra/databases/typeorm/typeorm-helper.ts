@@ -9,7 +9,7 @@ import {
 
 const logger = new PinoLoggerAdapter('DATABASE')
 
-export const TypeormHelper = {
+export const TypeOrmHelper = {
   connectionManager: getConnectionManager(),
   client: null as unknown as Connection,
 

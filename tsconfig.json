@@ -12,7 +12,6 @@
     "strictNullChecks": true,
     "baseUrl": "src",
     "sourceMap": true,
-    "rootDirs": ["src", "tests"],
     "paths": {
       "@/tests/*": ["../tests/*"],
       "@/*": ["*"],

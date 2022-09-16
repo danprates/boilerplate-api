@@ -1,8 +1,8 @@
-import { Logger } from '@/application/protocols'
+import { Dependencies } from '@/domain/protocols'
 import { APP_NAME, LOG_LEVEL } from '@/infra/config/env.config'
 import { pino } from 'pino'
 
-export class PinoLoggerAdapter implements Logger {
+export class PinoLoggerAdapter implements Dependencies.Logger {
   private readonly logger: pino.Logger
 
   constructor(name?: string) {
@@ -12,23 +12,23 @@ export class PinoLoggerAdapter implements Logger {
     })
   }
 
-  debug(message: string, object: any = {}): void {
-    this.logger.debug(object, message)
+  debug(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.debug(values, `[${useCaseName}]: ${message}`)
   }
 
-  info(message: string, object: any = {}): void {
-    this.logger.info(object, message)
+  info(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.info(values, `[${useCaseName}]: ${message}`)
   }
 
-  warn(message: string, object: any = {}): void {
-    this.logger.warn(object, message)
+  warn(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.warn(values, `[${useCaseName}]: ${message}`)
   }
 
-  error(message: string, object: any = {}): void {
-    this.logger.error(object, message)
+  error(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.error(values, `[${useCaseName}]: ${message}`)
   }
 
-  fatal(message: string, object: any = {}): void {
-    this.logger.fatal(object, message)
+  fatal(message: string, values: any = {}, useCaseName: string = 'APP'): void {
+    this.logger.fatal(values, `[${useCaseName}]: ${message}`)
   }
 }

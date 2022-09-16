@@ -1,69 +1,55 @@
-import { BaseModel, ErrorModel, Result } from '@/application/models'
-import {
-  CreateRepository,
-  FindRepository,
-  HardDeleteRepository,
-  ListRepository,
-  Pagination,
-  PaginationOptions,
-  SoftDeleteRepository,
-  UpdateRepository
-} from '@/application/protocols'
-import { TypeormHelper } from '../typeorm-helper'
+import { BaseModel, ErrorEntity } from '@/domain/entities'
+import { Dependencies, Domain } from '@/domain/protocols'
+import { UserEntity } from '../entities'
+import { TypeOrmHelper } from '../typeorm-helper'
 
-export class BaseRepository
-  implements
-    CreateRepository,
-    ListRepository,
-    FindRepository,
-    UpdateRepository,
-    SoftDeleteRepository,
-    HardDeleteRepository
-{
-  constructor(private readonly entity: any) {}
-
-  async create(data: Partial<BaseModel>): Promise<Result<BaseModel>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
-    const created = await repo.save(data)
-    return Result.ok(created)
+export class BaseRepository implements Dependencies.Repository {
+  async create(data: Partial<BaseModel>): Promise<BaseModel> {
+    const repo = await TypeOrmHelper.getRepository<BaseModel>(UserEntity)
+    return repo.save(data)
   }
 
   async list(
-    options: PaginationOptions
-  ): Promise<Result<Pagination<BaseModel>>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+    options: Domain.PaginationOptions
+  ): Promise<Domain.Pagination<BaseModel>> {
+    const repo = await TypeOrmHelper.getRepository<BaseModel>(UserEntity)
     const [data, total] = await repo.findAndCount({
       ...options
     })
-    return Result.ok({
+    return {
       ...options,
       data,
       total
-    })
+    }
   }
 
-  async find(id: string): Promise<Result<BaseModel>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+  async find(id: string): Promise<BaseModel | null> {
+    const repo = await TypeOrmHelper.getRepository<BaseModel>(UserEntity)
     const result = await repo.findOne({ where: { id } })
-    return result ? Result.ok(result) : Result.fail(ErrorModel.notFound())
+    return result ?? null
   }
 
-  async update(id: string, data: Partial<BaseModel>): Promise<Result<boolean>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+  async update(id: string, data: Partial<BaseModel>): Promise<boolean> {
+    const repo = await TypeOrmHelper.getRepository<BaseModel>(UserEntity)
     const { affected } = await repo.update(id, data)
-    return Number(affected) > 0
-      ? Result.ok(true)
-      : Result.fail(ErrorModel.notFound())
+    if (Number(affected) > 0) return true
+    throw ErrorEntity.notFound()
   }
 
-  async delete(id: string): Promise<Result<boolean>> {
-    const repo = await TypeormHelper.getRepository<BaseModel>(this.entity)
+  async softDelete(id: string): Promise<boolean> {
+    const repo = await TypeOrmHelper.getRepository<BaseModel>(UserEntity)
     const { affected } = await repo.update(id, {
       isActive: false,
       isDeleted: true
     })
-    return Number(affected) > 0
-      ? Result.ok(true)
-      : Result.fail(ErrorModel.notFound())
+    if (Number(affected) > 0) return true
+    throw ErrorEntity.notFound()
+  }
+
+  async hardDelete(id: string): Promise<boolean> {
+    const repo = await TypeOrmHelper.getRepository<BaseModel>(UserEntity)
+    const { affected } = await repo.delete(id)
+    if (Number(affected) > 0) return true
+    throw ErrorEntity.notFound()
   }
 }
