@@ -5,7 +5,7 @@ import ListUsers from '@/domain/use-cases/list-users'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
-describe('ListUsers Controller', () => {
+describe('ListUsers use case', () => {
   let userModel: User
   const httpRequest: Domain.Request = {}
   let sut = new ListUsers(containerFixture)

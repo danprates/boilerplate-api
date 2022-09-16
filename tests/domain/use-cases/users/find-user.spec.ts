@@ -6,7 +6,7 @@ import FindUser from '@/domain/use-cases/find-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
-describe('FindUser Controller', () => {
+describe('FindUser use case', () => {
   let userModel: User
   let httpRequest: Domain.Request
   let sut: FindUser

@@ -3,7 +3,7 @@ import { Domain } from '@/domain/protocols'
 import DeleteUser from '@/domain/use-cases/delete-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 
-describe('DeleteUser Controller', () => {
+describe('DeleteUser use case', () => {
   const httpRequest: Domain.Request = { params: { id: 'any_name' } }
   let sut: DeleteUser
 

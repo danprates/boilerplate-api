@@ -4,7 +4,7 @@ import CreateUser from '@/domain/use-cases/create-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
-describe('CreateUser Controller', () => {
+describe('CreateUser use case', () => {
   let sut: CreateUser
   let userModel
   let httpRequest: Domain.Request

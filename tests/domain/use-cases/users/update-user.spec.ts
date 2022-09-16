@@ -5,7 +5,7 @@ import UpdateUser from '@/domain/use-cases/update-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
-describe('UpdateUser Controller', () => {
+describe('UpdateUser use case', () => {
   let userModel: User = UserModelFixture()
   let httpRequest: Domain.Request
   let sut: UpdateUser
