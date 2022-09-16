@@ -3,6 +3,7 @@ import { User } from '@/domain/entities/user'
 import { Domain } from '@/domain/protocols'
 import ListUsers from '@/domain/use-cases/list-users'
 import { containerFixture } from '@/tests/infra/container.fixture'
+import { vi } from 'vitest'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('ListUsers use case', () => {
@@ -12,9 +13,10 @@ describe('ListUsers use case', () => {
 
   beforeEach(() => {
     userModel = UserModelFixture()
-    jest
-      .spyOn(containerFixture.repository, 'list')
-      .mockResolvedValue({ data: [userModel], total: 1 } as any)
+    vi.spyOn(containerFixture.repository, 'list').mockResolvedValue({
+      data: [userModel],
+      total: 1
+    } as any)
     sut = new ListUsers(containerFixture)
   })
 

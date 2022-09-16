@@ -2,15 +2,14 @@ import { Response } from '@/domain/entities/response'
 import { Domain } from '@/domain/protocols'
 import DeleteUser from '@/domain/use-cases/delete-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
+import { vi } from 'vitest'
 
 describe('DeleteUser use case', () => {
   const httpRequest: Domain.Request = { params: { id: 'any_name' } }
   let sut: DeleteUser
 
   beforeEach(() => {
-    jest
-      .spyOn(containerFixture.repository, 'softDelete')
-      .mockResolvedValue(true)
+    vi.spyOn(containerFixture.repository, 'softDelete').mockResolvedValue(true)
     sut = new DeleteUser(containerFixture)
   })
 

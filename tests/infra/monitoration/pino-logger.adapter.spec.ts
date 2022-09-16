@@ -1,16 +1,17 @@
 import { PinoLoggerAdapter } from '@/infra/monitoration/pino-logger.adapter'
+import { vi } from 'vitest'
 
 const pinoMock = {
-  debug: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn(),
-  error: jest.fn(),
-  fatal: jest.fn()
+  debug: vi.fn(),
+  info: vi.fn(),
+  warn: vi.fn(),
+  error: vi.fn(),
+  fatal: vi.fn()
 }
 
-jest.mock('pino', () => {
+vi.mock('pino', () => {
   return {
-    pino: jest.fn().mockImplementation(() => pinoMock)
+    pino: vi.fn().mockImplementation(() => pinoMock)
   }
 })
 

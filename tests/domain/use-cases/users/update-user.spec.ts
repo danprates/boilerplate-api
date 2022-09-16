@@ -3,6 +3,7 @@ import { User } from '@/domain/entities/user'
 import { Domain } from '@/domain/protocols'
 import UpdateUser from '@/domain/use-cases/update-user'
 import { containerFixture } from '@/tests/infra/container.fixture'
+import { vi } from 'vitest'
 import { UserModelFixture } from '../../fixtures/user.model.fixture'
 
 describe('UpdateUser use case', () => {
@@ -16,7 +17,7 @@ describe('UpdateUser use case', () => {
       params: { id: userModel.id },
       body: userModel
     }
-    jest.spyOn(containerFixture.repository, 'update').mockResolvedValue(true)
+    vi.spyOn(containerFixture.repository, 'update').mockResolvedValue(true)
     sut = new UpdateUser(containerFixture)
   })
 

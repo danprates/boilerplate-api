@@ -1,4 +1,5 @@
 import { ErrorEntity, Result } from '@/domain/entities'
+import { vi } from 'vitest'
 
 describe('Result model', () => {
   it('should return a success return when ok is called', () => {
@@ -24,7 +25,7 @@ describe('Result model', () => {
   })
 
   it('should throw error when result isSuccess and have error', () => {
-    jest.spyOn(Result, 'fail').mockImplementationOnce((error) => {
+    vi.spyOn(Result, 'fail').mockImplementationOnce((error) => {
       // @ts-expect-error
       return new Result(true, error)
     })
@@ -34,7 +35,7 @@ describe('Result model', () => {
   })
 
   it('should throw error when result failed dont have a message', () => {
-    jest.spyOn(Result, 'fail').mockImplementationOnce(() => {
+    vi.spyOn(Result, 'fail').mockImplementationOnce(() => {
       // @ts-expect-error
       return new Result(undefined, undefined)
     })
