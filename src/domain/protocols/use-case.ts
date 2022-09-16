@@ -7,7 +7,9 @@ export abstract class UseCase implements Domain.UseCase {
     return this.props
   }
 
-  isAuthorized(request: Domain.Request): void {}
+  isAuthorized(request: Domain.Request): void {
+    // put the default auth logic here
+  }
 
   async execute(request: Domain.Request): Promise<Response> {
     throw new Error('Method not implemented')
