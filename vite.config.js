@@ -3,7 +3,13 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   test: {
-    globals: true
+    globals: true,
+    reporters: 'vitest-sonar-reporter',
+    outputFile: 'test-report.xml',
+    coverage: {
+      reporter: ['json', 'lcov', 'text', 'text-summary'],
+      include: ['src/domain/**/*']
+    }
   },
   resolve: {
     alias: {
