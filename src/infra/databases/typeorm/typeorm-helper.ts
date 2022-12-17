@@ -4,6 +4,7 @@ import {
   createConnection,
   EntityTarget,
   getConnectionManager,
+  ObjectLiteral,
   Repository
 } from 'typeorm'
 
@@ -42,7 +43,7 @@ export const TypeOrmHelper = {
     this.client = null
   },
 
-  async getRepository<Entity>(
+  async getRepository<Entity extends ObjectLiteral>(
     entity: EntityTarget<Entity>
   ): Promise<Repository<Entity>> {
     if (!this.client || !this.client.isConnected) {
