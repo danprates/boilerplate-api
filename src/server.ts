@@ -16,6 +16,7 @@ process.on('unhandledRejection', (reason, promise) => {
     promise
   })
   // lets throw the error and let the uncaughtException handle below handle it
+  // eslint-disable-next-line @typescript-eslint/no-throw-literal
   throw reason
 })
 
